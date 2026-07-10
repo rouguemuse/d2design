@@ -149,7 +149,7 @@ function App() {
     <div className="coming-soon-container">
       {/* 1. COMPACT HEADER */}
       <header className="compact-header">
-        <div className="header-inner">
+        <div className="header-inner site-container">
           <div className="header-logo-block">
             <img src="/logo-light.svg" alt="D2 Logo" className="header-logo-img" />
             <div className="header-brand-info">
@@ -178,7 +178,7 @@ function App() {
 
       {/* 2. HERO SECTION */}
       <section className="hero-section">
-        <div className="hero-inner-split">
+        <div className="hero-inner-split site-container">
           {/* Hero Left: Detailing Image */}
           <div className="hero-image-col">
             <div className="hero-image-wrapper">
@@ -196,7 +196,10 @@ function App() {
           <div className="hero-copy-col">
             <div className="hero-copy-content">
               <p className="hero-eyebrow">A MORE REFINED EXPERIENCE IS COMING</p>
-              <h1 className="hero-headline">Precision You Can See.<br />Protection You Can Trust.</h1>
+              <h1 className="hero-headline">
+                <span>Precision You Can See.</span>
+                <span>Protection You Can Trust.</span>
+              </h1>
               <p className="hero-supporting-text">
                 Detail Driven is preparing a new online experience built around premium detailing, paint correction, ceramic protection, and uncompromising preparation. The website is being finished. The work has never stopped.
               </p>
@@ -222,7 +225,7 @@ function App() {
 
       {/* 3. SERVICE PREVIEW STRIP */}
       <section className="service-strip-section">
-        <div className="service-strip-inner">
+        <div className="service-strip-inner site-container">
           <div className="service-strip-item">
             <div className="service-strip-header">
               <span className="service-strip-accent">//</span>
@@ -256,7 +259,7 @@ function App() {
 
       {/* 4. QUOTE REQUEST FORM */}
       <section id="quote-section" className="quote-form-section">
-        <div className="quote-form-inner">
+        <div className="quote-form-inner site-container">
           <div className="quote-form-header">
             <h2>Tell Us What Your Vehicle Needs</h2>
             <p>Send a few details and Detail Driven will follow up with service information and availability.</p>
@@ -379,7 +382,7 @@ function App() {
 
       {/* 5. BRAND STATEMENT */}
       <section className="brand-statement-section">
-        <div className="brand-statement-inner">
+        <div className="brand-statement-inner site-container">
           <div className="brand-statement-header">
             <span className="statement-line">We don’t chase shine.</span>
             <span className="statement-line highlight">We chase perfection.</span>
@@ -392,7 +395,7 @@ function App() {
 
       {/* 6. SOCIAL & CONTACT FOOTER */}
       <footer id="footer-section" className="brand-footer">
-        <div className="footer-inner">
+        <div className="footer-inner site-container">
           <div className="footer-top-block">
             <div className="footer-logo-area">
               <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" />
