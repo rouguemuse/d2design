@@ -80,14 +80,14 @@ faqTriggers.forEach((trigger, i) => {
 
 // ─── ESTIMATOR ───
 const priceMatrix = {
-  // vehicle: [detail, correction, multi, ceramic]
-  sedan:  [249,  449,  699,  1199],
-  suv:    [299,  549,  849,  1499],
-  truck:  [329,  599,  899,  1599],
-  exotic: [499,  899, 1399,  2499],
+  // vehicle: [correction, ceramic, ppf, restoration]
+  sedan:  [300,  575,  1500, 0],
+  suv:    [400,  750,  1800, 0],
+  truck:  [450,  850,  2000, 0],
+  exotic: [600, 1200,  2500, 0],
 };
 
-const serviceIndex = { detail: 0, correction: 1, multi: 2, ceramic: 3 };
+const serviceIndex = { correction: 0, ceramic: 1, ppf: 2, restoration: 3 };
 
 let selectedVehicle = null;
 let selectedService = null;
@@ -125,18 +125,30 @@ function updateEstimate() {
   const price  = prices[idx];
 
   const vehicleLabels  = { sedan: 'Sedan / Coupe', suv: 'SUV / Crossover', truck: 'Truck / Van', exotic: 'Exotic / Luxury' };
-  const serviceLabels  = { detail: 'Premium Detail', correction: 'Paint Correction', multi: 'Multi-Stage Correction', ceramic: 'Ceramic Coating' };
+  const serviceLabels  = { correction: 'Paint Correction', ceramic: 'Ceramic Coating', ppf: 'PPF (Paint Protection Film)', restoration: 'Complete Vehicle Restoration' };
 
-  estimateInner.innerHTML = `
-    <div class="estimate-price">
-      <span class="price-from">Starting from</span>
-      $${price.toLocaleString()}
-    </div>
-    <p class="estimate-note">
-      ${vehicleLabels[selectedVehicle]} &nbsp;·&nbsp; ${serviceLabels[selectedService]}
-      &nbsp;·&nbsp; Final price depends on paint condition &amp; inspection.
-    </p>
-  `;
+  if (price === 0) {
+    estimateInner.innerHTML = `
+      <div class="estimate-price" style="font-size: 1.8rem; margin: 10px 0;">
+        Bespoke Quote
+      </div>
+      <p class="estimate-note">
+        ${vehicleLabels[selectedVehicle]} &nbsp;·&nbsp; ${serviceLabels[selectedService]}
+        &nbsp;·&nbsp; Contact us for a custom assessment.
+      </p>
+    `;
+  } else {
+    estimateInner.innerHTML = `
+      <div class="estimate-price">
+        <span class="price-from">Starting from</span>
+        $${price.toLocaleString()}
+      </div>
+      <p class="estimate-note">
+        ${vehicleLabels[selectedVehicle]} &nbsp;·&nbsp; ${serviceLabels[selectedService]}
+        &nbsp;·&nbsp; Final price depends on paint condition &amp; inspection.
+      </p>
+    `;
+  }
 }
 
 // ─── QUOTE FORM ───
