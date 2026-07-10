@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D2 Detail Driven — Administrative Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #E10600;
+      --red-hover: #b80500;
+      --black: #0A0A0A;
+      --bg: #0E0E0E;
+      --surface: #161616;
+      --surface-light: #222222;
+      --border: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --text-muted: #888888;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius: 4px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* --- SIDEBAR & CONTENT LAYOUT --- */
+    .admin-container {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    @media (min-width: 900px) {
+      .admin-container {
+        flex-direction: row;
+      }
+    }
+
+    /* Sidebar */
+    .admin-sidebar {
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    @media (min-width: 900px) {
+      .admin-sidebar {
+        width: 260px;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        padding: 36px 24px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .admin-logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .admin-logo .red { color: var(--red); }
+
+    .admin-divider {
+      width: 1px; height: 20px;
+      background: var(--border);
+    }
+
+    .admin-brand-text {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    .admin-nav {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    @media (min-width: 900px) {
+      .admin-nav {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 12px 16px;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      color: var(--text);
+    }
+
+    /* Content Area */
+    .admin-content {
+      flex: 1;
+      padding: 24px;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    @media (min-width: 900px) {
+      .admin-content {
+        padding: 48px;
+      }
+    }
+
+    .content-panel {
+      display: none;
+    }
+
+    .content-panel.active {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .panel-header {
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 38px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .panel-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* --- COMMON UI COMPONENTS --- */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 1024px) {
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition);
+      min-height: 40px;
+      text-decoration: none;
+    }
+
+    .btn-red { background: var(--red); color: #fff; border: none; }
+    .btn-red:hover { background: var(--red-hover); }
+
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: rgba(255,255,255,0.03); border-color: var(--text); }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .badge-paid { background: rgba(26,122,60,0.15); color: #2ecc71; }
+    .badge-sent { background: rgba(230,126,34,0.15); color: #e67e22; }
+    .badge-pending { background: rgba(155,89,182,0.15); color: #9b59b6; }
+
+    /* Form Styles */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-control {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+      min-height: 44px;
+    }
+
+    .form-control:focus {
+      border-color: var(--red);
+    }
+
+    select.form-control {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      appearance: none;
+    }
+
+    /* List items */
+    .data-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .data-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .data-item:hover { border-color: rgba(255,255,255,0.15); }
+
+    .data-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .data-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .data-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .data-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* --- AD BUILDER SANDBOX --- */
+    .ad-sandbox {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    @media (min-width: 1024px) {
+      .ad-sandbox {
+        grid-template-columns: 380px 1fr;
+      }
+    }
+
+    /* Ad Preview Window */
+    .ad-preview-wrapper {
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
+      position: relative;
+    }
+
+    .ad-canvas {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1/1; /* default square */
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .ad-canvas.story {
+      aspect-ratio: 9/16;
+      max-height: 520px;
+    }
+
+    /* Themes */
+    .ad-canvas.ad-dark {
+      background-color: #0A0A0A;
+      color: #ffffff;
+    }
+
+    .ad-canvas.ad-light {
+      background-color: #FAFAFA;
+      color: #111111;
+      border-color: #e5e5e5;
+    }
+
+    /* Gold Luxury Theme */
+    .ad-canvas.ad-gold {
+      background-color: #1A1A1A;
+      color: #F5F5F7;
+      border-color: rgba(212, 175, 55, 0.2);
+    }
+    .ad-canvas.ad-gold .ad-brand {
+      color: #D4AF37;
+      font-family: Georgia, serif;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+    .ad-canvas.ad-gold .ad-brand .accent { color: #fff; }
+    .ad-canvas.ad-gold .ad-title {
+      font-family: Georgia, serif;
+      text-transform: none;
+      letter-spacing: 0px;
+      line-height: 1.1;
+      font-weight: 300;
+    }
+    .ad-canvas.ad-gold .ad-title .accent { color: #D4AF37; }
+    .ad-canvas.ad-gold .ad-cta-btn {
+      background: #D4AF37;
+      color: #111;
+      font-weight: 600;
+    }
+    .ad-canvas.ad-gold .ad-bg-image {
+      opacity: 0.18;
+      filter: sepia(40%) contrast(1.1) brightness(0.8);
+    }
+    .ad-canvas.ad-gold .ad-footer {
+      border-top-color: rgba(212, 175, 55, 0.2);
+    }
+
+    /* Neon Tech Theme */
+    .ad-canvas.ad-neon {
+      background-color: #030308;
+      color: #E2E8F0;
+      border-color: rgba(0, 240, 255, 0.2);
+    }
+    .ad-canvas.ad-neon .ad-brand {
+      color: #00F0FF;
+      font-family: monospace;
+      letter-spacing: 3px;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    }
+    .ad-canvas.ad-neon .ad-brand .accent { color: #FF007F; text-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
+    .ad-canvas.ad-neon .ad-title {
+      font-family: monospace;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+    .ad-canvas.ad-neon .ad-title .accent { color: #FF007F; text-shadow: 0 0 10px rgba(255, 0, 127, 0.3); }
+    .ad-canvas.ad-neon .ad-cta-btn {
+      background: transparent;
+      border: 1.5px solid #00F0FF;
+      color: #00F0FF;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+    .ad-canvas.ad-neon .ad-bg-image {
+      opacity: 0.22;
+      filter: grayscale(100%) contrast(1.3) brightness(0.7) hue-rotate(180deg);
+    }
+    .ad-canvas.ad-neon .ad-footer {
+      border-top-color: rgba(0, 240, 255, 0.2);
+    }
+
+    /* Swiss Minimal Theme */
+    .ad-canvas.ad-minimal {
+      background-color: #FFFFFF;
+      color: #000000;
+      border: 3px solid #000000;
+    }
+    .ad-canvas.ad-minimal .ad-brand {
+      color: #000;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .ad-canvas.ad-minimal .ad-brand .accent { color: #CF1C1C; }
+    .ad-canvas.ad-minimal .ad-title {
+      font-family: var(--font-body);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 0.9;
+    }
+    .ad-canvas.ad-minimal .ad-title .accent { color: #CF1C1C; text-decoration: underline; }
+    .ad-canvas.ad-minimal .ad-cta-btn {
+      background: #000000;
+      color: #ffffff;
+      border-radius: 0px;
+    }
+    .ad-canvas.ad-minimal .ad-bg-image {
+      opacity: 0.12;
+      filter: grayscale(100%) contrast(1.5) brightness(1.1);
+    }
+    .ad-canvas.ad-minimal .ad-footer {
+      border-top: 2px solid #000000;
+    }
+
+    /* Background image layer */
+    .ad-bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.25;
+      z-index: 1;
+      pointer-events: none;
+      filter: grayscale(40%);
+    }
+
+    .ad-canvas.ad-light .ad-bg-image {
+      opacity: 0.15;
+      filter: grayscale(100%) contrast(1.1);
+    }
+
+    .ad-content-overlay {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .ad-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ad-brand {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+
+    .ad-brand .accent { color: var(--red); }
+    .ad-canvas.ad-light .ad-brand { color: #111111; }
+
+    .ad-watermark {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-weight: 700;
+    }
+
+    .ad-body {
+      margin: auto 0;
+    }
+
+    .ad-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3.5vw, 36px);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .ad-canvas.ad-dark .ad-title { color: #fff; }
+    .ad-canvas.ad-dark .ad-title .accent { color: var(--red); }
+    
+    .ad-canvas.ad-light .ad-title { color: #111111; }
+    .ad-canvas.ad-light .ad-title .accent { color: #CF1C1C; }
+
+    .ad-desc {
+      font-size: 11px;
+      line-height: 1.5;
+      opacity: 0.7;
+    }
+
+    .ad-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 14px;
+    }
+
+    .ad-canvas.ad-light .ad-footer {
+      border-top-color: rgba(0,0,0,0.1);
+    }
+
+    .ad-cta-btn {
+      background: var(--red);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      border: none;
+    }
+
+    .ad-canvas.ad-light .ad-cta-btn {
+      background: #CF1C1C;
+    }
+
+    .ad-info-text {
+      font-size: 8px;
+      opacity: 0.5;
+      letter-spacing: 0.5px;
+    }
+
+    /* --- BILLING DOCUMENT CREATOR --- */
+    .bill-preview-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+
+    .bill-preview-modal.active { display: flex; align-items: flex-start; justify-content: center; }
+
+    .bill-doc-box {
+      width: 100%;
+      max-width: 800px;
+      background: #fff;
+      color: #111111;
+      padding: 48px;
+      border-radius: 4px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .bill-print-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #111;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .bill-print-logo {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: #111;
+      line-height: 1;
+    }
+
+    .bill-print-logo .red { color: #CF1C1C; }
+
+    .bill-print-type {
+      text-align: right;
+    }
+
+    .bill-print-type h1 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .bill-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .bill-meta-col h3 {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .bill-meta-col p {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .bill-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+
+    .bill-table th {
+      border-bottom: 2px solid #111;
+      padding: 12px 8px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    .bill-table td {
+      border-bottom: 1px solid #eee;
+      padding: 14px 8px;
+      font-size: 13px;
+    }
+
+    .bill-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .bill-table th.num { text-align: right; }
+
+    .bill-summary {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .bill-total-row {
+      display: flex;
+      gap: 40px;
+      font-size: 14px;
+    }
+
+    .bill-total-row.grand {
+      font-size: 18px;
+      font-weight: 700;
+      border-top: 2px solid #111;
+      padding-top: 10px;
+    }
+
+    .bill-footer {
+      border-top: 1px solid #eee;
+      padding-top: 24px;
+      margin-top: 48px;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .bill-close-banner {
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10001;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    /* Print styles override */
+    @media print {
+      body * { visibility: hidden; }
+      .bill-doc-box, .bill-doc-box * { visibility: visible; }
+      .bill-doc-box {
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        box-shadow: none;
+        padding: 0;
+      }
+      .bill-close-banner, .bill-preview-modal { background: transparent; padding: 0; }
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BILL PREVIEW MODAL -->
+  <div class="bill-preview-modal" id="bill-modal" role="dialog" aria-modal="true">
+    <div style="width:100%; max-width:800px; display:flex; flex-direction:column;">
+      <div class="bill-close-banner">
+        <span>Document Preview</span>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-red" onclick="window.print()" style="min-height:34px; padding:0 14px; font-size:10px;">Print / Save PDF</button>
+          <button class="btn btn-outline" onclick="closeDocModal()" style="min-height:34px; padding:0 14px; font-size:10px;">Close</button>
+        </div>
+      </div>
+      
+      <div class="bill-doc-box" id="bill-doc-content">
+        <!-- Renders dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-container">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <a href="index.html" class="admin-brand" style="display:flex; align-items:center;">
+        <img src="logo-light.svg" alt="D2 Auto Detail Logo" style="height: 32px; width: auto; display: block;" />
+        <div class="admin-divider"></div>
+        <span class="admin-brand-text">D2 Business Portal</span>
+      </a>
+
+      <nav class="admin-nav" role="tablist">
+        <button class="nav-btn active" role="tab" aria-selected="true" onclick="switchPanel('cms', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4z"/></svg>
+          CMS Studio
+        </button>
+        <button class="nav-btn" role="tab" aria-selected="false" onclick="switchPanel('orders', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          Order Center
+        </button>
+        <button class="nav-btn" role="tab" aria-selected="false" onclick="switchPanel('billing', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Invoice Builder
+        </button>
+        <button class="nav-btn" role="tab" aria-selected="false" onclick="switchPanel('ads', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m21 16-4-4-4 4"/></svg>
+          Ad Builder
+        </button>
+      </nav>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="admin-content" role="main">
+
+      <!-- CMS PANEL -->
+      <section class="content-panel active" id="panel-cms">
+        <div class="panel-header">
+          <h2 class="panel-title">CMS Studio</h2>
+          <p class="panel-subtitle">Create and manage detailing services, blog articles, and comparison sliders live on the website.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Services manager -->
+          <div class="card">
+            <div class="card-title">
+              <span>Manage Services</span>
+              <button class="btn btn-red" onclick="showAddServiceForm()" style="padding:4px 10px; min-height:30px; font-size:9px;">Add New</button>
+            </div>
+            
+            <div id="service-form-box" style="display:none; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:20px;">
+              <h4 style="font-size:12px; margin-bottom:12px; text-transform:uppercase;">Add New Service</h4>
+              <div class="form-group">
+                <label>Service Title</label>
+                <input type="text" id="s-title" class="form-control" placeholder="e.g. Stage 2 Polish" />
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="s-desc" class="form-control" style="min-height:70px;" placeholder="Describe what is included..."></textarea>
+              </div>
+              <div class="grid-2" style="gap:10px;">
+                <div class="form-group">
+                  <label>Sedan Price ($)</label>
+                  <input type="number" id="s-p-sedan" class="form-control" placeholder="449" />
+                </div>
+                <div class="form-group">
+                  <label>SUV Price ($)</label>
+                  <input type="number" id="s-p-suv" class="form-control" placeholder="549" />
+                </div>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:12px;">
+                <button class="btn btn-red" onclick="saveNewService()">Save Service</button>
+                <button class="btn btn-outline" onclick="hideAddServiceForm()">Cancel</button>
+              </div>
+            </div>
+
+            <div class="data-list" id="cms-service-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Blog manager -->
+          <div class="card">
+            <div class="card-title">
+              <span>Blog Desk</span>
+              <button class="btn btn-red" onclick="showAddBlogForm()" style="padding:4px 10px; min-height:30px; font-size:9px;">Add Post</button>
+            </div>
+
+            <div id="blog-form-box" style="display:none; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:20px;">
+              <h4 style="font-size:12px; margin-bottom:12px; text-transform:uppercase;">Create Blog Post</h4>
+              <div class="form-group">
+                <label>Article Title</label>
+                <input type="text" id="b-title" class="form-control" placeholder="Headline..." />
+              </div>
+              <div class="form-group">
+                <label>Category Tag</label>
+                <input type="text" id="b-tag" class="form-control" placeholder="e.g. Paint Correction" />
+              </div>
+              <div class="form-group">
+                <label>Brief Excerpt</label>
+                <input type="text" id="b-excerpt" class="form-control" placeholder="Short description..." />
+              </div>
+              <div class="form-group">
+                <label>Featured Image</label>
+                <select id="b-image" class="form-control">
+                  <option value="premium_detailing.png">Premium Detailing (Black Porsche)</option>
+                  <option value="img_black_paint.png">Paint Correction (Swirls)</option>
+                  <option value="img_water_bead.png">Ceramic Hydrophobic (Beads)</option>
+                  <option value="img_leather.png">Interior Detail (Leather)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Full Body (HTML supported)</label>
+                <textarea id="b-body" class="form-control" style="min-height:160px;" placeholder="Write your post details..."></textarea>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:12px;">
+                <button class="btn btn-red" onclick="saveNewBlogPost()">Publish Post</button>
+                <button class="btn btn-outline" onclick="hideAddBlogForm()">Cancel</button>
+              </div>
+            </div>
+
+            <div class="data-list" id="cms-blog-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TV Video manager row -->
+        <div class="card" style="margin-top:24px;">
+          <div class="card-title">
+            <span>Manage DD TV Episodes (YouTube)</span>
+            <button class="btn btn-red" onclick="showAddTvForm()" style="padding:4px 10px; min-height:30px; font-size:9px;">Add Video</button>
+          </div>
+          
+          <div id="tv-form-box" style="display:none; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:20px;">
+            <h4 style="font-size:12px; margin-bottom:12px; text-transform:uppercase;">Add YouTube Video to DD TV</h4>
+            <div class="grid-2" style="gap:12px; margin-bottom:12px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label>Video Title</label>
+                <input type="text" id="tv-title" class="form-control" placeholder="e.g. Paint Correction on Porsche GT3" />
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label>YouTube Video ID or Link</label>
+                <input type="text" id="tv-youtube-id" class="form-control" placeholder="e.g. qAHEZl-L39w or https://youtu.be/..." />
+              </div>
+            </div>
+            <div class="grid-2" style="gap:12px; margin-bottom:12px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label>Category</label>
+                <select id="tv-category" class="form-control">
+                  <option value="correction">Paint Correction</option>
+                  <option value="ceramic">Ceramic Coating</option>
+                  <option value="detail">Full Details</option>
+                  <option value="tips">Pro Tips</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label>Video Duration</label>
+                <input type="text" id="tv-duration" class="form-control" placeholder="e.g. 12:45" />
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:16px;">
+              <button class="btn btn-red" onclick="saveNewTvVideo()">Publish Video</button>
+              <button class="btn btn-outline" onclick="hideAddTvForm()">Cancel</button>
+            </div>
+          </div>
+
+          <div class="data-list" id="cms-tv-list">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ORDERS PANEL -->
+      <section class="content-panel" id="panel-orders">
+        <div class="panel-header">
+          <h2 class="panel-title">Order Center</h2>
+          <p class="panel-subtitle">Review detailing estimates, bookings, and customer orders. Generate Invoices and Receipts instantly.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-title">Active Orders &amp; Leads</div>
+          <div class="data-list" id="orders-list">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- BILLING PANEL -->
+      <section class="content-panel" id="panel-billing">
+        <div class="panel-header">
+          <h2 class="panel-title">Invoice &amp; Receipt Builder</h2>
+          <p class="panel-subtitle">Create print-ready billing documents matching the D2 brand design. Export to PDF directly.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Builder Form -->
+          <div class="card">
+            <div class="card-title">Document Details</div>
+            
+            <div class="form-group">
+              <label>Document Type</label>
+              <select id="bill-type" class="form-control">
+                <option value="Invoice">INVOICE</option>
+                <option value="Receipt">RECEIPT</option>
+              </select>
+            </div>
+            
+            <div class="grid-2" style="gap:12px;">
+              <div class="form-group">
+                <label>Document Number</label>
+                <input type="text" id="bill-no" class="form-control" value="D2-1004" />
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="bill-date" class="form-control" />
+              </div>
+            </div>
+
+            <h4 style="font-size:11px; text-transform:uppercase; color:var(--text-muted); margin: 16px 0 8px;">Client Information</h4>
+            
+            <div class="form-group">
+              <label>Client Name</label>
+              <input type="text" id="bill-client" class="form-control" placeholder="Full name..." />
+            </div>
+
+            <div class="grid-2" style="gap:12px;">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="bill-email" class="form-control" placeholder="email@example.com" />
+              </div>
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="text" id="bill-phone" class="form-control" placeholder="(555) 000-0000" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Vehicle (Year, Make, Model)</label>
+              <input type="text" id="bill-vehicle" class="form-control" placeholder="e.g. 2021 Porsche 911 GT3" />
+            </div>
+
+            <h4 style="font-size:11px; text-transform:uppercase; color:var(--text-muted); margin: 16px 0 8px;">Line Items</h4>
+            
+            <div id="bill-items-container">
+              <div class="grid-2 bill-item-row" style="grid-template-columns: 1fr 100px; gap:8px; margin-bottom:8px;">
+                <input type="text" class="form-control item-desc" placeholder="Item description..." />
+                <input type="number" class="form-control item-cost" placeholder="Cost ($)" />
+              </div>
+            </div>
+            
+            <button class="btn btn-outline" onclick="addBillingItemRow()" style="width:100%; margin-top:8px; min-height:36px; font-size:10px;">+ Add Line Item</button>
+
+            <div style="margin-top:24px; display:flex; gap:10px;">
+              <button class="btn btn-red" onclick="generateDocument()" style="flex:1;">Preview &amp; Print</button>
+              <button class="btn btn-outline" onclick="resetBillingForm()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Quick Load order -->
+          <div class="card">
+            <div class="card-title">Quick-Load Client Order</div>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Select an order from our records to instantly auto-populate the invoice details:</p>
+            <div class="data-list" id="billing-quick-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADS PANEL -->
+      <section class="content-panel" id="panel-ads">
+        <div class="panel-header">
+          <h2 class="panel-title">Social Media Ad Creator</h2>
+          <p class="panel-subtitle">Create brand-aligned social ads. Toggle between Black (Dark) and White (Light) themes instantly.</p>
+        </div>
+
+        <div class="ad-sandbox">
+          <!-- Ad Controller Form -->
+          <div class="card">
+            <div class="card-title">Configure Ad Layout</div>
+            
+            <div class="form-group">
+              <label>Ad Theme</label>
+              <select id="ad-theme" class="form-control" onchange="updateAdPreview()">
+                <option value="ad-dark">Black &amp; Red Edition (Dark)</option>
+                <option value="ad-light">White &amp; Red Edition (Light)</option>
+                <option value="ad-gold">Luxury Gold Edition (Charcoal &amp; Gold)</option>
+                <option value="ad-neon">Cyber Blue Edition (Neon Tech)</option>
+                <option value="ad-minimal">Swiss Editorial (Minimal Stark)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Layout Dimensions</label>
+              <select id="ad-layout" class="form-control" onchange="updateAdPreview()">
+                <option value="square">Square Post (1:1)</option>
+                <option value="story">Instagram Story (9:16)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Background Image</label>
+              <select id="ad-bg" class="form-control" onchange="updateAdPreview()">
+                <option value="premium_detailing.png">Porsche 911 (Polishing Close-Up)</option>
+                <option value="img_black_paint.png">Paint Correction (Swirls)</option>
+                <option value="img_water_bead.png">Hydrophobic Water Beads</option>
+                <option value="img_leather.png">Luxury Interior Leather</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Or Paste Custom Image URL</label>
+              <input type="text" id="ad-custom-bg" class="form-control" placeholder="https://example.com/image.jpg" oninput="setAdCustomBg(this.value)" />
+            </div>
+
+            <div class="form-group">
+              <label>Or Upload Local File</label>
+              <input type="file" id="ad-upload-bg" class="form-control" accept="image/*" onchange="uploadAdImage(this)" />
+            </div>
+
+            <div class="grid-2" style="gap:10px;">
+              <div class="form-group">
+                <label>Overlay Opacity (<span id="opacity-val">25</span>%)</label>
+                <input type="range" id="ad-opacity" min="0" max="100" value="25" style="accent-color:var(--red);" oninput="updateAdOpacity(this.value)" />
+              </div>
+              <div class="form-group">
+                <label>Image Blur (<span id="blur-val">0</span>px)</label>
+                <input type="range" id="ad-blur" min="0" max="20" value="0" style="accent-color:var(--red);" oninput="updateAdBlur(this.value)" />
+              </div>
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <button class="btn btn-outline" onclick="generateDetailSlogan()" style="width:100%; min-height:36px; font-size:10px;">✨ Generate Premium Copy</button>
+            </div>
+
+            <div class="form-group">
+              <label>Ad Eyebrow</label>
+              <input type="text" id="ad-txt-eyebrow" class="form-control" value="Now Booking // Limited Spots" oninput="updateAdPreview()" />
+            </div>
+
+            <div class="form-group">
+              <label>Ad Headline</label>
+              <input type="text" id="ad-txt-title" class="form-control" value="Driven by Precision." oninput="updateAdPreview()" />
+            </div>
+
+            <div class="form-group">
+              <label>Colored Accent Text (Headline)</label>
+              <input type="text" id="ad-txt-accent" class="form-control" value="Trusted for Details." oninput="updateAdPreview()" />
+            </div>
+
+            <div class="form-group">
+              <label>Ad Subtitle / Body Copy</label>
+              <textarea id="ad-txt-desc" class="form-control" style="min-height:70px;" oninput="updateAdPreview()">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</textarea>
+            </div>
+
+            <div class="form-group">
+              <label>CTA Button Label</label>
+              <input type="text" id="ad-txt-cta" class="form-control" value="Get a Quote" oninput="updateAdPreview()" />
+            </div>
+            
+            <button class="btn btn-red" onclick="downloadAdConcept()" style="width:100%; margin-top:8px;">⬇️ Download High-Res Ad PNG</button>
+          </div>
+
+          <!-- Ad Preview Panel -->
+          <div class="ad-preview-wrapper">
+            <div class="ad-canvas ad-dark" id="ad-canvas">
+              <img src="premium_detailing.png" alt="Ad background" class="ad-bg-image" id="ad-bg-img" />
+              
+              <div class="ad-content-overlay">
+                <!-- Ad Header -->
+                <div class="ad-header">
+                  <div class="ad-brand">D<span class="accent">2</span></div>
+                  <div class="ad-watermark" id="ad-preview-eyebrow">Now Booking // Limited Spots</div>
+                </div>
+
+                <!-- Ad Body -->
+                <div class="ad-body">
+                  <h3 class="ad-title" id="ad-preview-title">Driven by Precision. <br><span class="accent" id="ad-preview-accent">Trusted for Details.</span></h3>
+                  <p class="ad-desc" id="ad-preview-desc">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</p>
+                </div>
+
+                <!-- Ad Footer -->
+                <div class="ad-footer">
+                  <span class="ad-info-text">DETAIL DRIVEN STUDIO</span>
+                  <button class="ad-cta-btn" id="ad-preview-cta">Get a Quote</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="cms.js"></script>
+  <script>
+    // Set default date to today
+    document.getElementById('bill-date').valueAsDate = new Date();
+
+    // --- PANEL NAVIGATION ---
+    function switchPanel(panelId, btn) {
+      document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById('panel-' + panelId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // --- CMS STUDIO ACTIONS ---
+    function showAddServiceForm() {
+      document.getElementById('service-form-box').style.display = 'block';
+    }
+    function hideAddServiceForm() {
+      document.getElementById('service-form-box').style.display = 'none';
+      document.getElementById('s-title').value = '';
+      document.getElementById('s-desc').value = '';
+      document.getElementById('s-p-sedan').value = '';
+      document.getElementById('s-p-suv').value = '';
+    }
+
+    function showAddBlogForm() {
+      document.getElementById('blog-form-box').style.display = 'block';
+    }
+    function hideAddBlogForm() {
+      document.getElementById('blog-form-box').style.display = 'none';
+      document.getElementById('b-title').value = '';
+      document.getElementById('b-tag').value = '';
+      document.getElementById('b-excerpt').value = '';
+      document.getElementById('b-body').value = '';
+    }
+
+    function renderCMSLists() {
+      const svcs = window.D2CMS.getServices();
+      const posts = window.D2CMS.getBlogPosts();
+
+      // Services
+      const svcBox = document.getElementById('cms-service-list');
+      let svcHtml = '';
+      svcs.forEach(svc => {
+        svcHtml += `
+          <div class="data-item">
+            <div class="data-info">
+              <span class="data-title">${svc.title}</span>
+              <span class="data-sub">Sedan: $${svc.priceSedan} | SUV: $${svc.priceSuv}</span>
+            </div>
+            <div class="data-actions">
+              <button class="btn btn-outline" style="min-height:30px; font-size:9px; padding:4px 8px; color:var(--red);" onclick="deleteService('${svc.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      svcBox.innerHTML = svcHtml || '<p style="font-size:12px; color:var(--text-muted);">No services configured.</p>';
+
+      // Blog posts
+      const blogBox = document.getElementById('cms-blog-list');
+      let blogHtml = '';
+      posts.forEach(post => {
+        blogHtml += `
+          <div class="data-item">
+            <div class="data-info">
+              <span class="data-title">${post.title}</span>
+              <span class="data-sub">${post.tag} · ${post.date}</span>
+            </div>
+            <div class="data-actions">
+              <button class="btn btn-outline" style="min-height:30px; font-size:9px; padding:4px 8px; color:var(--red);" onclick="deleteBlogPost('${post.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      blogBox.innerHTML = blogHtml || '<p style="font-size:12px; color:var(--text-muted);">No posts configured.</p>';
+
+      // TV Videos
+      const vids = window.D2CMS.getTvVideos();
+      const tvBox = document.getElementById('cms-tv-list');
+      let tvHtml = '';
+      vids.forEach(vid => {
+        tvHtml += `
+          <div class="data-item">
+            <div class="data-info">
+              <span class="data-title">${vid.title}</span>
+              <span class="data-sub">${vid.category.toUpperCase()} · ${vid.duration} · YouTube ID: ${vid.youtubeId}</span>
+            </div>
+            <div class="data-actions">
+              <button class="btn btn-outline" style="min-height:30px; font-size:9px; padding:4px 8px; color:var(--red);" onclick="deleteTvVideo('${vid.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      });
+      tvBox.innerHTML = tvHtml || '<p style="font-size:12px; color:var(--text-muted);">No videos configured.</p>';
+    }
+
+    function showAddTvForm() {
+      document.getElementById('tv-form-box').style.display = 'block';
+    }
+    function hideAddTvForm() {
+      document.getElementById('tv-form-box').style.display = 'none';
+      document.getElementById('tv-title').value = '';
+      document.getElementById('tv-youtube-id').value = '';
+      document.getElementById('tv-duration').value = '';
+    }
+
+    function saveNewTvVideo() {
+      const title = document.getElementById('tv-title').value.trim();
+      let ytInput = document.getElementById('tv-youtube-id').value.trim();
+      const category = document.getElementById('tv-category').value;
+      const duration = document.getElementById('tv-duration').value.trim() || '10:00';
+
+      if (!title || !ytInput) {
+        alert('Please specify at least a Title and YouTube ID/Link.');
+        return;
+      }
+
+      // Extract YouTube Video ID from link if user pasted full URL
+      let youtubeId = ytInput;
+      if (ytInput.includes('youtube.com') || ytInput.includes('youtu.be') || ytInput.includes('embed/')) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = ytInput.match(regExp);
+        if (match && match[2].length === 11) {
+          youtubeId = match[2];
+        } else {
+          alert('Could not parse YouTube ID from link. Please enter the raw 11-character video ID (e.g. qAHEZl-L39w)');
+          return;
+        }
+      }
+
+      const vids = window.D2CMS.getTvVideos();
+      const newVid = {
+        id: 'vid-' + Date.now(),
+        youtubeId: youtubeId,
+        title: title,
+        category: category,
+        duration: duration
+      };
+
+      vids.push(newVid);
+      window.D2CMS.saveTvVideos(vids);
+      hideAddTvForm();
+      renderCMSLists();
+    }
+
+    function deleteTvVideo(id) {
+      if (confirm('Are you sure you want to delete this video?')) {
+        let vids = window.D2CMS.getTvVideos();
+        vids = vids.filter(v => v.id !== id);
+        window.D2CMS.saveTvVideos(vids);
+        renderCMSLists();
+      }
+    }
+
+    function saveNewService() {
+      const title = document.getElementById('s-title').value.trim();
+      const desc = document.getElementById('s-desc').value.trim();
+      const pSedan = parseInt(document.getElementById('s-p-sedan').value, 10);
+      const pSuv = parseInt(document.getElementById('s-p-suv').value, 10);
+
+      if (!title || !desc || isNaN(pSedan) || isNaN(pSuv)) {
+        alert('Please fill out all fields with valid values.');
+        return;
+      }
+
+      const svcs = window.D2CMS.getServices();
+      const numStr = '0' + (svcs.length + 1);
+      const newSvc = {
+        id: 'svc-' + Date.now(),
+        num: numStr,
+        title: title,
+        desc: desc,
+        priceSedan: pSedan,
+        priceSuv: pSuv,
+        priceTruck: pSuv + 50,
+        priceExotic: pSedan * 2
+      };
+
+      svcs.push(newSvc);
+      window.D2CMS.saveServices(svcs);
+      hideAddServiceForm();
+      renderCMSLists();
+    }
+
+    function deleteService(id) {
+      if (confirm('Are you sure you want to delete this service?')) {
+        let svcs = window.D2CMS.getServices();
+        svcs = svcs.filter(s => s.id !== id);
+        window.D2CMS.saveServices(svcs);
+        renderCMSLists();
+      }
+    }
+
+    function saveNewBlogPost() {
+      const title = document.getElementById('b-title').value.trim();
+      const tag = document.getElementById('b-tag').value.trim();
+      const excerpt = document.getElementById('b-excerpt').value.trim();
+      const image = document.getElementById('b-image').value;
+      const body = document.getElementById('b-body').value.trim();
+
+      if (!title || !tag || !excerpt || !body) {
+        alert('Please fill out all blog post fields.');
+        return;
+      }
+
+      const posts = window.D2CMS.getBlogPosts();
+      const numStr = '0' + (posts.length + 1);
+      const newPost = {
+        id: 'post-' + Date.now(),
+        num: numStr,
+        tag: tag,
+        title: title,
+        excerpt: excerpt,
+        readTime: '5 min read',
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        image: image,
+        body: body
+      };
+
+      posts.push(newPost);
+      window.D2CMS.saveBlogPosts(posts);
+      hideAddBlogForm();
+      renderCMSLists();
+    }
+
+    function deleteBlogPost(id) {
+      if (confirm('Are you sure you want to delete this article?')) {
+        let posts = window.D2CMS.getBlogPosts();
+        posts = posts.filter(p => p.id !== id);
+        window.D2CMS.saveBlogPosts(posts);
+        renderCMSLists();
+      }
+    }
+
+    // --- ORDERS LIST RENDERING ---
+    function renderOrders() {
+      const orders = window.D2CMS.getOrders();
+      const list = document.getElementById('orders-list');
+      const billingQuickList = document.getElementById('billing-quick-list');
+      
+      let html = '';
+      let quickHtml = '';
+      
+      orders.forEach(order => {
+        let badgeClass = 'badge-pending';
+        if (order.status === 'Paid') badgeClass = 'badge-paid';
+        if (order.status === 'Invoice Sent') badgeClass = 'badge-sent';
+
+        html += `
+          <div class="data-item">
+            <div class="data-info">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="data-title" style="font-weight:700;">${order.id}</span>
+                <span class="badge ${badgeClass}">${order.status}</span>
+              </div>
+              <span class="data-sub">${order.client} · ${order.vehicle} · <strong>$${order.amount.toLocaleString()}</strong></span>
+            </div>
+            <div class="data-actions">
+              <button class="btn btn-outline" style="min-height:30px; font-size:9px; padding:4px 8px;" onclick="loadOrderIntoBilling('${order.id}')">Generate Bill</button>
+              <button class="btn btn-outline" style="min-height:30px; font-size:9px; padding:4px 8px; color:var(--red);" onclick="deleteOrder('${order.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+
+        quickHtml += `
+          <div class="data-item" style="padding:10px 14px; cursor:pointer;" onclick="loadOrderIntoBilling('${order.id}')">
+            <div class="data-info">
+              <span class="data-title" style="font-size:12px;">${order.client}</span>
+              <span class="data-sub" style="font-size:10px;">${order.vehicle} · $${order.amount}</span>
+            </div>
+            <span style="font-size:10px; color:var(--red); font-weight:600;">LOAD &rarr;</span>
+          </div>
+        `;
+      });
+
+      list.innerHTML = html || '<p style="font-size:12px; color:var(--text-muted);">No orders or estimates submitted.</p>';
+      billingQuickList.innerHTML = quickHtml;
+    }
+
+    function deleteOrder(id) {
+      if (confirm('Delete this record?')) {
+        let orders = window.D2CMS.getOrders();
+        orders = orders.filter(o => o.id !== id);
+        window.D2CMS.saveOrders(orders);
+        renderOrders();
+      }
+    }
+
+    // --- BILLING LOGIC ---
+    function addBillingItemRow(desc = '', cost = '') {
+      const container = document.getElementById('bill-items-container');
+      const row = document.createElement('div');
+      row.className = 'grid-2 bill-item-row';
+      row.style = 'grid-template-columns: 1fr 100px; gap:8px; margin-bottom:8px;';
+      row.innerHTML = `
+        <input type="text" class="form-control item-desc" placeholder="Item description..." value="${desc}" />
+        <input type="number" class="form-control item-cost" placeholder="Cost ($)" value="${cost}" />
+      `;
+      container.appendChild(row);
+    }
+
+    function loadOrderIntoBilling(orderId) {
+      const orders = window.D2CMS.getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      document.getElementById('bill-no').value = order.id;
+      document.getElementById('bill-client').value = order.client;
+      document.getElementById('bill-email').value = order.email;
+      document.getElementById('bill-phone').value = order.phone;
+      document.getElementById('bill-vehicle').value = order.vehicle;
+      document.getElementById('bill-type').value = order.status === 'Paid' ? 'Receipt' : 'Invoice';
+
+      // Clear existing item rows
+      const container = document.getElementById('bill-items-container');
+      container.innerHTML = '';
+
+      // Populate items
+      if (order.items && order.items.length > 0) {
+        order.items.forEach(it => {
+          addBillingItemRow(it.desc, it.cost);
+        });
+      } else {
+        // Fallback description
+        addBillingItemRow(order.service, order.amount);
+      }
+
+      // Switch view to Billing Builder
+      switchPanel('billing', document.querySelector('[onclick*="billing"]'));
+    }
+
+    function resetBillingForm() {
+      document.getElementById('bill-client').value = '';
+      document.getElementById('bill-email').value = '';
+      document.getElementById('bill-phone').value = '';
+      document.getElementById('bill-vehicle').value = '';
+      document.getElementById('bill-no').value = 'D2-' + Math.floor(Math.random() * 1000 + 1000);
+      document.getElementById('bill-items-container').innerHTML = '';
+      addBillingItemRow();
+    }
+
+    function generateDocument() {
+      const type = document.getElementById('bill-type').value;
+      const docNo = document.getElementById('bill-no').value;
+      const date = document.getElementById('bill-date').value;
+      const client = document.getElementById('bill-client').value.trim();
+      const email = document.getElementById('bill-email').value.trim();
+      const phone = document.getElementById('bill-phone').value.trim();
+      const vehicle = document.getElementById('bill-vehicle').value.trim();
+
+      if (!client || !vehicle) {
+        alert('Please specify at least a Client Name and Vehicle.');
+        return;
+      }
+
+      // Gather items
+      const rows = document.querySelectorAll('.bill-item-row');
+      let items = [];
+      let total = 0;
+
+      rows.forEach(r => {
+        const desc = r.querySelector('.item-desc').value.trim();
+        const cost = parseFloat(r.querySelector('.item-cost').value);
+        if (desc && !isNaN(cost)) {
+          items.push({ desc, cost });
+          total += cost;
+        }
+      });
+
+      if (items.length === 0) {
+        alert('Please add at least one line item with a cost.');
+        return;
+      }
+
+      const modal = document.getElementById('bill-modal');
+      const container = document.getElementById('bill-doc-content');
+
+      const tax = parseFloat((total * 0.08).toFixed(2));
+      const grandTotal = total + tax;
+
+      let itemsHtml = '';
+      items.forEach(it => {
+        itemsHtml += `
+          <tr>
+            <td>${it.desc}</td>
+            <td class="num">$${it.cost.toLocaleString()}</td>
+          </tr>
+        `;
+      });
+
+      container.innerHTML = `
+        <div class="bill-print-header" style="display:flex; align-items:center; justify-content:between;">
+          <div class="bill-print-logo" style="display:flex; align-items:center; gap:12px;">
+            <img src="logo-dark.svg" alt="D2 Logo" style="height:44px; width:auto;" />
+            <span style="font-family:var(--font-display); font-size:32px; letter-spacing:1px; line-height:1;">D2 AUTO DETAIL</span>
+          </div>
+          <div class="bill-print-type">
+            <h1>${type.toUpperCase()}</h1>
+            <p style="font-size:12px; color:#888;">Doc Number: ${docNo}</p>
+          </div>
+        </div>
+
+        <div class="bill-meta-grid">
+          <div class="bill-meta-col">
+            <h3>Billed To:</h3>
+            <p><strong>${client}</strong></p>
+            ${email ? `<p>${email}</p>` : ''}
+            ${phone ? `<p>${phone}</p>` : ''}
+            <p style="margin-top:8px; color:#555;">Vehicle: <strong>${vehicle}</strong></p>
+          </div>
+          <div class="bill-meta-col" style="text-align: right;">
+            <h3>D2 Auto Detail</h3>
+            <p>Austin, TX</p>
+            <p>info@d2detaildriven.com</p>
+            <p>+1 949 444 2885</p>
+            <p style="margin-top:8px; color:#555;">Date: <strong>${date}</strong></p>
+          </div>
+        </div>
+
+        <table class="bill-table">
+          <thead>
+            <tr>
+              <th>Service Description</th>
+              <th class="num">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+
+        <div class="bill-summary">
+          <div class="bill-total-row">
+            <span style="color:#888;">Subtotal:</span>
+            <span style="font-variant-numeric: tabular-nums;">$${total.toLocaleString()}</span>
+          </div>
+          <div class="bill-total-row">
+            <span style="color:#888;">Sales Tax (8.0%):</span>
+            <span style="font-variant-numeric: tabular-nums;">$${tax.toLocaleString()}</span>
+          </div>
+          <div class="bill-total-row grand">
+            <span>Total ${type}:</span>
+            <span style="font-variant-numeric: tabular-nums; color:#CF1C1C;">$${grandTotal.toLocaleString()}</span>
+          </div>
+        </div>
+
+        <div class="bill-footer">
+          <p>Thank you for your business. We take pride in detailing your vehicle to the absolute highest standard.</p>
+          <p style="margin-top:6px; font-weight:700; letter-spacing:1px; color:#CF1C1C;">PASSION. PRECISION. PERFECTION.</p>
+        </div>
+      `;
+
+      modal.classList.add('active');
+    }
+
+    function closeDocModal() {
+      document.getElementById('bill-modal').classList.remove('active');
+    }
+
+    // --- AD PREVIEW BUILDER ---
+    let adBgSource = 'preset'; // 'preset', 'custom', or 'upload'
+    let adUploadedDataUrl = '';
+    let adCustomUrl = '';
+
+    function updateAdPreview() {
+      const theme = document.getElementById('ad-theme').value;
+      const layout = document.getElementById('ad-layout').value;
+      
+      const txtEyebrow = document.getElementById('ad-txt-eyebrow').value.trim();
+      const txtTitle = document.getElementById('ad-txt-title').value.trim();
+      const txtAccent = document.getElementById('ad-txt-accent').value.trim();
+      const txtDesc = document.getElementById('ad-txt-desc').value.trim();
+      const txtCta = document.getElementById('ad-txt-cta').value.trim();
+
+      const canvas = document.getElementById('ad-canvas');
+      const bgImg = document.getElementById('ad-bg-img');
+
+      // Update layout & theme classes
+      canvas.className = 'ad-canvas ' + theme + ' ' + layout;
+      
+      // Update background source
+      if (adBgSource === 'upload' && adUploadedDataUrl) {
+        bgImg.src = adUploadedDataUrl;
+      } else if (adBgSource === 'custom' && adCustomUrl) {
+        bgImg.src = adCustomUrl;
+      } else {
+        bgImg.src = document.getElementById('ad-bg').value;
+      }
+
+      // Update texts
+      document.getElementById('ad-preview-eyebrow').textContent = txtEyebrow;
+      document.getElementById('ad-preview-desc').textContent = txtDesc;
+      document.getElementById('ad-preview-cta').textContent = txtCta;
+
+      // Title assembly
+      const titleEl = document.getElementById('ad-preview-title');
+      if (txtAccent) {
+        titleEl.innerHTML = `${txtTitle} <br><span class="accent">${txtAccent}</span>`;
+      } else {
+        titleEl.innerHTML = txtTitle;
+      }
+    }
+
+    function setAdCustomBg(url) {
+      if (url.trim()) {
+        adCustomUrl = url.trim();
+        adBgSource = 'custom';
+      } else {
+        adBgSource = 'preset';
+      }
+      updateAdPreview();
+    }
+
+    function uploadAdImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          adUploadedDataUrl = e.target.result;
+          adBgSource = 'upload';
+          updateAdPreview();
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function updateAdOpacity(val) {
+      document.getElementById('opacity-val').textContent = val;
+      const bgImg = document.getElementById('ad-bg-img');
+      bgImg.style.opacity = val / 100;
+    }
+
+    function updateAdBlur(val) {
+      document.getElementById('blur-val').textContent = val;
+      const bgImg = document.getElementById('ad-bg-img');
+      bgImg.style.filter = `grayscale(40%) blur(${val}px)`;
+    }
+
+    const AD_SLOGANS = [
+      { title: "Driven by Precision.", accent: "Trusted for Details.", desc: "Elite paint correction, ceramic coatings, and premium detailing. Secure your booking today." },
+      { title: "Preserve the Gloss.", accent: "Lock in Protection.", desc: "Showroom results that last years, not days. Certified ceramic coating specialists." },
+      { title: "Say Goodbye to Swirls.", accent: "Hello to Reflections.", desc: "Multi-stage paint correction that restores deep color and high-gloss depth." },
+      { title: "Showroom Shine.", accent: "Every Single Day.", desc: "Hydrophobic coatings that repel dust, dirt, and water. Detailing at the absolute highest level." },
+      { title: "The Detail Is In", accent: "The Discipline.", desc: "Professional automotive restoration, paint preservation, and ceramic shield protection." }
+    ];
+    let sloganIndex = 0;
+
+    function generateDetailSlogan() {
+      const slogan = AD_SLOGANS[sloganIndex];
+      sloganIndex = (sloganIndex + 1) % AD_SLOGANS.length;
+
+      document.getElementById('ad-txt-title').value = slogan.title;
+      document.getElementById('ad-txt-accent').value = slogan.accent;
+      document.getElementById('ad-txt-desc').value = slogan.desc;
+      updateAdPreview();
+    }
+
+    function downloadAdConcept() {
+      const canvas = document.getElementById('ad-canvas');
+      const theme = document.getElementById('ad-theme').value;
+      const layout = document.getElementById('ad-layout').value;
+      
+      // Temporarily disable transform transitions
+      const originalTransition = canvas.style.transition;
+      canvas.style.transition = 'none';
+
+      html2canvas(canvas, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: theme === 'ad-light' ? '#FAFAFA' : '#0A0A0A',
+        scale: 2 // 2x resolution
+      }).then(resCanvas => {
+        canvas.style.transition = originalTransition;
+        const link = document.createElement('a');
+        link.download = `d2-ad-${layout}-${theme}.png`;
+        link.href = resCanvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        console.error("HTML2Canvas Error: ", err);
+        alert("Could not compile the ad canvas into an image. If you used an external URL, browser cross-origin policy might block downloading. Try uploading a local image instead!");
+      });
+    }
+
+    // --- INITIAL RUN ---
+    renderCMSLists();
+    renderOrders();
+    updateAdPreview();
+  </script>
+</body>
+</html>

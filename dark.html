@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D2 Detail Driven — Premier Automotive Detailing</title>
+  <meta name="description" content="D2 Auto Detail offers interior & exterior car detailing, ceramic coating, and paint correction services in Austin, TX. We make your existing car look better than the day you bought it." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ===== TOKENS ===== */
+    :root {
+      --bg:        #0A0A0A;
+      --bg2:       #111111;
+      --bg3:       #161616;
+      --white:     #FFFFFF;
+      --red:       #E10600;
+      --red-dark:  #B80500;
+      --muted:     rgba(255,255,255,0.50);
+      --dim:       rgba(255,255,255,0.25);
+      --border:    rgba(255,255,255,0.08);
+      --font-d:    'Bebas Neue', sans-serif;
+      --font-b:    'Raleway', sans-serif;
+
+      /* fluid spacing */
+      --pad-x:  clamp(16px, 5vw, 80px);
+      --pad-y:  clamp(64px, 10vh, 120px);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-b);
+      font-weight: 400;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--font-b); }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+    /* ===== REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.10s; }
+    .d2 { transition-delay: 0.20s; }
+    .d3 { transition-delay: 0.30s; }
+    .d4 { transition-delay: 0.40s; }
+
+    /* ===== NAVBAR ===== */
+    #navbar {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      height: 68px;
+      padding: 0 var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0) 100%);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav-logo {
+      font-family: var(--font-d);
+      font-size: clamp(22px, 3vw, 28px);
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+    .logo-d { color: var(--white); }
+    .logo-2 { color: var(--red); }
+    .nav-divider {
+      width: 1px; height: 24px;
+      background: rgba(255,255,255,0.2);
+    }
+    .nav-brand {
+      font-family: var(--font-d);
+      font-size: clamp(9px, 1.2vw, 13px);
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.65);
+      /* hide on very small screens */
+      display: none;
+    }
+    @media (min-width: 480px) { .nav-brand { display: block; } }
+
+    .nav-right {
+      display: none; /* hidden on mobile */
+      align-items: center;
+      gap: 20px;
+    }
+    @media (min-width: 1024px) { .nav-right { display: flex; } }
+
+    .nav-coming-soon {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      transition: color 0.2s;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-ig {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      transition: border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .nav-ig:hover { border-color: var(--red); background: rgba(225,6,0,0.1); }
+    .nav-ig svg { width: 16px; height: 16px; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      min-height: 44px;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+    /* hamburger */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 4px;
+      min-width: 44px; min-height: 44px;
+      align-items: center; justify-content: center;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    @media (min-width: 1024px) { .hamburger { display: none; } }
+
+    /* mobile menu */
+    #mobile-menu {
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: clamp(20px, 4vw, 32px) var(--pad-x);
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 999;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      transition: color 0.2s;
+      padding: 14px 0;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    #mobile-menu a:last-child { border-bottom: none; }
+    #mobile-menu a:hover { color: var(--white); }
+    #mobile-menu .nav-cta {
+      margin-top: 16px;
+      justify-content: center;
+      border-bottom: none !important;
+    }
+    .mob-coming {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--red);
+      text-transform: uppercase;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ===== HERO (mobile-first stacked → desktop split) ===== */
+    #hero {
+      display: grid;
+      grid-template-columns: 1fr;        /* mobile: stacked */
+      min-height: 100dvh;
+      padding-top: 68px;
+    }
+    @media (min-width: 1024px) {
+      #hero {
+        grid-template-columns: 1fr 1fr;   /* desktop: side by side */
+        padding-top: 0;
+        min-height: 100vh;
+      }
+    }
+
+    .hero-left {
+      position: relative;
+      overflow: hidden;
+      background: #050505;
+      min-height: 44vw;
+      max-height: 56vw;
+    }
+    @media (min-width: 1024px) {
+      .hero-left { min-height: 100vh; max-height: none; }
+    }
+    .hero-left img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 80%, var(--bg) 100%);
+      pointer-events: none;
+    }
+    @media (min-width: 1024px) {
+      .hero-left::after {
+        background: linear-gradient(to right, transparent 80%, var(--bg) 100%);
+      }
+    }
+
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      padding: clamp(32px, 6vw, 80px) clamp(16px, 5vw, 64px);
+    }
+    .hero-content { max-width: 520px; width: 100%; }
+
+    .hero-monogram {
+      font-family: var(--font-d);
+      font-size: clamp(80px, 15vw, 130px);
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+    }
+    .m-d { color: var(--white); }
+    .m-2 { color: var(--red); }
+
+    .hero-h1 {
+      font-family: var(--font-d);
+      font-size: clamp(36px, 6vw, 56px);
+      letter-spacing: 4px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+    .driven { color: var(--red); }
+
+    .hero-bar {
+      width: 56px; height: 2px;
+      background: var(--red);
+      margin-bottom: 20px;
+    }
+    .hero-tagline {
+      font-size: clamp(13px, 1.6vw, 15px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      letter-spacing: 0.4px;
+      margin-bottom: 20px;
+    }
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .hero-pill {
+      font-size: clamp(9px, 1vw, 10px);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 7px 13px;
+      border-radius: 2px;
+    }
+    .hero-italic {
+      font-style: italic;
+      font-size: clamp(12px, 1.4vw, 13px);
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 32px;
+    }
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .hero-cta-line {
+      width: 36px; height: 1px;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+    .hero-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      min-height: 52px;
+      background: var(--red);
+      color: var(--white);
+      font-size: clamp(10px, 1.1vw, 11px);
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta-btn:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(225,6,0,0.3);
+    }
+    .hero-cta-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ===== SHARED SECTION STYLES ===== */
+    .section-label {
+      font-size: clamp(9px, 1vw, 11px);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+    .section-h2 {
+      font-family: var(--font-d);
+      font-size: clamp(38px, 6vw, 58px);
+      letter-spacing: 3px;
+      line-height: 1.05;
+      margin-bottom: clamp(32px, 5vw, 56px);
+    }
+
+    /* ===== SERVICES ===== */
+    #services {
+      padding: var(--pad-y) var(--pad-x);
+      background: var(--bg);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr;       /* mobile: 1 col */
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+    @media (min-width: 768px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); } /* tablet: 2 col */
+    }
+    @media (min-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(3, 1fr); } /* desktop: 3 col */
+    }
+
+    .service-card {
+      background: var(--bg);
+      padding: clamp(28px, 4vw, 48px) clamp(20px, 3.5vw, 40px);
+      transition: background 0.3s;
+    }
+    .service-card:hover { background: #111; }
+    .service-num {
+      font-family: var(--font-d);
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+    .service-hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .service-title {
+      font-family: var(--font-d);
+      font-size: clamp(22px, 3vw, 28px);
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .service-desc {
+      font-size: clamp(13px, 1.5vw, 14px);
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .service-link {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      transition: letter-spacing 0.2s;
+    }
+    .service-link:hover { letter-spacing: 4px; }
+
+    /* ===== FAQ ===== */
+    #faq {
+      padding: var(--pad-y) var(--pad-x);
+      background: var(--bg2);
+    }
+    .faq-inner { max-width: 840px; }
+
+    .faq-item { border-top: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: 100%;
+      padding: clamp(20px, 3vw, 28px) 0;
+      min-height: 44px;
+      font-family: var(--font-d);
+      font-size: clamp(18px, 2.5vw, 22px);
+      letter-spacing: 1.5px;
+      color: var(--white);
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: rgba(255,255,255,0.75); }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--red);
+      transition: transform 0.35s, background 0.2s, border-color 0.2s;
+    }
+    .faq-question[aria-expanded="true"] .faq-icon {
+      transform: rotate(45deg);
+      background: rgba(225,6,0,0.1);
+      border-color: var(--red);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 0 clamp(20px, 3vw, 28px);
+      font-size: clamp(13px, 1.5vw, 14px);
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    /* ===== ESTIMATOR ===== */
+    #estimator {
+      padding: var(--pad-y) var(--pad-x);
+      background: var(--bg);
+    }
+    .estimator-grid {
+      display: grid;
+      grid-template-columns: 1fr;     /* mobile: stacked */
+      gap: clamp(24px, 4vw, 36px);
+      margin-bottom: clamp(28px, 4vw, 48px);
+    }
+    @media (min-width: 768px) {
+      .estimator-grid { grid-template-columns: 1fr 1fr; }  /* tablet+: side by side */
+    }
+
+    .est-col-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .est-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .est-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+      min-height: 52px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: rgba(255,255,255,0.55);
+      font-size: clamp(11px, 1.3vw, 13px);
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      text-align: left;
+    }
+    .est-btn:hover { border-color: rgba(225,6,0,0.4); color: var(--white); }
+    .est-btn.active {
+      border-color: var(--red);
+      color: var(--white);
+      background: rgba(225,6,0,0.07);
+    }
+    .est-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .est-btn.active .est-dot { background: var(--red); border-color: var(--red); }
+
+    .est-price-box {
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: var(--bg3);
+      flex-wrap: wrap;
+      min-height: 110px;
+    }
+    .est-price-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .est-price-amount {
+      font-family: var(--font-d);
+      font-size: clamp(48px, 8vw, 72px);
+      letter-spacing: 2px;
+      color: var(--white);
+      line-height: 1;
+      transition: opacity 0.3s;
+    }
+    .est-price-amount span {
+      color: var(--red);
+      font-size: 0.44em;
+      vertical-align: top;
+      margin-top: 0.18em;
+      display: inline-block;
+    }
+    .est-price-sub {
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 6px;
+    }
+    .est-price-placeholder {
+      font-size: clamp(13px, 1.6vw, 15px);
+      color: var(--muted);
+      font-style: italic;
+    }
+    .est-book-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      min-height: 52px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .est-book-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+    /* ===== QUOTE FORM ===== */
+    #quote {
+      padding: var(--pad-y) var(--pad-x);
+      background: var(--bg2);
+    }
+    .quote-inner { max-width: 760px; }
+
+    .quote-form {
+      display: grid;
+      grid-template-columns: 1fr;     /* mobile: 1 col */
+      gap: clamp(14px, 2.5vw, 20px);
+    }
+    @media (min-width: 640px) {
+      .quote-form { grid-template-columns: 1fr 1fr; }  /* sm+: 2 col */
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 14px 18px;
+      min-height: 52px;
+      color: var(--white);
+      font-family: var(--font-b);
+      font-size: clamp(13px, 1.5vw, 14px);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      width: 100%;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23E10600' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .form-group select option { background: #161616; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--red); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit-wrap { grid-column: 1 / -1; margin-top: 8px; }
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      min-height: 56px;
+      background: var(--red);
+      color: var(--white);
+      font-size: clamp(10px, 1.2vw, 12px);
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    @media (min-width: 480px) { .form-submit { width: auto; } }
+    .form-submit:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(225,6,0,0.3);
+    }
+    #form-success {
+      display: none;
+      margin-top: 20px;
+      padding: 18px 22px;
+      border: 1px solid rgba(225,6,0,0.4);
+      border-radius: 2px;
+      background: rgba(225,6,0,0.06);
+      font-size: clamp(13px, 1.5vw, 14px);
+      color: rgba(255,255,255,0.8);
+    }
+    #form-success strong { color: var(--red); }
+
+    /* ===== INSTAGRAM STRIP ===== */
+    #ig-strip {
+      background: #111;
+      padding: clamp(36px, 6vw, 56px) var(--pad-x);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: clamp(16px, 3vw, 32px);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .ig-icon-box {
+      width: 52px; height: 52px;
+      background: var(--red);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ig-icon-box svg { width: 26px; height: 26px; }
+    .ig-handle {
+      font-family: var(--font-d);
+      font-size: clamp(20px, 4vw, 28px);
+      letter-spacing: 2px;
+    }
+    .ig-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      min-height: 48px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 2px;
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .ig-follow-btn:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
+
+    /* ===== FOOTER ===== */
+    #footer {
+      position: relative;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .footer-watermark {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-d);
+      font-size: clamp(40px, 8vw, 120px);
+      letter-spacing: 8px;
+      color: rgba(255,255,255,0.025);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .footer-bar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: clamp(32px, 5vw, 52px) var(--pad-x);
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--font-d);
+      font-size: clamp(26px, 4vw, 36px);
+      letter-spacing: 2px;
+    }
+    .f-d { color: var(--white); }
+    .f-2 { color: var(--red); }
+    .footer-copy {
+      font-size: clamp(11px, 1.2vw, 13px);
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-contact a {
+      font-size: clamp(11px, 1.2vw, 13px);
+      color: var(--muted);
+      transition: color 0.2s;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .footer-contact a:hover { color: var(--white); }
+    .footer-motto {
+      font-size: clamp(9px, 1vw, 11px);
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    /* ===== THEME SWITCHER ===== */
+    #theme-switcher {
+      position: fixed;
+      bottom: clamp(16px, 3vw, 24px);
+      right: clamp(16px, 3vw, 24px);
+      z-index: 9999;
+      background: rgba(14,14,14,0.96);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 40px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+      touch-action: manipulation;
+    }
+    .theme-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .theme-dots {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: block;
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .theme-dot:hover { transform: scale(1.2); }
+    .theme-dot-dark {
+      background: #0A0A0A;
+      border: 2px solid rgba(255,255,255,0.5);
+      outline: 2px solid var(--red);
+      outline-offset: 2px;
+    }
+    .theme-dot-light {
+      background: #FFFFFF;
+      border: 2px solid #444;
+    }
+    .theme-dot-mixed {
+      background: linear-gradient(135deg, #0A0A0A 50%, #FFFFFF 50%);
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-left">
+      <a class="nav-logo" href="index.html" aria-label="D2 Auto Detail Home" style="display:flex; align-items:center;">
+        <img src="logo-light.svg" alt="D2 Auto Detail Logo" style="height: 42px; width: auto; display: block;" />
+      </a>
+      <div class="nav-divider" aria-hidden="true"></div>
+      <span class="nav-brand">Detail Driven</span>
+    </div>
+
+    <!-- Desktop right side -->
+    <div class="nav-right" aria-hidden="false">
+      <span class="nav-coming-soon">// Coming Soon</span>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html" id="nav-home">Home</a></li>
+        <li><a href="ddtv.html" id="nav-ddtv">DD TV</a></li>
+        <li><a href="blog.html" id="nav-blog">Blog</a></li>
+      </ul>
+      <a href="https://www.instagram.com/d2_detaildriven/" class="nav-ig" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#quote" class="nav-cta" id="nav-quote-cta">Get a Quote
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+
+    <!-- Hamburger (mobile) -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" role="menu" aria-label="Mobile navigation">
+    <span class="mob-coming">// Coming Soon</span>
+    <a href="index.html" role="menuitem">Home</a>
+    <a href="ddtv.html" role="menuitem">DD TV</a>
+    <a href="blog.html" role="menuitem">Blog</a>
+    <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener" role="menuitem">Instagram</a>
+    <a href="#quote" class="nav-cta" role="menuitem" id="mob-quote-cta">Get a Quote</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" aria-label="Hero — D2 Auto Detail">
+    <!-- Left: Instagram Video Embed -->
+    <div class="hero-left" aria-hidden="true" style="display: flex; align-items: center; justify-content: center; padding: 32px; background: #080808;">
+      <div style="width: 100%; max-width: 480px; border-radius: 6px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; z-index: 5;">
+        <iframe src="https://www.instagram.com/p/DaQzA3mxaW0/embed" width="100%" height="480" frameborder="0" scrolling="no" allowtransparency="true" style="border: none; display: block; width: 100%; min-height: 480px; background: #111;"></iframe>
+      </div>
+    </div>
+
+    <!-- Right: copy -->
+    <div class="hero-right">
+      <div class="hero-content" style="max-width: 600px; padding: 0 20px;">
+        <h1 class="hero-h1 reveal d1" style="font-size: clamp(48px, 7vw, 72px); letter-spacing: 2px;">D2 Auto <span class="driven">DETAIL</span></h1>
+        <div class="hero-bar reveal d2" aria-hidden="true" style="margin-left: 0; margin-bottom: 24px;"></div>
+        <p class="hero-tagline reveal d2" style="font-size: clamp(15px, 1.6vw, 16px); margin-bottom: 32px; max-width: 520px; line-height: 1.6;">"More than just a full service auto detailing shop & Ceramic Coating, we make your existing car look better than the day you bought it." D2 Auto Detail offers interior & exterior car detailing, ceramic coating, paint correction services in Austin, TX.</p>
+        <div class="hero-pills reveal d3" role="list" aria-label="Services overview">
+          <span class="hero-pill" role="listitem">Ceramic Coating</span>
+          <span class="hero-pill" role="listitem">Paint Correction</span>
+          <span class="hero-pill" role="listitem">Car Detailing</span>
+          <span class="hero-pill" role="listitem">Paint Protection</span>
+        </div>
+        <p class="hero-italic reveal d3">Every surface. Every reflection. Every detail.</p>
+        <div class="hero-cta-row reveal d4">
+          <div class="hero-cta-line" aria-hidden="true"></div>
+          <button class="hero-cta-btn" id="hero-quote-btn" onclick="document.getElementById('quote').scrollIntoView({behavior:'smooth'})">
+            Request a Custom Quote
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" aria-labelledby="services-heading">
+    <div class="section-label reveal">Services // 02</div>
+    <h2 class="section-h2 reveal d1" id="services-heading">The Detail Is In<br>the Discipline</h2>
+    <div class="services-grid">
+      <article class="service-card reveal">
+        <div class="service-num">01</div>
+        <hr class="service-hr" />
+        <h3 class="service-title">Premium Detail</h3>
+        <p class="service-desc">A thorough hand wash, clay bar treatment, interior deep clean, and protective wax application. Your vehicle, restored to its best condition inside and out.</p>
+        <a href="#quote" class="service-link">+ Inquire</a>
+      </article>
+      <article class="service-card reveal d1">
+        <div class="service-num">02</div>
+        <hr class="service-hr" />
+        <h3 class="service-title">Paint Correction</h3>
+        <p class="service-desc">Machine polishing that removes swirl marks, scratches, water spots, and oxidation. Reveal the true depth and gloss your paint was meant to show.</p>
+        <a href="#quote" class="service-link">+ Inquire</a>
+      </article>
+      <article class="service-card reveal d2">
+        <div class="service-num">03</div>
+        <hr class="service-hr" />
+        <h3 class="service-title">Ceramic Coating</h3>
+        <p class="service-desc">A nano-ceramic layer that chemically bonds to your paint, delivering years of hydrophobic protection, extreme gloss, and resistance to environmental contaminants.</p>
+        <a href="#quote" class="service-link">+ Inquire</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" aria-labelledby="faq-heading">
+    <div class="faq-inner">
+      <div class="section-label reveal">FAQ</div>
+      <h2 class="section-h2 reveal d1" id="faq-heading">New to Paint Care?</h2>
+
+      <div class="faq-item reveal">
+        <button class="faq-question" aria-expanded="false" id="fq1" aria-controls="fa1">
+          What exactly is paint correction?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="fa1" role="region" aria-labelledby="fq1">
+          <div class="faq-answer-inner">Paint correction is a multi-step polishing process using specialized machine polishers and abrasive compounds to remove defects from the clear coat — swirl marks, fine scratches, water spots, oxidation. The goal is to level the surface microscopically, revealing true gloss and clarity. Results can be single-stage or multi-stage depending on paint condition.</div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal d1">
+        <button class="faq-question" aria-expanded="false" id="fq2" aria-controls="fa2">
+          What is a ceramic coating and why does it matter?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="fa2" role="region" aria-labelledby="fq2">
+          <div class="faq-answer-inner">A ceramic coating is a liquid polymer that chemically bonds to your vehicle's paint at the molecular level. Unlike wax, it creates a semi-permanent layer that repels water, resists UV rays, blocks chemical contaminants, and makes the surface easy to clean. A quality ceramic coating lasts 2–5+ years, drastically reducing maintenance and preserving that showroom look.</div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal d2">
+        <button class="faq-question" aria-expanded="false" id="fq3" aria-controls="fa3">
+          Should I get paint correction before a ceramic coating?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="fa3" role="region" aria-labelledby="fq3">
+          <div class="faq-answer-inner">Yes — this is critical. Ceramic coatings lock in whatever is underneath them. If your paint has swirl marks or oxidation, the coating will preserve those defects permanently. Paint correction before coating ensures you're sealing in perfection, not imperfection. We always recommend at minimum a single-stage correction before any ceramic application.</div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal d2">
+        <button class="faq-question" aria-expanded="false" id="fq4" aria-controls="fa4">
+          How long does each service take?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="fa4" role="region" aria-labelledby="fq4">
+          <div class="faq-answer-inner">A <strong>Premium Detail</strong> typically takes 3–5 hours. <strong>Paint Correction</strong> ranges from 6–12+ hours — single-stage in one day, multi-stage may span two days. A <strong>Ceramic Coating</strong> (prep, correction, application, cure) is generally a 1–3 day process. We never rush — the quality of the result depends entirely on the time invested.</div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal d3">
+        <button class="faq-question" aria-expanded="false" id="fq5" aria-controls="fa5">
+          How do I know which service is right for my car?
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="fa5" role="region" aria-labelledby="fq5">
+          <div class="faq-answer-inner">The right service depends on your vehicle's paint condition, goals, and budget. If your paint looks dull or scratched, start with paint correction. For long-term protection, add a ceramic coating. If your car just needs a refresh, the premium detail is perfect. The best way to know is to reach out — we'll assess your paint and make an honest recommendation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ESTIMATOR ===== -->
+  <section id="estimator" aria-labelledby="est-heading">
+    <div class="section-label reveal">Pricing // 04</div>
+    <h2 class="section-h2 reveal d1" id="est-heading">What Will Your<br>Detail Cost?</h2>
+
+    <div class="estimator-grid">
+      <div class="reveal d1">
+        <div class="est-col-label">Select Your Vehicle</div>
+        <div class="est-btn-group" role="group" aria-label="Vehicle type selection">
+          <button class="est-btn" id="est-v-sedan"  data-vehicle="sedan"  onclick="selectVehicle('sedan')"><span class="est-dot"></span>Sedan / Coupe</button>
+          <button class="est-btn" id="est-v-suv"    data-vehicle="suv"    onclick="selectVehicle('suv')"><span class="est-dot"></span>SUV / Crossover</button>
+          <button class="est-btn" id="est-v-truck"  data-vehicle="truck"  onclick="selectVehicle('truck')"><span class="est-dot"></span>Truck / Van</button>
+          <button class="est-btn" id="est-v-exotic" data-vehicle="exotic" onclick="selectVehicle('exotic')"><span class="est-dot"></span>Exotic / Luxury</button>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="est-col-label">Select Your Service</div>
+        <div class="est-btn-group" role="group" aria-label="Service type selection">
+          <button class="est-btn" id="est-s-detail"     data-service="detail"     onclick="selectService('detail')"><span class="est-dot"></span>Premium Detail</button>
+          <button class="est-btn" id="est-s-correction" data-service="correction" onclick="selectService('correction')"><span class="est-dot"></span>Paint Correction</button>
+          <button class="est-btn" id="est-s-multi"      data-service="multi"      onclick="selectService('multi')"><span class="est-dot"></span>Multi-Stage Correction</button>
+          <button class="est-btn" id="est-s-ceramic"    data-service="ceramic"    onclick="selectService('ceramic')"><span class="est-dot"></span>Ceramic Coating</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="est-price-box reveal" id="est-price-box" aria-live="polite" aria-atomic="true">
+      <div id="est-price-content">
+        <div class="est-price-placeholder">Select a vehicle and service to see your estimated price.</div>
+      </div>
+      <a href="#quote" class="est-book-btn" id="est-book-btn" style="display:none" aria-label="Book this service">
+        Book This
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== QUOTE FORM ===== -->
+  <section id="quote" aria-labelledby="quote-heading">
+    <div class="quote-inner">
+      <div class="section-label reveal">Contact // 05</div>
+      <h2 class="section-h2 reveal d1" id="quote-heading">Request a Quote</h2>
+      <form class="quote-form" id="quote-form" novalidate aria-label="Quote request form">
+        <div class="form-group reveal">
+          <label for="q-name">Full Name</label>
+          <input type="text" id="q-name" name="name" placeholder="John Smith" required autocomplete="name" />
+        </div>
+        <div class="form-group reveal d1">
+          <label for="q-phone">Phone Number</label>
+          <input type="tel" id="q-phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+        </div>
+        <div class="form-group reveal d1">
+          <label for="q-email">Email Address</label>
+          <input type="email" id="q-email" name="email" placeholder="john@example.com" required autocomplete="email" />
+        </div>
+        <div class="form-group reveal d2">
+          <label for="q-vehicle">Vehicle (Year, Make, Model)</label>
+          <input type="text" id="q-vehicle" name="vehicle" placeholder="2021 BMW M4" autocomplete="off" />
+        </div>
+        <div class="form-group full reveal d2">
+          <label for="q-service">Service Interested In</label>
+          <select id="q-service" name="service">
+            <option value="" disabled selected>Select a service…</option>
+            <option value="premium-detail">Premium Detail</option>
+            <option value="paint-correction">Paint Correction</option>
+            <option value="multi-stage">Multi-Stage Correction</option>
+            <option value="ceramic-coating">Ceramic Coating</option>
+            <option value="unsure">Not Sure — Need Advice</option>
+          </select>
+        </div>
+        <div class="form-group full reveal d3">
+          <label for="q-notes">Additional Notes</label>
+          <textarea id="q-notes" name="notes" placeholder="Tell us about your vehicle's condition, specific concerns, or questions…"></textarea>
+        </div>
+        <div class="form-submit-wrap reveal d4">
+          <button type="submit" class="form-submit" id="form-submit-btn">
+            Submit Request
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </form>
+      <div id="form-success" role="alert" aria-live="assertive">
+        <strong>Message received.</strong> We'll be in touch within 24 hours to discuss your detail.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IG STRIP ===== -->
+  <div id="ig-strip" aria-label="Follow D2 Detail Driven on Instagram">
+    <div class="ig-icon-box" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="white" stroke="none"/>
+      </svg>
+    </div>
+    <span class="ig-handle">@d2_detaildriven</span>
+    <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener" class="ig-follow-btn" id="ig-follow-link">Follow on Instagram</a>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-watermark" aria-hidden="true">DETAIL DRIVEN</div>
+    <div class="footer-bar">
+      <div class="footer-logo" aria-label="D2" style="display:flex; align-items:center;"><img src="logo-light.svg" alt="D2 Auto Detail Logo" style="height: 42px; width: auto; display: block;" /></div>
+      <p class="footer-copy">© 2026 D2 Auto Detail. All rights reserved.</p>
+      <div class="footer-contact">
+        <a href="tel:+19494442885">+1 949 444 2885</a>
+        <a href="mailto:contact@d2detaildriven.com">contact@d2detaildriven.com</a>
+      </div>
+      <div class="footer-motto">Passion. Precision. Perfection.</div>
+    </div>
+  </footer>
+
+  <!-- ===== THEME SWITCHER ===== -->
+  <div id="theme-switcher" role="group" aria-label="Select color theme">
+    <span class="theme-label">Theme</span>
+    <div class="theme-dots">
+      <span class="theme-dot theme-dot-dark" title="Dark theme — active" role="img" aria-label="Dark theme (current)"></span>
+      <a href="light.html"  class="theme-dot theme-dot-light"  title="Light theme"  aria-label="Switch to light theme"></a>
+      <a href="mixed.html" class="theme-dot theme-dot-mixed" title="Mixed theme"  aria-label="Switch to mixed theme"></a>
+    </div>
+  </div>
+
+  <!-- ===== INLINE JS ===== -->
+  <script src="cms.js"></script>
+  <script>
+    /* ── NAVBAR SCROLL ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 48);
+    }, { passive: true });
+
+    /* ── MOBILE MENU ── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+      hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open menu');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ── FAQ ACCORDION ── */
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const answer   = document.getElementById(btn.getAttribute('aria-controls'));
+        /* collapse all */
+        document.querySelectorAll('.faq-question').forEach(other => {
+          other.setAttribute('aria-expanded', 'false');
+          const otherAns = document.getElementById(other.getAttribute('aria-controls'));
+          if (otherAns) otherAns.style.maxHeight = '0';
+        });
+        /* toggle clicked */
+        btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        if (!expanded && answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+      });
+    });
+
+    /* ── ESTIMATOR ── */
+    const PRICES = {
+      sedan:  [249,  449,  699,  1199],
+      suv:    [299,  549,  849,  1499],
+      truck:  [329,  599,  899,  1599],
+      exotic: [499,  899, 1399,  2499]
+    };
+    const SVC_LABELS = ['Premium Detail','Paint Correction','Multi-Stage Correction','Ceramic Coating'];
+    const SVC_IDX = { detail:0, correction:1, multi:2, ceramic:3 };
+
+    let selVehicle = null, selService = null;
+
+    function selectVehicle(key) {
+      selVehicle = key;
+      document.querySelectorAll('[data-vehicle]').forEach(b => b.classList.remove('active'));
+      document.getElementById('est-v-' + key).classList.add('active');
+      updatePrice();
+    }
+    function selectService(key) {
+      selService = key;
+      document.querySelectorAll('[data-service]').forEach(b => b.classList.remove('active'));
+      document.getElementById('est-s-' + key).classList.add('active');
+      updatePrice();
+    }
+    function updatePrice() {
+      const content  = document.getElementById('est-price-content');
+      const bookBtn  = document.getElementById('est-book-btn');
+      if (selVehicle && selService) {
+        const sIdx  = SVC_IDX[selService];
+        const price = PRICES[selVehicle][sIdx];
+        content.innerHTML =
+          `<div class="est-price-label">${SVC_LABELS[sIdx]}</div>` +
+          `<div class="est-price-amount"><span>$</span>${price.toLocaleString()}</div>` +
+          `<div class="est-price-sub">Starting price — final quote based on vehicle condition.</div>`;
+        bookBtn.style.display = 'inline-flex';
+      } else {
+        content.innerHTML = '<div class="est-price-placeholder">Select a vehicle and service to see your estimated price.</div>';
+        bookBtn.style.display = 'none';
+      }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── QUOTE FORM ── */
+    const quoteForm   = document.getElementById('quote-form');
+    const formSuccess = document.getElementById('form-success');
+    quoteForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name  = document.getElementById('q-name').value.trim();
+      const email = document.getElementById('q-email').value.trim();
+      if (!name)  { document.getElementById('q-name').focus();  return; }
+      if (!email) { document.getElementById('q-email').focus(); return; }
+      const btn = document.getElementById('form-submit-btn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      setTimeout(() => {
+        quoteForm.reset();
+        btn.textContent = 'Submit Request';
+        btn.disabled = false;
+        formSuccess.style.display = 'block';
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        setTimeout(() => { formSuccess.style.display = 'none'; }, 6000);
+      }, 900);
+    });
+  </script>
+</body>
+</html>

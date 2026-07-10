@@ -1,0 +1,248 @@
+/* =========================================
+   DETAIL DRIVEN | BRAND IDENTITY STANDARDS
+   ========================================= */
+
+:root {
+  /* Colors */
+  --c-black: #0B0B0B;
+  --c-carbon: #1E1E1E;
+  --c-red: #D71920;
+  --c-steel: #9AA0A6;
+  --c-white: #F7F7F7;
+
+  /* Typography */
+  --font-display: 'Montserrat', sans-serif;
+  --font-precision: 'Rajdhani', sans-serif;
+
+  /* Spacing */
+  --sp-xs: 0.5rem;
+  --sp-s: 1rem;
+  --sp-m: 2rem;
+  --sp-l: 4rem;
+  --sp-xl: 8rem;
+  --sp-xxl: 12rem;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-precision);
+  background-color: var(--c-white);
+  color: var(--c-black);
+  scroll-behavior: smooth;
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+
+h1, h2, h3, h4, h5, h6, .hero-text, .section-title, .massive-text, .manifesto-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.hero-text {
+  font-size: clamp(4rem, 8vw, 10rem);
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 5rem);
+}
+
+.massive-text {
+  font-size: clamp(5rem, 9vw, 12rem);
+  line-height: 0.85;
+}
+
+.manifesto-title {
+  font-size: clamp(3rem, 6vw, 7rem);
+}
+
+.body-precision, .precision-note {
+  font-family: var(--font-precision);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.text-white { color: var(--c-white); }
+.text-dark { color: var(--c-black); }
+.text-gray { color: var(--c-steel); }
+.text-red { color: var(--c-red); }
+
+/* =========================================
+   LAYOUT & GRID
+   ========================================= */
+
+.spread {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-m);
+}
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--sp-m);
+  height: 100%;
+}
+
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+.col-6 { grid-column: span 6; }
+.col-7 { grid-column: span 7; }
+.col-8 { grid-column: span 8; }
+.col-9 { grid-column: span 9; }
+.col-10 { grid-column: span 10; }
+.col-11 { grid-column: span 11; }
+.col-12 { grid-column: span 12; }
+
+.offset-1 { grid-column-start: 2; }
+.offset-2 { grid-column-start: 3; }
+
+/* =========================================
+   UTILITIES
+   ========================================= */
+
+.h-100 { height: 100%; }
+.bg-black { background-color: var(--c-black); }
+.bg-dark { background-color: var(--c-carbon); }
+.bg-white { background-color: var(--c-white); }
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--sp-xxl);
+}
+
+.text-center { text-align: center; }
+.align-center { align-items: center; justify-content: center; display: flex; }
+
+.mt-m { margin-top: var(--sp-m); }
+.mt-l { margin-top: var(--sp-l); }
+.mt-xl { margin-top: var(--sp-xl); }
+
+.divider {
+  width: 100px;
+  height: 4px;
+  margin-top: var(--sp-m);
+}
+.divider.red { background-color: var(--c-red); }
+
+.line-divider {
+  border-left: 1px solid var(--c-carbon);
+  height: 100%;
+}
+
+/* =========================================
+   FOLIO / UI ELEMENTS
+   ========================================= */
+
+.folio {
+  position: absolute;
+  font-family: var(--font-precision);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  display: flex;
+  gap: var(--sp-m);
+  align-items: center;
+  z-index: 100;
+}
+
+.folio.bottom-left { bottom: var(--sp-m); left: var(--sp-m); }
+.folio.bottom-right { bottom: var(--sp-m); right: var(--sp-m); }
+
+.folio-number {
+  color: var(--c-red);
+}
+
+/* =========================================
+   SPECIFIC SPREADS & IMAGES
+   ========================================= */
+
+.spread-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--c-black);
+}
+
+.logo-container {
+  width: 300px;
+}
+
+.d2-logo-main {
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+}
+
+.image-block {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: contrast(1.1) brightness(0.9);
+}
+
+/* Placeholder Classes - Will be updated with generated images */
+.texture-carbon { background: url('img_carbon.png') center/cover; }
+.img-black-paint { background: url('img_black_paint.png') center/cover; }
+.img-leather-stitch { background: url('img_leather.png') center/cover; }
+.img-ceramic-bead { background: url('img_water_bead.png') center/cover; }
+
+.h-50 { height: 50%; }
+.mt-s { margin-top: var(--sp-s); }
+
+.grid-material {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--sp-s);
+  height: 100%;
+}
+
+.material-block {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  filter: contrast(1.1) brightness(0.85);
+}
+
+.mat-label {
+  position: absolute;
+  bottom: var(--sp-s);
+  left: var(--sp-s);
+  color: var(--c-white);
+  font-family: var(--font-precision);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
