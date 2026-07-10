@@ -229,30 +229,30 @@ function App() {
           <div className="service-strip-item">
             <div className="service-strip-header">
               <span className="service-strip-accent">//</span>
-              <h3>Detailing</h3>
-            </div>
-            <p>Comprehensive interior and exterior restoration.</p>
-          </div>
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
               <h3>Paint Correction</h3>
             </div>
-            <p>Measured correction designed to restore clarity and depth.</p>
+            <p>Measured correction designed to restore clarity and depth. Starting at $300.</p>
           </div>
           <div className="service-strip-item">
             <div className="service-strip-header">
               <span className="service-strip-accent">//</span>
-              <h3>Ceramic Protection</h3>
+              <h3>Ceramic Coating</h3>
             </div>
-            <p>Long-term surface protection built on proper preparation.</p>
+            <p>Long-term hydrophobic surface protection built on proper preparation. Starting at $575.</p>
           </div>
           <div className="service-strip-item">
             <div className="service-strip-header">
               <span className="service-strip-accent">//</span>
-              <h3>Vehicle Preservation</h3>
+              <h3>PPF</h3>
             </div>
-            <p>Maintenance plans created to protect the finished result.</p>
+            <p>Premium paint protection film designed to shield against rock chips and road debris. Starting at $1500.</p>
+          </div>
+          <div className="service-strip-item">
+            <div className="service-strip-header">
+              <span className="service-strip-accent">//</span>
+              <h3>Vehicle Restoration</h3>
+            </div>
+            <p>Bespoke preparation, multi-stage correction, and full-vehicle surface restoration. Quote available.</p>
           </div>
         </div>
       </section>
@@ -344,13 +344,13 @@ function App() {
                       required
                     >
                       <option value="" disabled>Select a service</option>
+                      <option value="Paint Correction (Starting at $300)">Paint Correction (Starting at $300)</option>
+                      <option value="Ceramic Coating (Starting at $575)">Ceramic Coating (Starting at $575)</option>
+                      <option value="PPF (Starting at $1500)">PPF (Starting at $1500)</option>
+                      <option value="Complete Vehicle Restoration">Complete Vehicle Restoration</option>
                       <option value="Premium Detail">Premium Detail</option>
                       <option value="Interior Detail">Interior Detail</option>
                       <option value="Exterior Detail">Exterior Detail</option>
-                      <option value="Paint Correction">Paint Correction</option>
-                      <option value="Ceramic Coating">Ceramic Coating</option>
-                      <option value="New Vehicle Protection">New Vehicle Protection</option>
-                      <option value="Resale Preparation">Resale Preparation</option>
                       <option value="Maintenance Service">Maintenance Service</option>
                       <option value="Not Sure Yet">Not Sure Yet</option>
                     </select>

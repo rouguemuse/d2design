@@ -12,32 +12,42 @@
     {
       id: 'svc-1',
       num: '01',
-      title: 'Premium Detail',
-      desc: 'A thorough hand wash, clay bar treatment, interior deep clean, and protective wax application. Your vehicle, restored to its best condition inside and out.',
-      priceSedan: 249,
-      priceSuv: 299,
-      priceTruck: 329,
-      priceExotic: 499
+      title: 'Paint Correction',
+      desc: 'Measured correction designed to restore clarity and depth. Machine polishing that removes swirl marks, scratches, and oxidation.',
+      priceSedan: 300,
+      priceSuv: 400,
+      priceTruck: 450,
+      priceExotic: 600
     },
     {
       id: 'svc-2',
       num: '02',
-      title: 'Paint Correction',
-      desc: 'Machine polishing that removes swirl marks, scratches, water spots, and oxidation. Reveal the true depth and gloss your paint was meant to show.',
-      priceSedan: 449,
-      priceSuv: 549,
-      priceTruck: 599,
-      priceExotic: 899
+      title: 'Ceramic Coating',
+      desc: 'Long-term hydrophobic surface protection built on proper preparation. Nano-ceramic layer that chemically bonds to paint for extreme gloss.',
+      priceSedan: 575,
+      priceSuv: 750,
+      priceTruck: 850,
+      priceExotic: 1200
     },
     {
       id: 'svc-3',
       num: '03',
-      title: 'Ceramic Coating',
-      desc: 'A nano-ceramic layer that chemically bonds to your paint, delivering years of hydrophobic protection, extreme gloss, and resistance to environmental contaminants.',
-      priceSedan: 1199,
-      priceSuv: 1499,
-      priceTruck: 1599,
-      priceExotic: 2499
+      title: 'PPF',
+      desc: 'Premium paint protection film designed to shield against rock chips, road debris, and physical impacts. High-grade clear bra protection.',
+      priceSedan: 1500,
+      priceSuv: 1800,
+      priceTruck: 2000,
+      priceExotic: 2500
+    },
+    {
+      id: 'svc-4',
+      num: '04',
+      title: 'Vehicle Restoration',
+      desc: 'Bespoke preparation, multi-stage correction, and full-vehicle surface restoration. Quote available upon custom assessment.',
+      priceSedan: 0,
+      priceSuv: 0,
+      priceTruck: 0,
+      priceExotic: 0
     }
   ];
 
@@ -190,7 +200,8 @@
   // --- GETTERS & SETTERS ---
   window.D2CMS = {
     getServices: function () {
-      if (!localStorage.getItem('d2_services')) {
+      const stored = localStorage.getItem('d2_services');
+      if (!stored || !stored.includes('PPF')) {
         localStorage.setItem('d2_services', JSON.stringify(DEFAULT_SERVICES));
       }
       return JSON.parse(localStorage.getItem('d2_services'));
