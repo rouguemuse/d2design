@@ -12,6 +12,11 @@ function App() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -145,32 +150,72 @@ function App() {
     }
   };
 
+  const trackEvent = (eventName: string) => {
+    console.log(`[Tracking Event]: ${eventName}`);
+    if (typeof window !== 'undefined') {
+      if ((window as any).gtag) {
+        (window as any).gtag('event', 'click', {
+          'event_category': 'engagement',
+          'event_label': eventName
+        });
+      }
+    }
+  };
+
   return (
-    <div className="coming-soon-container">
+    <div className="coming-soon-container" data-theme={theme}>
       {/* 1. COMPACT HEADER */}
       <header className="compact-header">
         <div className="header-inner site-container">
           <div className="header-logo-block">
-            <img src="/logo-light.svg" alt="D2 Logo" className="header-logo-img" />
+            <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="header-logo-img" />
             <div className="header-brand-info">
               <span className="header-brand-name">DETAIL DRIVEN</span>
               <span className="header-tagline">Perfection Is in the Details</span>
             </div>
           </div>
           <div className="header-actions">
+            <button onClick={toggleTheme} className="theme-toggle-btn" aria-label="Toggle Light/Dark Theme">
+              {theme === 'dark' ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+              )}
+            </button>
             <div className="header-socials">
-              <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="header-social-link" aria-label="Instagram">
+              <a 
+                href="https://www.instagram.com/d2_detaildriven/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="header-social-link" 
+                aria-label="Instagram"
+                onClick={() => trackEvent('Instagram Header Icon Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
               </a>
-              <a href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" target="_blank" rel="noopener noreferrer" className="header-social-link" aria-label="Facebook">
+              <a 
+                href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="header-social-link" 
+                aria-label="Facebook"
+                onClick={() => trackEvent('Facebook Header Icon Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
-              <a href="https://www.youtube.com/@d2_detaildriven" target="_blank" rel="noopener noreferrer" className="header-social-link" aria-label="YouTube">
+              <a 
+                href="https://www.youtube.com/@d2_detaildriven" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="header-social-link" 
+                aria-label="YouTube"
+                onClick={() => trackEvent('YouTube Header Icon Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><polygon points="10 15 15 12 10 9 10 15"/></svg>
               </a>
             </div>
-            <button onClick={handleScrollToForm} className="btn-primary-header">
-              Request Info
+            <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Header Click'); }} className="btn-primary-header">
+              Request A Quote
             </button>
           </div>
         </div>
@@ -184,7 +229,7 @@ function App() {
             <div className="hero-image-wrapper">
               <img 
                 src="/background.jpg" 
-                alt="Professional automotive detailing process" 
+                alt="Professional automotive detailing process showing technician correcting paint" 
                 className="hero-detailing-img"
               />
               <div className="hero-image-overlay"></div>
@@ -195,28 +240,42 @@ function App() {
           {/* Hero Right: Copywriting & CTAs */}
           <div className="hero-copy-col">
             <div className="hero-copy-content">
-              <p className="hero-eyebrow">A MORE REFINED EXPERIENCE IS COMING</p>
+              <p className="hero-eyebrow">NEW WEBSITE COMING SOON</p>
               <h1 className="hero-headline">
                 <span>Precision You Can See.</span>
                 <span>Protection You Can Trust.</span>
               </h1>
               <p className="hero-supporting-text">
-                Detail Driven is preparing a new online experience built around premium detailing, paint correction, ceramic protection, and uncompromising preparation. The website is being finished. The work has never stopped.
+                Detail Driven is open and currently accepting appointments for premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. Our full website is being completed, but the work has never stopped.
               </p>
               
               <div className="hero-cta-row">
-                <button onClick={handleScrollToForm} className="btn-primary-hero">
-                  Request Service Information
+                <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Hero Click'); }} className="btn-primary-hero">
+                  Request A Quote
                 </button>
-                <a href="#footer-section" className="link-secondary-hero">
-                  Connect With Us
+                <a 
+                  href="https://www.instagram.com/d2_detaildriven/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="btn-secondary-hero"
+                  onClick={() => trackEvent('View Our Work Hero Click')}
+                >
+                  View Our Work
                 </a>
               </div>
 
-              <div className="hero-service-labels">
-                <span className="service-tag-label"><span className="red-bullet"></span>Premium Detailing</span>
-                <span className="service-tag-label"><span className="red-bullet"></span>Paint Correction</span>
-                <span className="service-tag-label"><span className="red-bullet"></span>Ceramic Protection</span>
+              <p className="hero-estimate-hint">
+                For faster estimates, include your vehicle year, make, model, current condition, and the service you are considering.
+              </p>
+
+              <div className="hero-contact-row">
+                <span className="contact-item">
+                  <strong>Call or Text:</strong> <a href="tel:+19494442885" onClick={() => trackEvent('Phone Link Click')}>+1 949 444 2885</a>
+                </span>
+                <span className="contact-separator">|</span>
+                <span className="contact-item">
+                  <strong>Email:</strong> <a href="mailto:contact@d2detaildriven.com" onClick={() => trackEvent('Email Link Click')}>contact@d2detaildriven.com</a>
+                </span>
               </div>
             </div>
           </div>
@@ -226,40 +285,53 @@ function App() {
       {/* 3. SERVICE PREVIEW STRIP */}
       <section className="service-strip-section">
         <div className="service-strip-inner site-container">
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
-              <h3>Complete Detail</h3>
-            </div>
-            <p>Complete interior and exterior deep detail. Starting at $225.</p>
+          <div className="service-strip-header-block">
+            <span className="service-strip-accent">//</span>
+            <h2>Services Currently Available</h2>
           </div>
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
-              <h3>Paint Correction</h3>
-            </div>
-            <p>Measured correction designed to restore clarity and depth. Starting at $300.</p>
+          <div className="service-strip-list">
+            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Premium Detailing</span>
+            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Paint Correction</span>
+            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Ceramic Coating</span>
+            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Paint Protection Film</span>
+            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Vehicle Restoration</span>
           </div>
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
-              <h3>Ceramic Coating</h3>
-            </div>
-            <p>Long-term hydrophobic surface protection built on proper preparation. Starting at $575.</p>
-          </div>
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
-              <h3>PPF</h3>
-            </div>
-            <p>Premium paint protection film designed to shield against rock chips and road debris. Starting at $1500.</p>
-          </div>
-          <div className="service-strip-item">
-            <div className="service-strip-header">
-              <span className="service-strip-accent">//</span>
-              <h3>Vehicle Restoration</h3>
-            </div>
-            <p>Bespoke preparation, multi-stage correction, and full-vehicle surface restoration. Quote available.</p>
+        </div>
+      </section>
+
+      {/* 3.5 SOCIAL PROOF SECTION */}
+      <section className="social-proof-section">
+        <div className="social-proof-inner site-container">
+          <h2>See What We’re Working On</h2>
+          <p>Follow Detail Driven for current projects, transformations, education, and behind-the-scenes work while the full website is being completed.</p>
+          <div className="social-proof-buttons">
+            <a 
+              href="https://www.instagram.com/d2_detaildriven/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-social-proof"
+              onClick={() => trackEvent('Instagram Social Proof Button Click')}
+            >
+              Instagram
+            </a>
+            <a 
+              href="https://www.youtube.com/@d2_detaildriven" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-social-proof"
+              onClick={() => trackEvent('YouTube Social Proof Button Click')}
+            >
+              Detail Driven TV
+            </a>
+            <a 
+              href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-social-proof"
+              onClick={() => trackEvent('Facebook Social Proof Button Click')}
+            >
+              Facebook
+            </a>
           </div>
         </div>
       </section>
@@ -284,7 +356,7 @@ function App() {
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="quote-inquiry-form">
+            <form onSubmit={(e) => { handleSubmit(e); trackEvent('Form Inquiry Submit'); }} className="quote-inquiry-form">
               {error && <div className="form-feedback-error">{error}</div>}
               
               <div className="form-grid-layout">
@@ -380,7 +452,7 @@ function App() {
 
               <div className="form-submit-block">
                 <button type="submit" className="btn-submit-form">
-                  Request Information
+                  Request A Quote
                 </button>
               </div>
             </form>
@@ -406,22 +478,43 @@ function App() {
         <div className="footer-inner site-container">
           <div className="footer-top-block">
             <div className="footer-logo-area">
-              <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" />
+              <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="footer-logo-img" />
               <div className="footer-brand-title">
                 <span className="footer-name">DETAIL DRIVEN</span>
                 <span className="footer-subtext">Auto Detail</span>
               </div>
             </div>
             <div className="footer-social-links">
-              <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="Instagram">
+              <a 
+                href="https://www.instagram.com/d2_detaildriven/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="footer-social-btn" 
+                aria-label="Instagram"
+                onClick={() => trackEvent('Instagram Social Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                 <span>Instagram</span>
               </a>
-              <a href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="Facebook">
+              <a 
+                href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="footer-social-btn" 
+                aria-label="Facebook"
+                onClick={() => trackEvent('Facebook Social Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 <span>Facebook</span>
               </a>
-              <a href="https://www.youtube.com/@d2_detaildriven" target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="YouTube">
+              <a 
+                href="https://www.youtube.com/@d2_detaildriven" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="footer-social-btn" 
+                aria-label="YouTube"
+                onClick={() => trackEvent('YouTube Social Click')}
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><polygon points="10 15 15 12 10 9 10 15"/></svg>
                 <span>YouTube</span>
               </a>
@@ -432,7 +525,7 @@ function App() {
 
           <div className="footer-bottom-block">
             <div className="footer-meta-info">
-              <a href="mailto:info@d2detaildriven.com" className="footer-contact-link">info@d2detaildriven.com</a>
+              <a href="mailto:contact@d2detaildriven.com" className="footer-contact-link" onClick={() => trackEvent('Email Link Click')}>contact@d2detaildriven.com</a>
               <span className="footer-service-area">Serving Austin and surrounding areas</span>
             </div>
             <p className="footer-copyright">
@@ -440,6 +533,7 @@ function App() {
             </p>
           </div>
         </div>
+        <div className="footer-watermark" aria-hidden="true">DETAIL DRIVEN</div>
       </footer>
     </div>
   );
