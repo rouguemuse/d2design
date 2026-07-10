@@ -12,6 +12,16 @@
     {
       id: 'svc-1',
       num: '01',
+      title: 'Complete Detail',
+      desc: 'Complete interior and exterior deep detailing. Thorough cleaning, decontamination, and hand-applied paint and cabin protection.',
+      priceSedan: 225,
+      priceSuv: 275,
+      priceTruck: 300,
+      priceExotic: 400
+    },
+    {
+      id: 'svc-2',
+      num: '02',
       title: 'Paint Correction',
       desc: 'Measured correction designed to restore clarity and depth. Machine polishing that removes swirl marks, scratches, and oxidation.',
       priceSedan: 300,
@@ -20,8 +30,8 @@
       priceExotic: 600
     },
     {
-      id: 'svc-2',
-      num: '02',
+      id: 'svc-3',
+      num: '03',
       title: 'Ceramic Coating',
       desc: 'Long-term hydrophobic surface protection built on proper preparation. Nano-ceramic layer that chemically bonds to paint for extreme gloss.',
       priceSedan: 575,
@@ -30,8 +40,8 @@
       priceExotic: 1200
     },
     {
-      id: 'svc-3',
-      num: '03',
+      id: 'svc-4',
+      num: '04',
       title: 'PPF',
       desc: 'Premium paint protection film designed to shield against rock chips, road debris, and physical impacts. High-grade clear bra protection.',
       priceSedan: 1500,
@@ -40,8 +50,8 @@
       priceExotic: 2500
     },
     {
-      id: 'svc-4',
-      num: '04',
+      id: 'svc-5',
+      num: '05',
       title: 'Vehicle Restoration',
       desc: 'Bespoke preparation, multi-stage correction, and full-vehicle surface restoration. Quote available upon custom assessment.',
       priceSedan: 0,
@@ -201,7 +211,7 @@
   window.D2CMS = {
     getServices: function () {
       const stored = localStorage.getItem('d2_services');
-      if (!stored || !stored.includes('PPF')) {
+      if (!stored || !stored.includes('Complete Detail')) {
         localStorage.setItem('d2_services', JSON.stringify(DEFAULT_SERVICES));
       }
       return JSON.parse(localStorage.getItem('d2_services'));

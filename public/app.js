@@ -80,14 +80,14 @@ faqTriggers.forEach((trigger, i) => {
 
 // ─── ESTIMATOR ───
 const priceMatrix = {
-  // vehicle: [correction, ceramic, ppf, restoration]
-  sedan:  [300,  575,  1500, 0],
-  suv:    [400,  750,  1800, 0],
-  truck:  [450,  850,  2000, 0],
-  exotic: [600, 1200,  2500, 0],
+  // vehicle: [detail, correction, ceramic, ppf, restoration]
+  sedan:  [225, 300,  575,  1500, 0],
+  suv:    [275, 400,  750,  1800, 0],
+  truck:  [300, 450,  850,  2000, 0],
+  exotic: [400, 600, 1200,  2500, 0],
 };
 
-const serviceIndex = { correction: 0, ceramic: 1, ppf: 2, restoration: 3 };
+const serviceIndex = { detail: 0, correction: 1, ceramic: 2, ppf: 3, restoration: 4 };
 
 let selectedVehicle = null;
 let selectedService = null;
@@ -125,7 +125,7 @@ function updateEstimate() {
   const price  = prices[idx];
 
   const vehicleLabels  = { sedan: 'Sedan / Coupe', suv: 'SUV / Crossover', truck: 'Truck / Van', exotic: 'Exotic / Luxury' };
-  const serviceLabels  = { correction: 'Paint Correction', ceramic: 'Ceramic Coating', ppf: 'PPF (Paint Protection Film)', restoration: 'Complete Vehicle Restoration' };
+  const serviceLabels  = { detail: 'Complete Detail', correction: 'Paint Correction', ceramic: 'Ceramic Coating', ppf: 'PPF (Paint Protection Film)', restoration: 'Complete Vehicle Restoration' };
 
   if (price === 0) {
     estimateInner.innerHTML = `

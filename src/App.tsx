@@ -229,6 +229,13 @@ function App() {
           <div className="service-strip-item">
             <div className="service-strip-header">
               <span className="service-strip-accent">//</span>
+              <h3>Complete Detail</h3>
+            </div>
+            <p>Complete interior and exterior deep detail. Starting at $225.</p>
+          </div>
+          <div className="service-strip-item">
+            <div className="service-strip-header">
+              <span className="service-strip-accent">//</span>
               <h3>Paint Correction</h3>
             </div>
             <p>Measured correction designed to restore clarity and depth. Starting at $300.</p>
@@ -344,6 +351,7 @@ function App() {
                       required
                     >
                       <option value="" disabled>Select a service</option>
+                      <option value="Complete Detail (Starting at $225)">Complete Detail (Starting at $225)</option>
                       <option value="Paint Correction (Starting at $300)">Paint Correction (Starting at $300)</option>
                       <option value="Ceramic Coating (Starting at $575)">Ceramic Coating (Starting at $575)</option>
                       <option value="PPF (Starting at $1500)">PPF (Starting at $1500)</option>
