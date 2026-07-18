@@ -1882,3 +1882,52 @@ a, button, select, input, textarea {
     min-height: auto;
   }
 }
+
+/* --- THEME FORCE OVERRIDES FOR CINEMATIC HEADER, HERO & FOOTER --- */
+
+/* Force header links to remain light */
+.compact-header.header-absolute {
+  color: #F7F7F7 !important;
+}
+.compact-header.header-absolute .header-brand-name {
+  color: #F7F7F7 !important;
+}
+.compact-header.header-absolute .header-tagline {
+  color: #BCC0CB !important;
+}
+.compact-header.header-absolute .btn-secondary-header {
+  color: #F7F7F7 !important;
+}
+
+/* Force hero content to remain light on dark poster/video */
+.hero-fullscreen {
+  background-color: #09090A !important;
+}
+.hero-fullscreen-content h1 {
+  color: #F7F7F7 !important;
+}
+.hero-fullscreen-content p {
+  color: #BCC0CB !important;
+}
+.hero-fullscreen-content .link-quiet-hero {
+  color: #BCC0CB !important;
+}
+.hero-fullscreen-content .link-quiet-hero:hover {
+  color: var(--color-red) !important;
+}
+
+/* Force footer to remain dark */
+.brand-footer-clean {
+  background-color: #09090A !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.brand-footer-clean a {
+  color: #F7F7F7 !important;
+}
+.brand-footer-clean .footer-contact-block a {
+  color: #F7F7F7 !important;
+}
+.brand-footer-clean .footer-service-area,
+.brand-footer-clean .copyright-text {
+  color: #55555A !important;
+}

@@ -14,7 +14,7 @@ function App() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
   
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -203,7 +203,7 @@ function App() {
       <header className="compact-header header-absolute">
         <div className="header-inner site-container">
           <a href="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="header-logo-img" />
+            <img src="/logo-light.svg" alt="D2 Logo" className="header-logo-img" />
             <div className="header-brand-info">
               <span className="header-brand-name">DETAIL DRIVEN</span>
               <span className="header-tagline">Perfection Is in the Details</span>
@@ -514,10 +514,10 @@ function App() {
       <footer id="footer-section" className="brand-footer-clean">
         <div className="site-container footer-flex-row">
           <a href="/" className="footer-logo-block" style={{display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none'}}>
-            <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="footer-logo-img" style={{height: '32px'}} />
+            <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" style={{height: '32px'}} />
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <span style={{color: 'var(--color-white)', fontFamily: 'var(--font-headings)', fontWeight: '800', letterSpacing: '1.5px', fontSize: '1.1rem', lineHeight: '1.1'}}>DETAIL DRIVEN</span>
-              <span style={{color: 'var(--color-steel)', fontSize: '0.7rem', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: '500'}}>Auto Detail</span>
+              <span style={{color: '#F7F7F7', fontFamily: 'var(--font-headings)', fontWeight: '800', letterSpacing: '1.5px', fontSize: '1.1rem', lineHeight: '1.1'}}>DETAIL DRIVEN</span>
+              <span style={{color: '#BCC0CB', fontSize: '0.7rem', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: '500'}}>Auto Detail</span>
             </div>
           </a>
           <div className="footer-links-block">
