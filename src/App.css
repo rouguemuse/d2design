@@ -8,11 +8,11 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --form-input-bg: rgba(11, 11, 11, 0.5);
   --form-input-focus-bg: rgba(11, 11, 11, 0.85);
-  --font-headings: 'Montserrat', system-ui, -apple-system, sans-serif;
-  --font-supporting: 'Rajdhani', system-ui, -apple-system, sans-serif;
+  --font-headings: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-supporting: 'Inter', system-ui, -apple-system, sans-serif;
   
   /* Responsive Typography */
-  --fs-h1: clamp(38px, 5vw, 56px);
+  --fs-h1: clamp(28px, 6vw, 56px);
   --fs-h2: clamp(28px, 4vw, 36px);
   --fs-body: clamp(17px, 1.5vw, 18px);
   --fs-label: clamp(14px, 1.2vw, 15px);
