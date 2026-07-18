@@ -256,8 +256,8 @@ function App() {
           <div className="hero-fullscreen-content">
             <div className="hero-headline-wrapper">
               <div className="headline-accent-rule"></div>
-              <h1 className="hero-headline" style={{fontSize: 'clamp(48px, 8vw, 84px)'}}>
-                Precision You Can See.<br />Protection You Can Trust.
+              <h1 className="hero-headline">
+                PRECISION YOU CAN SEE.<br />PROTECTION YOU CAN TRUST.
               </h1>
             </div>
             <p className="hero-supporting-text" style={{maxWidth: '800px', margin: '0 auto 2rem auto'}}>
@@ -276,7 +276,7 @@ function App() {
         </section>
 
         {/* 3. IMAGE-LED SERVICE GATEWAY */}
-        <section className="service-grid-section" style={{padding: '80px 0', background: 'var(--bg-dark)'}}>
+        <section className="service-grid-section" style={{padding: '80px 0 90px 0', background: 'var(--bg-dark)'}}>
           <div className="site-container">
             <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center' }}>Services Currently Available</h2>
             
@@ -331,41 +331,45 @@ function App() {
             <img src="/new_porsche.png" alt="Porsche headlight ceramic coating" className="story-image" />
           </div>
           <div className="story-copy-col">
-            <div className="headline-accent-rule"></div>
-            <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Ceramic Coating</h2>
-            <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
-              Long-term hydrophobic surface protection built on proper preparation. We lock in the finish so your vehicle remains stunningly reflective and incredibly easy to maintain.
-            </p>
-            <ul className="story-highlights">
-              <li>Enhanced gloss & depth</li>
-              <li>Easier washing & maintenance</li>
-              <li>Years of hydrophobic protection</li>
-            </ul>
-            <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $575</p>
-            <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Ceramic Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
-              Request A Quote
-            </button>
+            <div className="story-copy-container">
+              <div className="headline-accent-rule"></div>
+              <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Ceramic Coating</h2>
+              <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
+                Long-term hydrophobic surface protection built on proper preparation. We lock in the finish so your vehicle remains stunningly reflective and incredibly easy to maintain.
+              </p>
+              <ul className="story-highlights">
+                <li>Enhanced gloss & depth</li>
+                <li>Easier washing & maintenance</li>
+                <li>Years of hydrophobic protection</li>
+              </ul>
+              <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $575</p>
+              <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Ceramic Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
+                Request A Quote
+              </button>
+            </div>
           </div>
         </section>
 
         <section className="story-section reverse">
-          <div className="story-copy-col" style={{gridColumn: 1}}>
-            <div className="headline-accent-rule"></div>
-            <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Paint Correction</h2>
-            <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
-              Erase years of swirl marks, scratches, and oxidation. Our multi-stage compounding and polishing restores a mirror-like finish to your vehicle's paintwork, revealing its true color and brilliance.
-            </p>
-            <ul className="story-highlights">
-              <li>Removes swirls and light scratches</li>
-              <li>Restores lost clarity and gloss</li>
-              <li>Essential preparation before coatings</li>
-            </ul>
-            <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $300</p>
-            <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Correction Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
-              Request A Quote
-            </button>
+          <div className="story-copy-col">
+            <div className="story-copy-container">
+              <div className="headline-accent-rule"></div>
+              <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Paint Correction</h2>
+              <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
+                Erase years of swirl marks, scratches, and oxidation. Our multi-stage compounding and polishing restores a mirror-like finish to your vehicle's paintwork, revealing its true color and brilliance.
+              </p>
+              <ul className="story-highlights">
+                <li>Removes swirls and light scratches</li>
+                <li>Restores lost clarity and gloss</li>
+                <li>Essential preparation before coatings</li>
+              </ul>
+              <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $300</p>
+              <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Correction Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
+                Request A Quote
+              </button>
+            </div>
           </div>
-          <div className="story-image-col" style={{gridColumn: 2}}>
+          <div className="story-image-col">
             <img src="/img_black_paint.png" alt="Paint correction process on black paint" className="story-image" />
           </div>
         </section>
