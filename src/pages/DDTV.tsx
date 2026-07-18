@@ -4,26 +4,26 @@ const DEFAULT_TV_VIDEOS = [
   {
     id: 'vid-1',
     youtubeId: 'voPqfGSQp0I',
-    title: 'Full Exterior Wash & Certified Ceramic Coating Install',
-    category: 'ceramic',
+    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
+    category: 'detail',
     duration: '14:20',
-    image: '/new_hero_image.png'
+    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
   },
   {
     id: 'vid-2',
     youtubeId: 'voPqfGSQp0I',
-    title: 'Restoring Swirl-Marked Black Paint // Step-by-Step Polish',
-    category: 'correction',
-    duration: '18:45',
-    image: '/img_black_paint.png'
+    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
+    category: 'ceramic',
+    duration: '14:20',
+    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
   },
   {
     id: 'vid-3',
     youtubeId: 'voPqfGSQp0I',
-    title: 'Interior Deep Clean, Leather Restoration & Conditioning',
-    category: 'detail',
-    duration: '10:15',
-    image: '/img_leather.png'
+    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
+    category: 'correction',
+    duration: '14:20',
+    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
   }
 ];
 
