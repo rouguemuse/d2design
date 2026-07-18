@@ -1915,3 +1915,47 @@ a, button, select, input, textarea {
 .coming-soon-container[data-theme='light'] .form-group-field textarea::placeholder {
   color: rgba(0, 0, 0, 0.45) !important; /* Darken placeholder text */
 }
+
+/* --- FINAL VISUAL SCREENSHOT CORRECTIONS --- */
+
+/* Fix mobile hero title overlap and wrap */
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 28px !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.5px !important;
+  }
+}
+
+/* Force light theme footer to remain dark and high contrast */
+.coming-soon-container[data-theme='light'] .brand-footer-clean {
+  background-color: #09090A !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean a {
+  color: #F7F7F7 !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean .footer-logo-block span {
+  color: #F7F7F7 !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean .footer-logo-block span:last-child {
+  color: #BCC0CB !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean .footer-social-btn {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #BCC0CB !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean .footer-social-btn span {
+  color: #F7F7F7 !important;
+}
+
+.coming-soon-container[data-theme='light'] .brand-footer-clean .footer-service-area,
+.coming-soon-container[data-theme='light'] .brand-footer-clean .copyright-text {
+  color: #55555A !important;
+}
