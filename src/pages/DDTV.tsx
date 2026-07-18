@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const DEFAULT_TV_VIDEOS = [
   {
     id: 'vid-1',
-    youtubeId: 'qAHEZl-L39w',
+    youtubeId: 'voPqfGSQp0I',
     title: 'Full Exterior Wash & Certified Ceramic Coating Install',
     category: 'ceramic',
     duration: '14:20',
@@ -11,7 +11,7 @@ const DEFAULT_TV_VIDEOS = [
   },
   {
     id: 'vid-2',
-    youtubeId: 'l1r4fK6_L2A',
+    youtubeId: 'voPqfGSQp0I',
     title: 'Restoring Swirl-Marked Black Paint // Step-by-Step Polish',
     category: 'correction',
     duration: '18:45',
@@ -19,7 +19,7 @@ const DEFAULT_TV_VIDEOS = [
   },
   {
     id: 'vid-3',
-    youtubeId: 'e8i5cQ-u3E4',
+    youtubeId: 'voPqfGSQp0I',
     title: 'Interior Deep Clean, Leather Restoration & Conditioning',
     category: 'detail',
     duration: '10:15',
