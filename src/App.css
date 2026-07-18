@@ -1959,3 +1959,13 @@ a, button, select, input, textarea {
 .coming-soon-container[data-theme='light'] .brand-footer-clean .copyright-text {
   color: #55555A !important;
 }
+
+/* Force hero section text to always remain white/light-gray */
+.hero-fullscreen h1,
+.hero-headline {
+  color: #FFFFFF !important;
+}
+
+.hero-supporting-text {
+  color: #E5E7EB !important;
+}
