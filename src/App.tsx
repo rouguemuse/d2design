@@ -206,9 +206,8 @@ function App() {
           {/* Hero Left: Detailing Image */}
           <div className="hero-image-col">
             <div className="hero-image-wrapper">
-              <img 
-                src="/background.jpg" 
-                alt="Black Corvette rear detail with D2 plate" 
+              <img src="/premium_detailing.png" 
+                alt="Detailer working on car wheel" 
                 className="hero-detailing-img"
               />
               <div className="hero-image-overlay"></div>
