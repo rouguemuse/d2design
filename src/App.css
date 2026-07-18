@@ -1611,3 +1611,16 @@ a, button, select, input, textarea {
     width: 100% !important;
   }
 }
+
+
+/* Fix tablet hero image scaling */
+@media (max-width: 992px) {
+  .hero-image-wrapper {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
+@media (max-width: 480px) {
+  .hero-image-wrapper {
+    aspect-ratio: 3 / 2 !important;
+  }
+}
