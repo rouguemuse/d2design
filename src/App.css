@@ -1688,7 +1688,7 @@ a, button, select, input, textarea {
 }
 
 /* Header states */
-.header-transparent {
+.header-absolute {
   position: absolute !important;
   top: 0;
   left: 0;
@@ -1697,23 +1697,6 @@ a, button, select, input, textarea {
   background: transparent !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   backdrop-filter: none !important;
-}
-
-.header-solid {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  background: rgba(9, 9, 10, 0.95) !important;
-  border-bottom: 1px solid var(--glass-border) !important;
-  backdrop-filter: blur(12px) !important;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
 }
 
 /* Image-led Gateway */
@@ -1877,9 +1860,8 @@ a, button, select, input, textarea {
     padding-bottom: 80px;
   }
   
-  .header-transparent, .header-solid {
+  .header-absolute {
     position: static !important;
-    animation: none !important;
     background: rgba(9, 9, 10, 1) !important;
   }
   

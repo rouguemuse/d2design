@@ -16,15 +16,11 @@ function App() {
   const [error, setError] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
-  const [isScrolled, setIsScrolled] = useState(false);
+  
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
 
   useEffect(() => {
     if (!videoUrl || !videoRef.current) return;
@@ -204,7 +200,7 @@ function App() {
     
     <div className="coming-soon-container" data-theme={theme}>
       {/* 1. COMPACT HEADER */}
-      <header className={`compact-header ${isScrolled ? 'header-solid' : 'header-transparent'}`}>
+      <header className="compact-header header-absolute">
         <div className="header-inner site-container">
           <a href="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="header-logo-img" />
