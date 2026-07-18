@@ -8,8 +8,8 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --form-input-bg: rgba(11, 11, 11, 0.5);
   --form-input-focus-bg: rgba(11, 11, 11, 0.85);
-  --font-headings: 'Outfit', system-ui, -apple-system, sans-serif;
-  --font-supporting: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-headings: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-supporting: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   
   /* Responsive Typography */
   --fs-h1: clamp(28px, 6vw, 56px);
@@ -1968,4 +1968,27 @@ a, button, select, input, textarea {
 
 .hero-supporting-text {
   color: #E5E7EB !important;
+}
+
+/* Force absolute header text and branding to always remain white/light-gray */
+.header-absolute .header-brand-name {
+  color: #FFFFFF !important;
+}
+
+.header-absolute .header-tagline {
+  color: #BCC0CB !important;
+}
+
+.header-absolute a.btn-secondary-header,
+.header-absolute .btn-secondary-header {
+  color: #FFFFFF !important;
+}
+
+.header-absolute .header-social-link {
+  color: #BCC0CB !important;
+}
+
+.header-absolute .btn-primary-header {
+  background-color: var(--color-red) !important;
+  color: #FFFFFF !important;
 }
