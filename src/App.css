@@ -1655,7 +1655,7 @@ a, button, select, input, textarea {
 .hero-fullscreen-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(9, 9, 10, 1) 0%, rgba(9, 9, 10, 0.4) 50%, rgba(9, 9, 10, 0.7) 100%);
+  background: linear-gradient(to top, rgba(9, 9, 10, 1) 0%, rgba(9, 9, 10, 0.55) 55%, rgba(9, 9, 10, 0.75) 100%);
   z-index: 2;
 }
 
@@ -1960,35 +1960,43 @@ a, button, select, input, textarea {
   color: #55555A !important;
 }
 
-/* Force hero section text to always remain white/light-gray */
-.hero-fullscreen h1,
-.hero-headline {
+
+
+
+
+/* --- HERO & HEADER CONTRAST POLISH --- */
+.hero-fullscreen {
+  color: #FFFFFF;
+}
+
+.hero-fullscreen .hero-headline {
   color: #FFFFFF !important;
 }
 
-.hero-supporting-text {
-  color: #E5E7EB !important;
+.hero-fullscreen .hero-supporting-text {
+  color: rgba(255, 255, 255, 0.86) !important;
 }
 
-/* Force absolute header text and branding to always remain white/light-gray */
-.header-absolute .header-brand-name {
+.hero-fullscreen .link-quiet-hero {
   color: #FFFFFF !important;
 }
 
-.header-absolute .header-tagline {
+.compact-header {
+  color: #FFFFFF;
+}
+
+.compact-header .header-brand-name {
+  color: #FFFFFF !important;
+}
+
+.compact-header .header-tagline {
   color: #BCC0CB !important;
 }
 
-.header-absolute a.btn-secondary-header,
-.header-absolute .btn-secondary-header {
+.compact-header .btn-secondary-header {
   color: #FFFFFF !important;
 }
 
-.header-absolute .header-social-link {
+.compact-header .header-social-link {
   color: #BCC0CB !important;
-}
-
-.header-absolute .btn-primary-header {
-  background-color: var(--color-red) !important;
-  color: #FFFFFF !important;
 }
