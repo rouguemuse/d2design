@@ -274,7 +274,7 @@ function App() {
         {/* 3. IMAGE-LED SERVICE GATEWAY */}
         <section className="service-grid-section" style={{padding: '80px 0 90px 0', background: 'var(--bg-dark)'}}>
           <div className="site-container">
-            <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center' }}>Services Currently Available</h2>
+            <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center' }}>Detailing Services</h2>
             
             <div className="gateway-grid">
               <div className="gateway-card" onClick={handleScrollToForm}>
@@ -352,7 +352,7 @@ function App() {
               <div className="headline-accent-rule"></div>
               <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Paint Correction</h2>
               <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
-                Erase years of swirl marks, scratches, and oxidation. Our multi-stage compounding and polishing restores a mirror-like finish to your vehicle's paintwork, revealing its true color and brilliance.
+                Erase swirl marks, scratches, and oxidation. Our compounding and polishing restores a mirror-like finish to your vehicle's paintwork, revealing its true color and depth.
               </p>
               <ul className="story-highlights">
                 <li>Removes swirls and light scratches</li>
@@ -503,7 +503,7 @@ function App() {
             <p>Lasting protection begins with careful cleaning, decontamination, correction, and preparation.</p>
           </div>
           <div className="closing-cta-action">
-            <button onClick={handleScrollToForm} className="btn-primary-hero">Request A Quote</button>
+            <button onClick={handleScrollToForm} className="btn-primary-hero">Start Your Quote</button>
           </div>
         </div>
       </section>
@@ -514,10 +514,10 @@ function App() {
       <footer id="footer-section" className="brand-footer-clean">
         <div className="site-container footer-flex-row">
           <a href="/" className="footer-logo-block" style={{display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none'}}>
-            <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" style={{height: '32px'}} />
+            <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" style={{height: '52px'}} />
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <span style={{color: '#F7F7F7', fontFamily: 'var(--font-headings)', fontWeight: '800', letterSpacing: '1.5px', fontSize: '1.1rem', lineHeight: '1.1'}}>DETAIL DRIVEN</span>
-              <span style={{color: '#BCC0CB', fontSize: '0.7rem', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: '500'}}>Auto Detail</span>
+              <span style={{color: '#F7F7F7', fontFamily: 'var(--font-headings)', fontWeight: '800', letterSpacing: '1.5px', fontSize: '1.5rem', lineHeight: '1.1'}}>DETAIL DRIVEN</span>
+              <span style={{color: '#BCC0CB', fontSize: '0.85rem', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: '500'}}>Auto Detail</span>
             </div>
           </a>
           <div className="footer-links-block">
@@ -535,9 +535,9 @@ function App() {
             </a>
           </div>
           <div className="footer-contact-block">
-            <a href="mailto:contact@d2detaildriven.com">contact@d2detaildriven.com</a>
-            <span className="footer-service-area">Serving Austin and surrounding areas</span>
-            <span className="copyright-text">&copy; 2026 Detail Driven. All rights reserved.</span>
+            <a href="mailto:contact@d2detaildriven.com" style={{ fontSize: '1.1rem', fontWeight: 600 }}>contact@d2detaildriven.com</a>
+            <span className="footer-service-area" style={{ fontSize: '0.9rem', marginTop: '6px' }}>Serving Austin and surrounding areas</span>
+            <span className="copyright-text" style={{ fontSize: '0.85rem', marginTop: '4px' }}>&copy; 2026 Detail Driven. All rights reserved.</span>
           </div>
         </div>
       </footer>
