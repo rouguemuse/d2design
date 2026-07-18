@@ -1327,7 +1327,7 @@ a, button, select, input, textarea {
 .closing-cta-section {
   padding: var(--section-padding);
   text-align: center;
-  background-color: var(--surface-elevated);
+  background-color: #09090A !important;
   border-top: 2px solid var(--color-red);
 }
 .closing-cta-inner {
@@ -1339,21 +1339,21 @@ a, button, select, input, textarea {
 .closing-accent {
   font-size: 12px;
   letter-spacing: 3px;
-  color: rgba(255,255,255,0.7);
+  color: var(--color-red) !important;
   margin-bottom: 1rem;
   display: block;
 }
 .closing-cta-copy h2 {
-  color: #fff;
+  color: #FFFFFF !important;
   margin-bottom: 1rem;
 }
 .closing-cta-copy p {
-  color: rgba(255,255,255,0.9);
+  color: #BCC0CB !important;
   font-size: var(--fs-body);
 }
 .closing-cta-action .btn-primary-hero {
   background-color: var(--color-red);
-  color: var(--color-white);
+  color: #FFFFFF !important;
 }
 .closing-cta-action .btn-primary-hero:hover {
   background-color: #b31017;
@@ -1699,7 +1699,7 @@ a, button, select, input, textarea {
   backdrop-filter: none !important;
 }
 
-/* Image-led Gateway */
+/* Image-led Gateway (Service Cards) */
 .gateway-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1710,7 +1710,7 @@ a, button, select, input, textarea {
 .gateway-card {
   position: relative;
   aspect-ratio: 4/5;
-  background-color: var(--surface-elevated);
+  background-color: #000000; /* Dark background to prevent washout */
   border: 1px solid var(--glass-border);
   border-radius: 4px;
   overflow: hidden;
@@ -1732,35 +1732,39 @@ a, button, select, input, textarea {
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  opacity: 0.6;
+  opacity: 0.75; /* Richer image opacity */
   transition: transform 0.6s ease, opacity 0.3s ease;
 }
 
 .gateway-card:hover .gateway-card-img {
   transform: scale(1.05);
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .gateway-card-content {
   position: relative;
   z-index: 2;
   padding: 32px 24px;
-  background: linear-gradient(to top, rgba(9,9,10,1) 0%, rgba(9,9,10,0) 100%);
+  /* Strong black gradient from transparent to rgba(0,0,0,0.9) at bottom */
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0) 100%);
+  width: 100%;
 }
 
 .gateway-card h3 {
   font-family: var(--font-headings);
-  font-size: 1.5rem;
-  color: var(--color-white);
-  margin-bottom: 8px;
+  font-size: 1.4rem;
+  color: #FFFFFF !important; /* Force white text */
+  margin-bottom: 6px;
   text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 
 .gateway-card p {
   font-family: var(--font-supporting);
   font-size: 0.95rem;
-  color: var(--color-steel);
-  margin-bottom: 16px;
+  color: #D1D5DB !important; /* Light gray price */
+  margin-bottom: 12px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 /* Storytelling Sections */
@@ -1826,13 +1830,13 @@ a, button, select, input, textarea {
 }
 
 .story-highlights li::before {
-  content: "�";
+  content: "—";
   color: var(--color-red);
   position: absolute;
   left: 0;
 }
 
-/* Responsive Grid Arrangements */
+/* Responsive Grid Arrangements for Service Cards */
 @media (max-width: 1200px) {
   .gateway-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1840,15 +1844,22 @@ a, button, select, input, textarea {
   .gateway-card:nth-child(5) {
     grid-column: span 2;
   }
+  .gateway-card {
+    height: 280px;
+    aspect-ratio: auto;
+  }
 }
 
 @media (max-width: 768px) {
   .gateway-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
   .gateway-card {
-    grid-column: auto !important;
-    aspect-ratio: 16/9;
+    height: 280px !important;
+    aspect-ratio: auto !important;
+  }
+  .gateway-card:nth-child(5) {
+    grid-column: span 2 !important;
   }
 }
 
@@ -1860,8 +1871,9 @@ a, button, select, input, textarea {
     padding-bottom: 80px;
   }
   
-  .header-absolute {
+  .header-transparent, .header-solid {
     position: static !important;
+    animation: none !important;
     background: rgba(9, 9, 10, 1) !important;
   }
   
@@ -1878,179 +1890,26 @@ a, button, select, input, textarea {
   
   .story-image-col {
     order: 2; /* Image always second on mobile */
-    aspect-ratio: 16/9;
+    aspect-ratio: 4/3;
     min-height: auto;
   }
 }
 
-/* --- THEME FORCE OVERRIDES FOR CINEMATIC HEADER, HERO & FOOTER --- */
-
-/* Force header links to remain light */
-.compact-header.header-absolute {
-  color: #F7F7F7 !important;
-}
-.compact-header.header-absolute .header-brand-name {
-  color: #F7F7F7 !important;
-}
-.compact-header.header-absolute .header-tagline {
-  color: #BCC0CB !important;
-}
-.compact-header.header-absolute .btn-secondary-header {
-  color: #F7F7F7 !important;
+/* Light Theme Contrast & Polish Overrides */
+.coming-soon-container[data-theme='light'] .quote-form-inner {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.06) !important; /* Softer, wider shadow */
 }
 
-/* Force hero content to remain light on dark poster/video */
-.hero-fullscreen {
-  background-color: #09090A !important;
-}
-.hero-fullscreen-content h1 {
-  color: #F7F7F7 !important;
-}
-.hero-fullscreen-content p {
-  color: #BCC0CB !important;
-}
-.hero-fullscreen-content .link-quiet-hero {
-  color: #BCC0CB !important;
-}
-.hero-fullscreen-content .link-quiet-hero:hover {
-  color: var(--color-red) !important;
+.coming-soon-container[data-theme='light'] .form-group-field input,
+.coming-soon-container[data-theme='light'] .form-group-field select,
+.coming-soon-container[data-theme='light'] .form-group-field textarea {
+  border-color: rgba(0, 0, 0, 0.18) !important; /* Darken borders */
+  background-color: rgba(0, 0, 0, 0.02) !important; /* Subtle background */
+  color: #0B0B0B !important; /* Dark text */
 }
 
-/* Force footer to remain dark */
-.brand-footer-clean {
-  background-color: #09090A !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-.brand-footer-clean a {
-  color: #F7F7F7 !important;
-}
-.brand-footer-clean .footer-contact-block a {
-  color: #F7F7F7 !important;
-}
-.brand-footer-clean .footer-service-area,
-.brand-footer-clean .copyright-text {
-  color: #55555A !important;
-}
-
-/* --- MOBILE-ONLY VISUAL RESTORATION OVERRIDES --- */
-@media (max-width: 992px) {
-  /* Force dark variables on mobile viewports */
-  .coming-soon-container[data-theme='light'] {
-    --bg-dark: #09090A;
-    --surface-elevated: #111216;
-    --color-white: #F7F7F7;
-    --color-steel: #BCC0CB;
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --form-card-bg: #111216;
-    --form-card-border: rgba(255, 255, 255, 0.08);
-    --form-input-bg: rgba(11, 11, 11, 0.5);
-    --form-input-focus-bg: rgba(11, 11, 11, 0.85);
-  }
-
-  /* Gateway section dark backgrounds & rich images */
-  .service-grid-section {
-    background-color: #09090A !important;
-    padding: 60px 0 !important;
-  }
-  
-  .gateway-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 16px !important;
-  }
-  
-  .gateway-card {
-    height: 280px !important;
-    aspect-ratio: auto !important;
-    background-color: #09090A !important;
-  }
-  
-  .gateway-card:nth-child(5) {
-    grid-column: span 2 !important;
-  }
-  
-  .gateway-card-img {
-    opacity: 0.75 !important;
-  }
-
-  .gateway-card h3 {
-    font-size: 1.3rem !important;
-    margin-bottom: 4px !important;
-  }
-  
-  .gateway-card p {
-    font-size: 0.95rem !important;
-    margin-bottom: 8px !important;
-  }
-  
-  /* Editorial Storytelling */
-  .story-section {
-    background: #111216 !important;
-  }
-  
-  .story-copy-col {
-    padding: 44px 32px !important;
-    background: #111216 !important;
-    color: #F7F7F7 !important;
-  }
-  
-  .story-copy-col h2 {
-    color: #F7F7F7 !important;
-  }
-  
-  .story-copy-col p {
-    color: #BCC0CB !important;
-  }
-  
-  .story-image-col {
-    aspect-ratio: 4/3 !important;
-    min-height: auto !important;
-  }
-
-  /* Quote Form Section */
-  .quote-form-section {
-    padding: 48px 0 !important;
-    background: #09090A !important;
-  }
-  
-  .quote-form-inner {
-    background: #111216 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 32px 24px !important;
-  }
-  
-  .quote-contact-info-col h2 {
-    color: #F7F7F7 !important;
-  }
-  
-  .quote-contact-info-col p {
-    color: #BCC0CB !important;
-  }
-  
-  .quote-inquiry-form label {
-    color: #BCC0CB !important;
-  }
-  
-  .quote-inquiry-form input,
-  .quote-inquiry-form select,
-  .quote-inquiry-form textarea {
-    background-color: rgba(11, 11, 11, 0.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #F7F7F7 !important;
-    font-size: 16px !important; /* Prevent mobile iOS input zoom */
-  }
-
-  /* Closing CTA Section */
-  .closing-cta-section {
-    background-color: #09090A !important;
-    color: #F7F7F7 !important;
-    padding: 60px 0 !important;
-  }
-  
-  .closing-cta-copy h2 {
-    color: #F7F7F7 !important;
-  }
-  
-  .closing-cta-copy p {
-    color: #BCC0CB !important;
-  }
+.coming-soon-container[data-theme='light'] .form-group-field input::placeholder,
+.coming-soon-container[data-theme='light'] .form-group-field textarea::placeholder {
+  color: rgba(0, 0, 0, 0.45) !important; /* Darken placeholder text */
 }
