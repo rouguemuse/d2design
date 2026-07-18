@@ -807,7 +807,7 @@
   <div class="admin-container">
     <!-- SIDEBAR -->
     <aside class="admin-sidebar">
-      <a href="index.html" class="admin-brand" style="display:flex; align-items:center;">
+      <a href="/" class="admin-brand" style="display:flex; align-items:center;">
         <img src="logo-light.svg" alt="D2 Auto Detail Logo" style="height: 32px; width: auto; display: block;" />
         <div class="admin-divider"></div>
         <span class="admin-brand-text">D2 Business Portal</span>
@@ -987,6 +987,19 @@
           <div class="data-list" id="orders-list">
             <!-- Rendered via JS -->
           </div>
+          <!-- Layman's Instructions -->
+        <div class="card" style="border-left: 4px solid var(--red);">
+          <div class="card-title">How to Use the Ad Creator</div>
+          <p style="font-size: 0.9rem; color: #a1a1aa; line-height: 1.5; margin-bottom: 12px;">This tool allows you to create ready-to-post graphics for Instagram and Facebook directly from your browser. No Photoshop required.</p>
+          <ol style="font-size: 0.85rem; color: #a1a1aa; padding-left: 16px; line-height: 1.6; margin-bottom: 0;">
+            <li><strong>Select a Theme:</strong> Pick a color scheme that matches your branding (Dark or Light).</li>
+            <li><strong>Choose a Layout:</strong> 'Square' for standard feed posts, 'Story' for Instagram/Facebook Stories.</li>
+            <li><strong>Update the Text:</strong> Edit the headline and description fields below. The preview will update instantly.</li>
+            <li><strong>Download:</strong> Click the red 'Download High-Res Ad PNG' button to save the graphic to your computer.</li>
+          </ol>
+        </div>
+          </div> <!-- End of ad-sandbox-right -->
+          </div> <!-- End of ad-sandbox-right -->
         </div>
       </section>
 
@@ -1080,8 +1093,9 @@
         </div>
 
         <div class="ad-sandbox">
-          <!-- Ad Controller Form -->
-          <div class="card">
+          <div class="ad-sandbox-left" style="display:flex; flex-direction:column; gap:24px;">
+            <!-- Ad Controller Form -->
+            <div class="card">
             <div class="card-title">Configure Ad Layout</div>
             
             <div class="form-group">
@@ -1125,12 +1139,12 @@
 
             <div class="grid-2" style="gap:10px;">
               <div class="form-group">
-                <label>Overlay Opacity (<span id="opacity-val">25</span>%)</label>
-                <input type="range" id="ad-opacity" min="0" max="100" value="25" style="accent-color:var(--red);" oninput="updateAdOpacity(this.value)" />
+                <label>Overlay Opacity (<span id="opacity-val">75</span>%)</label>
+                <input type="range" id="ad-opacity" min="0" max="100" value="75" style="accent-color:var(--red);" oninput="updateAdOpacity(this.value)" />
               </div>
               <div class="form-group">
-                <label>Image Blur (<span id="blur-val">0</span>px)</label>
-                <input type="range" id="ad-blur" min="0" max="20" value="0" style="accent-color:var(--red);" oninput="updateAdBlur(this.value)" />
+                <label>Image Blur (<span id="blur-val">5</span>px)</label>
+                <input type="range" id="ad-blur" min="0" max="20" value="5" style="accent-color:var(--red);" oninput="updateAdBlur(this.value)" />
               </div>
             </div>
 
@@ -1165,9 +1179,11 @@
             
             <button class="btn btn-red" onclick="downloadAdConcept()" style="width:100%; margin-top:8px;">⬇️ Download High-Res Ad PNG</button>
           </div>
+          </div> <!-- End of ad-sandbox-left -->
 
-          <!-- Ad Preview Panel -->
-          <div class="ad-preview-wrapper">
+          <div class="ad-sandbox-right" style="display:flex; flex-direction:column; gap:32px;">
+            <!-- Ad Preview Panel -->
+            <div class="ad-preview-wrapper">
             <div class="ad-canvas ad-dark" id="ad-canvas">
               <img src="premium_detailing.png" alt="Ad background" class="ad-bg-image" id="ad-bg-img" />
               

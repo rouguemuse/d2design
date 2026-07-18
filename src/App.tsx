@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import Blog from './pages/Blog';
+import DDTV from './pages/DDTV';
 
 function App() {
   const [formData, setFormData] = useState({
@@ -13,6 +15,10 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  const path = window.location.pathname;
+  const isBlog = path.includes('blog.html');
+  const isDDTV = path.includes('ddtv.html');
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -167,53 +173,20 @@ function App() {
       {/* 1. COMPACT HEADER */}
       <header className="compact-header">
         <div className="header-inner site-container">
-          <div className="header-logo-block">
+          <a href="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="header-logo-img" />
             <div className="header-brand-info">
               <span className="header-brand-name">DETAIL DRIVEN</span>
               <span className="header-tagline">Perfection Is in the Details</span>
             </div>
-          </div>
+          </a>
           <div className="header-actions">
-            <button onClick={toggleTheme} className="theme-toggle-btn" aria-label="Toggle Light/Dark Theme">
-              {theme === 'dark' ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-              )}
-            </button>
-            <div className="header-socials">
-              <a 
-                href="https://www.instagram.com/d2_detaildriven/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="header-social-link" 
-                aria-label="Instagram"
-                onClick={() => trackEvent('Instagram Header Icon Click')}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              </a>
-              <a 
-                href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="header-social-link" 
-                aria-label="Facebook"
-                onClick={() => trackEvent('Facebook Header Icon Click')}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
-              <a 
-                href="https://www.youtube.com/@d2_detaildriven" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="header-social-link" 
-                aria-label="YouTube"
-                onClick={() => trackEvent('YouTube Header Icon Click')}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><polygon points="10 15 15 12 10 9 10 15"/></svg>
-              </a>
-            </div>
+            <a href="/ddtv.html" className="btn-secondary-header" style={{ marginRight: '16px', color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>
+              DD TV
+            </a>
+            <a href="/blog.html" className="btn-secondary-header" style={{ marginRight: '16px', color: 'inherit', textDecoration: 'none', fontWeight: 'bold' }}>
+              Blog
+            </a>
             <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Header Click'); }} className="btn-primary-header">
               Request A Quote
             </button>
@@ -221,32 +194,39 @@ function App() {
         </div>
       </header>
 
-      {/* 2. HERO SECTION */}
+      {isBlog ? (
+        <Blog />
+      ) : isDDTV ? (
+        <DDTV />
+      ) : (
+        <>
+        {/* 2. HERO SECTION */}
       <section className="hero-section">
         <div className="hero-inner-split site-container">
           {/* Hero Left: Detailing Image */}
           <div className="hero-image-col">
             <div className="hero-image-wrapper">
               <img 
-                src="/background.jpg" 
-                alt="Professional automotive detailing process showing technician correcting paint" 
+                src="/new_hero_image.png" 
+                alt="Black Corvette rear detail with D2 plate" 
                 className="hero-detailing-img"
               />
               <div className="hero-image-overlay"></div>
-              <span className="hero-image-label">DETAIL DRIVEN AUTO DETAIL</span>
             </div>
           </div>
 
           {/* Hero Right: Copywriting & CTAs */}
           <div className="hero-copy-col">
             <div className="hero-copy-content">
-              <p className="hero-eyebrow">NEW WEBSITE COMING SOON</p>
-              <h1 className="hero-headline">
-                <span>Precision You Can See.</span>
-                <span>Protection You Can Trust.</span>
-              </h1>
+              <div className="hero-headline-wrapper">
+                <div className="headline-accent-rule"></div>
+                <h1 className="hero-headline">
+                  <span>Precision You Can See.</span>
+                  <span>Protection You Can Trust.</span>
+                </h1>
+              </div>
               <p className="hero-supporting-text">
-                Detail Driven is open and currently accepting appointments for premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. Our full website is being completed, but the work has never stopped.
+                Detail Driven provides premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. We approach every surface with intention, precision, and respect for the vehicle.
               </p>
               
               <div className="hero-cta-row">
@@ -257,7 +237,7 @@ function App() {
                   href="https://www.instagram.com/d2_detaildriven/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="btn-secondary-hero"
+                  className="link-quiet-hero"
                   onClick={() => trackEvent('View Our Work Hero Click')}
                 >
                   View Our Work
@@ -290,59 +270,59 @@ function App() {
             <h2>Services Currently Available</h2>
           </div>
           <div className="service-strip-list">
-            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Premium Detailing</span>
-            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Paint Correction</span>
-            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Ceramic Coating</span>
-            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Paint Protection Film</span>
-            <span className="service-strip-bullet-item"><span className="red-bullet"></span>Vehicle Restoration</span>
+            <span className="service-strip-bullet-item"><span className="service-number">01</span>Premium Detailing <span className="service-price">| $225+</span></span>
+            <span className="service-strip-bullet-item"><span className="service-number">02</span>Paint Correction <span className="service-price">| $300+</span></span>
+            <span className="service-strip-bullet-item"><span className="service-number">03</span>Ceramic Coating <span className="service-price">| $575+</span></span>
+            <span className="service-strip-bullet-item"><span className="service-number">04</span>Paint Protection Film <span className="service-price">| $1500+</span></span>
+            <span className="service-strip-bullet-item"><span className="service-number">05</span>Vehicle Restoration <span className="service-price">| Quote</span></span>
           </div>
         </div>
       </section>
 
-      {/* 3.5 SOCIAL PROOF SECTION */}
-      <section className="social-proof-section">
-        <div className="social-proof-inner site-container">
-          <h2>See What We’re Working On</h2>
-          <p>Follow Detail Driven for current projects, transformations, education, and behind-the-scenes work while the full website is being completed.</p>
-          <div className="social-proof-buttons">
-            <a 
-              href="https://www.instagram.com/d2_detaildriven/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-social-proof"
-              onClick={() => trackEvent('Instagram Social Proof Button Click')}
-            >
-              Instagram
-            </a>
-            <a 
-              href="https://www.youtube.com/@d2_detaildriven" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-social-proof"
-              onClick={() => trackEvent('YouTube Social Proof Button Click')}
-            >
-              Detail Driven TV
-            </a>
-            <a 
-              href="https://www.facebook.com/people/D2-Auto-Detail/100063942352825/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-social-proof"
-              onClick={() => trackEvent('Facebook Social Proof Button Click')}
-            >
-              Facebook
-            </a>
+      {/* 3.2 CERAMIC COATING FEATURE */}
+      <section className="ceramic-feature-section" style={{ padding: '60px 0', borderBottom: '1px solid var(--glass-border)' }}>
+        <div className="site-container ceramic-grid">
+          <div>
+            <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Ceramic Coating</h2>
+            <p style={{ color: 'var(--color-steel)', marginBottom: '2rem', fontSize: '1.05rem', lineHeight: '1.6' }}>
+              Long-term hydrophobic surface protection built on proper preparation. Starting at $575.
+            </p>
+            <div className="ceramic-benefits-rail">
+              <span className="ceramic-benefit"><span className="red-marker"></span> Enhanced gloss</span>
+              <span className="ceramic-benefit"><span className="red-marker"></span> Easier maintenance</span>
+              <span className="ceramic-benefit"><span className="red-marker"></span> Hydrophobic protection</span>
+            </div>
+          </div>
+          <div className="ceramic-image-wrapper">
+            <img src="/new_porsche.png" alt="Porsche headlight ceramic coating" style={{ width: '100%', display: 'block', borderRadius: '4px' }} />
           </div>
         </div>
       </section>
 
       {/* 4. QUOTE REQUEST FORM */}
-      <section id="quote-section" className="quote-form-section">
+      <section id="quote-section" className="quote-form-section" style={{ padding: '80px 0' }}>
         <div className="quote-form-inner site-container">
-          <div className="quote-form-header">
-            <h2>Tell Us What Your Vehicle Needs</h2>
-            <p>Send a few details and Detail Driven will follow up with service information and availability.</p>
+          
+          <div className="quote-contact-info">
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
+              Tell Us What Your Vehicle Needs
+            </h2>
+            <p style={{ color: 'var(--color-steel)', marginBottom: '2.5rem', fontSize: '1.05rem', lineHeight: '1.6' }}>
+              Send a few details and Detail Driven will follow up with service information and availability.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div>
+                <span style={{ display: 'block', fontSize: '0.85rem', color: 'var(--color-steel)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem', fontFamily: 'var(--font-technical)' }}>Call or Text</span>
+                <a href="tel:+19494442885" style={{ color: 'var(--color-white)', fontSize: '1.25rem', fontWeight: 600, textDecoration: 'none' }} onClick={() => trackEvent('Phone Link Click')}>+1 949 444 2885</a>
+              </div>
+              <div>
+                <span style={{ display: 'block', fontSize: '0.85rem', color: 'var(--color-steel)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.25rem', fontFamily: 'var(--font-technical)' }}>Email</span>
+                <a href="mailto:contact@d2detaildriven.com" style={{ color: 'var(--color-white)', fontSize: '1.25rem', fontWeight: 600, textDecoration: 'none' }} onClick={() => trackEvent('Email Link Click')}>contact@d2detaildriven.com</a>
+              </div>
+            </div>
           </div>
+
+          <div className="quote-form-wrapper" style={{ backgroundColor: 'var(--form-card-bg)', padding: '40px', borderRadius: '4px', border: '1px solid var(--form-card-border)' }}>
 
           {submitted ? (
             <div className="form-feedback-success">
@@ -457,33 +437,35 @@ function App() {
               </div>
             </form>
           )}
+          </div>
         </div>
       </section>
 
       {/* 5. BRAND STATEMENT */}
-      <section className="brand-statement-section">
-        <div className="brand-statement-inner site-container">
-          <div className="brand-statement-header">
-            <span className="statement-line">We don’t chase shine.</span>
-            <span className="statement-line highlight">We chase perfection.</span>
-          </div>
-          <p className="brand-statement-copy">
-            Every lasting result begins with disciplined preparation. Detail Driven approaches every surface with intention, precision, and respect for the vehicle.
+      <section className="brand-statement-section" style={{ padding: '60px 0 40px', borderTop: '2px solid var(--color-red)' }}>
+        <div className="brand-statement-inner site-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '1.25rem', letterSpacing: '2px', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textTransform: 'uppercase', margin: '0 0 1rem 0' }}>
+            THE FINISH STARTS WITH THE PREP.
+          </h2>
+          <p style={{ color: 'var(--color-steel)', fontSize: '1.05rem', maxWidth: '600px', margin: 0 }}>
+            Lasting protection begins with careful cleaning, decontamination, correction, and preparation.
           </p>
         </div>
       </section>
+      </>
+      )}
 
       {/* 6. SOCIAL & CONTACT FOOTER */}
       <footer id="footer-section" className="brand-footer">
         <div className="footer-inner site-container">
           <div className="footer-top-block">
-            <div className="footer-logo-area">
+            <a href="/" className="footer-logo-area" style={{ textDecoration: 'none', color: 'inherit' }}>
               <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="footer-logo-img" />
               <div className="footer-brand-title">
                 <span className="footer-name">DETAIL DRIVEN</span>
                 <span className="footer-subtext">Auto Detail</span>
               </div>
-            </div>
+            </a>
             <div className="footer-social-links">
               <a 
                 href="https://www.instagram.com/d2_detaildriven/" 
@@ -508,15 +490,22 @@ function App() {
                 <span>Facebook</span>
               </a>
               <a 
-                href="https://www.youtube.com/@d2_detaildriven" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+                href="/ddtv.html" 
                 className="footer-social-btn" 
-                aria-label="YouTube"
-                onClick={() => trackEvent('YouTube Social Click')}
+                aria-label="DD TV"
+                onClick={() => trackEvent('DD TV Click')}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><polygon points="10 15 15 12 10 9 10 15"/></svg>
-                <span>YouTube</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+                <span>DD TV</span>
+              </a>
+              <a 
+                href="/blog.html" 
+                className="footer-social-btn" 
+                aria-label="Blog"
+                onClick={() => trackEvent('Blog Click')}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                <span>Blog</span>
               </a>
             </div>
           </div>
