@@ -1931,3 +1931,126 @@ a, button, select, input, textarea {
 .brand-footer-clean .copyright-text {
   color: #55555A !important;
 }
+
+/* --- MOBILE-ONLY VISUAL RESTORATION OVERRIDES --- */
+@media (max-width: 992px) {
+  /* Force dark variables on mobile viewports */
+  .coming-soon-container[data-theme='light'] {
+    --bg-dark: #09090A;
+    --surface-elevated: #111216;
+    --color-white: #F7F7F7;
+    --color-steel: #BCC0CB;
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --form-card-bg: #111216;
+    --form-card-border: rgba(255, 255, 255, 0.08);
+    --form-input-bg: rgba(11, 11, 11, 0.5);
+    --form-input-focus-bg: rgba(11, 11, 11, 0.85);
+  }
+
+  /* Gateway section dark backgrounds & rich images */
+  .service-grid-section {
+    background-color: #09090A !important;
+    padding: 60px 0 !important;
+  }
+  
+  .gateway-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  
+  .gateway-card {
+    height: 280px !important;
+    aspect-ratio: auto !important;
+    background-color: #09090A !important;
+  }
+  
+  .gateway-card:nth-child(5) {
+    grid-column: span 2 !important;
+  }
+  
+  .gateway-card-img {
+    opacity: 0.75 !important;
+  }
+
+  .gateway-card h3 {
+    font-size: 1.3rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .gateway-card p {
+    font-size: 0.95rem !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* Editorial Storytelling */
+  .story-section {
+    background: #111216 !important;
+  }
+  
+  .story-copy-col {
+    padding: 44px 32px !important;
+    background: #111216 !important;
+    color: #F7F7F7 !important;
+  }
+  
+  .story-copy-col h2 {
+    color: #F7F7F7 !important;
+  }
+  
+  .story-copy-col p {
+    color: #BCC0CB !important;
+  }
+  
+  .story-image-col {
+    aspect-ratio: 4/3 !important;
+    min-height: auto !important;
+  }
+
+  /* Quote Form Section */
+  .quote-form-section {
+    padding: 48px 0 !important;
+    background: #09090A !important;
+  }
+  
+  .quote-form-inner {
+    background: #111216 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 32px 24px !important;
+  }
+  
+  .quote-contact-info-col h2 {
+    color: #F7F7F7 !important;
+  }
+  
+  .quote-contact-info-col p {
+    color: #BCC0CB !important;
+  }
+  
+  .quote-inquiry-form label {
+    color: #BCC0CB !important;
+  }
+  
+  .quote-inquiry-form input,
+  .quote-inquiry-form select,
+  .quote-inquiry-form textarea {
+    background-color: rgba(11, 11, 11, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #F7F7F7 !important;
+    font-size: 16px !important; /* Prevent mobile iOS input zoom */
+  }
+
+  /* Closing CTA Section */
+  .closing-cta-section {
+    background-color: #09090A !important;
+    color: #F7F7F7 !important;
+    padding: 60px 0 !important;
+  }
+  
+  .closing-cta-copy h2 {
+    color: #F7F7F7 !important;
+  }
+  
+  .closing-cta-copy p {
+    color: #BCC0CB !important;
+  }
+}
