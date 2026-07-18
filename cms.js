@@ -61,64 +61,26 @@
     }
   ];
 
-  const DEFAULT_BLOG_POSTS = [
+    const DEFAULT_BLOG_POSTS = [
     {
       id: 'post-1',
       num: '01',
-      tag: 'Paint Correction',
-      title: 'Why Paint Correction Must Come Before Every Ceramic Coating',
-      excerpt: 'Ceramic coatings are permanent. That means whatever is under the coating stays there — forever. Here\'s the science behind why skipping correction is the most expensive mistake you can make.',
-      readTime: '8 min read',
-      date: 'July 9, 2026',
-      image: 'img_black_paint.png',
-      body: `<p>Ceramic coatings have revolutionized paint protection. A professionally applied nano-ceramic layer bonds chemically to your clear coat, creating a semi-permanent hydrophobic shell that repels water, resists UV, and maintains gloss for years. But there's a catch — and it's a big one.</p>
-             <h3>Coatings Are Permanent. Defects Are Too.</h3>
-             <p>Unlike wax or sealant, a ceramic coating cannot simply be washed off or buffed away. Once it cures, it becomes part of the paint's surface. That means every swirl mark, water spot, fine scratch, and hologram that existed before the coating went on will remain perfectly preserved underneath it — locked in, magnified by the very gloss you paid for.</p>
-             <h3>The Magnification Effect</h3>
-             <p>Ceramic coatings enhance depth and clarity dramatically. A corrected, defect-free surface looks astonishing under a coating. An uncorrected surface looks worse — because the high-gloss finish now amplifies every imperfection instead of hiding it the way older wax products did.</p>
-             <h3>What Proper Correction Involves</h3>
-             <p>A complete pre-coating correction process starts with a full decontamination — iron fallout removal, clay bar treatment, and a thorough wash. From there, we assess paint thickness with a digital gauge and inspect under high-intensity lighting. Depending on the severity of defects, we'll run single-stage or multi-stage machine polishing before a final IPA wipe-down to remove all residue. Only then does the coating go on.</p>
-             <p>The result is a surface that's factory-smooth — or better — sealed beneath glass-like ceramic protection. That's the Detail Driven standard.</p>`
-    },
-    {
-      id: 'post-2',
-      num: '02',
       tag: 'Ceramic Coatings',
-      title: 'How Long Do Ceramic Coatings Actually Last?',
-      excerpt: 'Marketing says 5–10 years. Reality depends on prep, product, application, and maintenance. Here\'s an honest breakdown.',
-      readTime: '6 min read',
-      date: 'July 8, 2026',
+      title: 'What Is a Ceramic Coating? The Ultimate Protection Guide',
+      excerpt: 'Learn what a ceramic coating actually is, how it protects your vehicle, and why it is the gold standard of modern paint protection.',
+      readTime: '5 min read',
+      date: 'July 18, 2026',
       image: 'img_water_bead.png',
-      body: `<p>If you've researched paint protection, you've likely seen bold claims. "Lifetime protection," "9H hardness," "10-year durability." But how long does a professional nano-ceramic coating actually last on a real-world vehicle?</p>
-             <h3>The Simple Answer</h3>
-             <p>A professional grade, multi-layer ceramic coating will realistically last between <strong>2 and 5 years</strong>. Any claims of "lifetime" or "10 years" without mandatory annual maintenance inspections are marketing exaggerations.</p>
-             <h3>Key Factors Influencing Durability</h3>
-             <ol>
-               <li><strong>Surface Prep:</strong> A coating requires a chemically clean, bare paint surface to form a permanent bond. Any residual wax, polish oils, or microscopic contamination will block bonding, causing early failure.</li>
-               <li><strong>Maintenance Wash Routine:</strong> Running a coated vehicle through abrasive automated car washes is the fastest way to micro-scratch and strip the coating. Only hand wash with pH-neutral soap.</li>
-               <li><strong>Climate:</strong> Extreme heat, road salt, chemical fallout, and heavy UV exposure put more strain on the coating shell over time.</li>
-             </ol>
-             <p>With annual decontaminating washes and silica-based top-ups, keeping your coating performing at 100% gloss and water-beading for a full 5 years is easily achievable.</p>`
-    },
-    {
-      id: 'post-3',
-      num: '03',
-      tag: 'Maintenance',
-      title: 'The Right Way to Wash a Ceramic Coated Car',
-      excerpt: 'Two-bucket method, pH-neutral soap, no automatic car washes. What you do after the coating is just as important as the coating itself.',
-      readTime: '4 min read',
-      date: 'July 5, 2026',
-      image: 'premium_detailing.png',
-      body: `<p>A ceramic coating makes your car incredibly easy to wash thanks to its self-cleaning, hydrophobic properties. However, it is not armor. Wash it incorrectly, and you will introduce swirl marks that can only be polished out by removing the coating.</p>
-             <h3>The Golden Rule: No Automatic Car Washes</h3>
-             <p>Avoid tunnel car washes with spinning brushes. These brushes collect dirt from every previous dirty vehicle and drag it across your paint like sandpaper. Touchless automatic washes are better, but use harsh high-alkaline chemicals that degrade the hydrophobic layer over time.</p>
-             <h3>The Two-Bucket System</h3>
-             <p>Always hand wash using the two-bucket method:</p>
+      body: `<p>A ceramic coating is a liquid polymer that is professionally applied to the exterior of a vehicle. The coating chemically bonds with the vehicle's factory paint, creating a sacrificial layer of protection that doesn't wash away or require frequent reapplication like traditional wax or sealants.</p>
+             <h3>How It Works</h3>
+             <p>Typically composed of Silicon Dioxide (SiO2) or Silicon Carbide (SiC), these nano-coatings fill in the microscopic pores of your clear coat. When cured, it forms a flat, extremely hard protective glass-like barrier that is highly hydrophobic.</p>
+             <h3>Core Benefits</h3>
              <ul>
-               <li><strong>Bucket 1:</strong> Clean water with a grit guard (for rinsing the wash mitt).</li>
-               <li><strong>Bucket 2:</strong> Warm water mixed with pH-neutral, wax-free car shampoo.</li>
+               <li><strong>Hydrophobic Performance:</strong> Water, mud, and grime bead up and roll off with ease, making the washing process incredibly simple.</li>
+               <li><strong>UV & Chemical Protection:</strong> Shields paint from harmful ultraviolet rays that cause fading and oxidation, while protecting against bird droppings, acid rain, and road salt.</li>
+               <li><strong>Deep Mirror Gloss:</strong> Enhances the reflective properties of your paint, creating a high-gloss wet look.</li>
              </ul>
-             <p>Rinse the mitt in the rinse bucket before picking up fresh soap. Dry with a thick microfiber towel using a detailing spray as lubrication to minimize friction.</p>`
+             <p>While a ceramic coating is not bulletproof armor (it will not prevent deep rock chips or heavy scratches), it is the ultimate shield for daily driving preservation. Contact Detail Driven to inquire about adding a ceramic coating to your vehicle.</p>`
     }
   ];
 
@@ -183,26 +145,26 @@
     }
   ];
 
-  const DEFAULT_TV_VIDEOS = [
+    const DEFAULT_TV_VIDEOS = [
     {
       id: 'vid-1',
-      youtubeId: 'qAHEZl-L39w',
-      title: 'Full Exterior Wash & Certified Ceramic Coating Install',
-      category: 'ceramic',
+      youtubeId: 'voPqfGSQp0I',
+      title: 'Paint & Aesthetics: The Last Thing On The Dealer’s Mind | Porsche GT3 Weissach New Delivery Detail',
+      category: 'detail',
       duration: '14:20'
     },
     {
       id: 'vid-2',
-      youtubeId: 'l1r4fK6_L2A',
-      title: 'Restoring Swirl-Marked Black Paint // Step-by-Step Polish',
+      youtubeId: 'DtfwRGnUyNo',
+      title: '18 Years of Oxidation & Swirl Marks - Porsche Cayman Paint Correction',
       category: 'correction',
       duration: '18:45'
     },
     {
       id: 'vid-3',
-      youtubeId: 'e8i5cQ-u3E4',
-      title: 'Interior Deep Clean, Leather Restoration & Conditioning',
-      category: 'detail',
+      youtubeId: 'FFYJVuMa_qE',
+      title: 'Satin Paint Requires Different Care | Range Rover Long Wheelbase',
+      category: 'ceramic',
       duration: '10:15'
     }
   ];

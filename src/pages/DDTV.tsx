@@ -1,39 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const DEFAULT_TV_VIDEOS = [
-  {
-    id: 'vid-1',
-    youtubeId: 'voPqfGSQp0I',
-    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
-    category: 'detail',
-    duration: '14:20',
-    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
-  },
-  {
-    id: 'vid-2',
-    youtubeId: 'voPqfGSQp0I',
-    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
-    category: 'ceramic',
-    duration: '14:20',
-    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
-  },
-  {
-    id: 'vid-3',
-    youtubeId: 'voPqfGSQp0I',
-    title: 'Paint & Aesthetics: The Last Thing On The Dealer�s Mind | Porsche GT3 Weissach New Delivery Detail',
-    category: 'correction',
-    duration: '14:20',
-    image: 'https://img.youtube.com/vi/voPqfGSQp0I/maxresdefault.jpg'
+const getInitialVideos = () => {
+  if (typeof window !== 'undefined' && (window as any).D2CMS) {
+    return (window as any).D2CMS.getTvVideos();
   }
-];
+  return [
+    {
+      id: 'vid-1',
+      youtubeId: 'voPqfGSQp0I',
+      title: 'Paint & Aesthetics: The Last Thing On The Dealer’s Mind | Porsche GT3 Weissach New Delivery Detail',
+      category: 'detail',
+      duration: '14:20'
+    },
+    {
+      id: 'vid-2',
+      youtubeId: 'DtfwRGnUyNo',
+      title: '18 Years of Oxidation & Swirl Marks - Porsche Cayman Paint Correction',
+      category: 'correction',
+      duration: '18:45'
+    },
+    {
+      id: 'vid-3',
+      youtubeId: 'FFYJVuMa_qE',
+      title: 'Satin Paint Requires Different Care | Range Rover Long Wheelbase',
+      category: 'ceramic',
+      duration: '10:15'
+    }
+  ];
+};
 
 export default function DDTV() {
-  const [activeVideo, setActiveVideo] = useState(DEFAULT_TV_VIDEOS[0]);
+  const [videos, setVideos] = useState(getInitialVideos());
+  const [activeVideo, setActiveVideo] = useState<any>(null);
   const [filter, setFilter] = useState('all');
 
+  // Reactively sync with LocalStorage events
+  useEffect(() => {
+    const handleUpdate = () => {
+      if ((window as any).D2CMS) {
+        setVideos((window as any).D2CMS.getTvVideos());
+      }
+    };
+    window.addEventListener('d2_tv_updated', handleUpdate);
+    return () => window.removeEventListener('d2_tv_updated', handleUpdate);
+  }, []);
+
+  // Update active video if videos list changes
+  useEffect(() => {
+    if (videos && videos.length > 0) {
+      if (!activeVideo || !videos.some((v: any) => v.id === activeVideo.id)) {
+        setActiveVideo(videos[0]);
+      }
+    }
+  }, [videos]);
+
   const filteredVideos = filter === 'all' 
-    ? DEFAULT_TV_VIDEOS 
-    : DEFAULT_TV_VIDEOS.filter(v => v.category === filter);
+    ? videos 
+    : videos.filter((v: any) => v.category === filter);
 
   return (
     <main className="page-main-container">
@@ -63,7 +86,7 @@ export default function DDTV() {
           style={{ width: '100%', aspectRatio: '16/9', background: '#09090A', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--brand-card-border)', position: 'relative' }}
         >
           {/* Branded Fallback / Background Layer */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundImage: `url(${activeVideo.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundImage: `url(${((activeVideo && activeVideo.image) || (activeVideo ? `https://img.youtube.com/vi/${(activeVideo ? activeVideo.youtubeId : "")}/maxresdefault.jpg` : ""))})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(9, 9, 10, 0.75)' }}></div>
             <div style={{ zIndex: 1, textAlign: 'center' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="var(--color-steel)" stroke="none" style={{ opacity: 0.5, marginBottom: '16px' }}><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -73,15 +96,15 @@ export default function DDTV() {
           
           {/* Actual Iframe (will cover the fallback if it loads successfully) */}
           <iframe 
-            src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=0&rel=0`}
-            title={activeVideo.title}
+            src={`https://www.youtube.com/embed/${(activeVideo ? activeVideo.youtubeId : "")}?autoplay=0&rel=0`}
+            title={(activeVideo ? activeVideo.title : "")}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none', zIndex: 2 }}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowFullScreen
           />
         </div>
         <h2 style={{ fontFamily: 'var(--font-headings)', fontSize: 'clamp(24px, 3.5vw, 36px)', color: 'var(--color-white)', marginTop: '24px', lineHeight: 1.2 }}>
-          {activeVideo.title}
+          {(activeVideo ? activeVideo.title : "")}
         </h2>
       </section>
 
@@ -115,7 +138,7 @@ export default function DDTV() {
 
         {/* Videos */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-          {filteredVideos.map(video => (
+          {filteredVideos.map((video: any) => (
             <div 
               key={video.id}
               onClick={() => {

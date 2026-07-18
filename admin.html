@@ -1413,7 +1413,11 @@
       const title = document.getElementById('b-title').value.trim();
       const tag = document.getElementById('b-tag').value.trim();
       const excerpt = document.getElementById('b-excerpt').value.trim();
-      const image = document.getElementById('b-image').value;
+      let image = document.getElementById('b-image').value;
+      const uploadedBase64 = document.getElementById('b-image-uploaded-base64').value;
+      if (uploadedBase64) {
+        image = uploadedBase64;
+      }
       const body = document.getElementById('b-body').value.trim();
 
       if (!title || !tag || !excerpt || !body) {
