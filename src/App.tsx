@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Blog from './pages/Blog';
 import DDTV from './pages/DDTV';
@@ -15,6 +15,38 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!videoUrl || !videoRef.current) return;
+    const video = videoRef.current;
+    video.muted = true;
+    video.defaultMuted = true;
+    const attemptPlay = () => {
+      const p = video.play();
+      if (p !== undefined) p.catch(() => {});
+    };
+    attemptPlay();
+    video.addEventListener('loadeddata', attemptPlay);
+    video.addEventListener('canplay', attemptPlay);
+    const onPageShow = () => attemptPlay();
+    window.addEventListener('pageshow', onPageShow);
+    return () => {
+      video.removeEventListener('loadeddata', attemptPlay);
+      video.removeEventListener('canplay', attemptPlay);
+      window.removeEventListener('pageshow', onPageShow);
+    };
+  }, [videoUrl]);
+
 
   const path = window.location.pathname;
   const isBlog = path.includes('blog.html');
@@ -148,7 +180,7 @@ function App() {
     setSubmitted(true);
   };
 
-  const handleScrollToForm = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+  const handleScrollToForm = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const element = document.getElementById('quote-section');
     if (element) {
@@ -169,9 +201,10 @@ function App() {
   };
 
   return (
+    
     <div className="coming-soon-container" data-theme={theme}>
       {/* 1. COMPACT HEADER */}
-      <header className="compact-header">
+      <header className={`compact-header ${isScrolled ? 'header-solid' : 'header-transparent'}`}>
         <div className="header-inner site-container">
           <a href="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={theme === 'dark' ? '/logo-light.svg' : '/logo-dark.svg'} alt="D2 Logo" className="header-logo-img" />
@@ -201,118 +234,149 @@ function App() {
       ) : (
         <>
         {/* 2. HERO SECTION */}
-      <section className="hero-section">
-        <div className="hero-inner-split site-container">
-          {/* Hero Left: Detailing Image */}
-          <div className="hero-image-col">
-            <div className="hero-image-wrapper">
-              <img src="/premium_detailing.png" 
-                alt="Detailer working on car wheel" 
-                className="hero-detailing-img"
-              />
-              <div className="hero-image-overlay"></div>
-            </div>
-          </div>
-
-          {/* Hero Right: Copywriting & CTAs */}
-            <div className="hero-copy-col">
-              <div className="hero-copy-content">
-                <div className="hero-headline-wrapper">
-                  <div className="headline-accent-rule"></div>
-                  <h1 className="hero-headline">
-                    Precision You Can See.<br />Protection You Can Trust.
-                  </h1>
-                </div>
-                <p className="hero-supporting-text">
-                  Detail Driven provides premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. We approach every surface with intention, precision, and respect for the vehicle.
-                </p>
-                
-                <div className="hero-cta-row">
-                  <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Hero Click'); }} className="btn-primary-hero">
-                    Request A Quote
-                  </button>
-                  <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="link-quiet-hero" onClick={() => trackEvent('View Our Work Hero Click')}>
-                    View Our Work
-                  </a>
-                </div>
-  
-                <div className="hero-contact-clean">
-                  <p>Call or Text: <a href="tel:19494442885" style={{color: 'inherit', textDecoration: 'none'}}>+1 949 444 2885</a> &nbsp;|&nbsp; Email: <a href="mailto:contact@d2detaildriven.com" style={{color: 'inherit', textDecoration: 'none'}}>contact@d2detaildriven.com</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. SERVICE PREVIEW STRIP */}
-        <section className="service-grid-section">
-          <div className="site-container">
-            <div className="service-strip-header-block" style={{ textAlign: 'center', marginBottom: '3rem' }}>
-              
-              <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Services Currently Available</h2>
-            </div>
-            <div className="premium-service-grid">
-              <div className="premium-service-item">
-                <span className="service-num">01</span>
-                <h3>Premium Detailing</h3>
-                <span className="service-price-clean">Starting at $225</span>
-              </div>
-              <div className="premium-service-item">
-                <span className="service-num">02</span>
-                <h3>Paint Correction</h3>
-                <span className="service-price-clean">Starting at $300</span>
-              </div>
-              <div className="premium-service-item">
-                <span className="service-num">03</span>
-                <h3>Ceramic Coating</h3>
-                <span className="service-price-clean">Starting at $575</span>
-              </div>
-              <div className="premium-service-item">
-                <span className="service-num">04</span>
-                <h3>Paint Protection Film</h3>
-                <span className="service-price-clean">Starting at $1500</span>
-              </div>
-              <div className="premium-service-item">
-                <span className="service-num">05</span>
-                <h3>Vehicle Restoration</h3>
-                <span className="service-price-clean">By Quote</span>
-              </div>
-            </div>
-          </div>
-        </section>
-  
-        {/* 3.2 CERAMIC COATING FEATURE */}
-        <section className="ceramic-feature-section">
-          <div className="site-container ceramic-two-col">
-            <div className="ceramic-copy-col">
+        <section className="hero-fullscreen">
+          {videoUrl ? (
+            <video 
+              ref={videoRef}
+              className="hero-fullscreen-bg"
+              autoPlay 
+              muted 
+              loop 
+              playsInline 
+              preload="auto"
+              poster="/premium_detailing.png"
+            >
+              <source src={videoUrl} type="video/mp4" />
+            </video>
+          ) : (
+            <img src="/premium_detailing.png" alt="Detailer" className="hero-fullscreen-bg" />
+          )}
+          <div className="hero-fullscreen-overlay"></div>
+          
+          <div className="hero-fullscreen-content">
+            <div className="hero-headline-wrapper">
               <div className="headline-accent-rule"></div>
-              <h2 style={{ fontSize: 'var(--fs-h2)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Ceramic Coating</h2>
-              <p className="ceramic-desc">
-                Long-term hydrophobic surface protection built on proper preparation. Starting at $575.
-              </p>
-              <div className="ceramic-tags">
-                <span>Enhanced gloss</span>
-                <span>Easier maintenance</span>
-                <span>Hydrophobic protection</span>
-              </div>
-              <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Ceramic Click'); }} className="btn-primary-hero" style={{ marginTop: '2.5rem' }}>
+              <h1 className="hero-headline" style={{fontSize: 'clamp(48px, 8vw, 84px)'}}>
+                Precision You Can See.<br />Protection You Can Trust.
+              </h1>
+            </div>
+            <p className="hero-supporting-text" style={{maxWidth: '800px', margin: '0 auto 2rem auto'}}>
+              Detail Driven provides premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. We approach every surface with intention, precision, and respect for the vehicle.
+            </p>
+            
+            <div className="hero-cta-row" style={{flexDirection: 'row', gap: '16px'}}>
+              <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Hero Click'); }} className="btn-primary-hero">
                 Request A Quote
               </button>
-            </div>
-            
-            <div className="ceramic-image-col">
-              <img src="/new_porsche.png" alt="Porsche headlight ceramic coating" className="ceramic-editorial-img" />
+              <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="link-quiet-hero" onClick={() => trackEvent('View Our Work Hero Click')}>
+                View Our Work
+              </a>
             </div>
           </div>
         </section>
 
-        {/* 4. QUOTE REQUEST FORM */}
-        <section id="quote-section" className="quote-form-section">
+        {/* 3. IMAGE-LED SERVICE GATEWAY */}
+        <section className="service-grid-section" style={{padding: '80px 0', background: 'var(--bg-dark)'}}>
+          <div className="site-container">
+            <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center' }}>Services Currently Available</h2>
+            
+            <div className="gateway-grid">
+              <div className="gateway-card" onClick={handleScrollToForm}>
+                <img src="/img_leather.png" alt="Premium Detailing" className="gateway-card-img" />
+                <div className="gateway-card-content">
+                  <h3>Premium Detailing</h3>
+                  <p>Starting at $225</p>
+                  <span style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem'}}>Request Quote &rarr;</span>
+                </div>
+              </div>
+              <div className="gateway-card" onClick={handleScrollToForm}>
+                <img src="/img_black_paint.png" alt="Paint Correction" className="gateway-card-img" />
+                <div className="gateway-card-content">
+                  <h3>Paint Correction</h3>
+                  <p>Starting at $300</p>
+                  <span style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem'}}>Request Quote &rarr;</span>
+                </div>
+              </div>
+              <div className="gateway-card" onClick={handleScrollToForm}>
+                <img src="/new_porsche.png" alt="Ceramic Coating" className="gateway-card-img" />
+                <div className="gateway-card-content">
+                  <h3>Ceramic Coating</h3>
+                  <p>Starting at $575</p>
+                  <span style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem'}}>Request Quote &rarr;</span>
+                </div>
+              </div>
+              <div className="gateway-card" onClick={handleScrollToForm}>
+                <img src="/d2_wrap_mockup.png" alt="Paint Protection Film" className="gateway-card-img" />
+                <div className="gateway-card-content">
+                  <h3>Paint Protection Film</h3>
+                  <p>Starting at $1500</p>
+                  <span style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem'}}>Request Quote &rarr;</span>
+                </div>
+              </div>
+              <div className="gateway-card" onClick={handleScrollToForm}>
+                <img src="/img_carbon.png" alt="Vehicle Restoration" className="gateway-card-img" />
+                <div className="gateway-card-content">
+                  <h3>Vehicle Restoration</h3>
+                  <p>By Quote</p>
+                  <span style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem'}}>Request Quote &rarr;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+  
+        {/* 4. STORYTELLING SECTIONS */}
+        <section className="story-section">
+          <div className="story-image-col">
+            <img src="/new_porsche.png" alt="Porsche headlight ceramic coating" className="story-image" />
+          </div>
+          <div className="story-copy-col">
+            <div className="headline-accent-rule"></div>
+            <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Ceramic Coating</h2>
+            <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
+              Long-term hydrophobic surface protection built on proper preparation. We lock in the finish so your vehicle remains stunningly reflective and incredibly easy to maintain.
+            </p>
+            <ul className="story-highlights">
+              <li>Enhanced gloss & depth</li>
+              <li>Easier washing & maintenance</li>
+              <li>Years of hydrophobic protection</li>
+            </ul>
+            <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $575</p>
+            <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Ceramic Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
+              Request A Quote
+            </button>
+          </div>
+        </section>
+
+        <section className="story-section reverse">
+          <div className="story-copy-col" style={{gridColumn: 1}}>
+            <div className="headline-accent-rule"></div>
+            <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', marginBottom: '1rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)' }}>Paint Correction</h2>
+            <p style={{color: 'var(--color-steel)', fontSize: '1.1rem', lineHeight: '1.6'}}>
+              Erase years of swirl marks, scratches, and oxidation. Our multi-stage compounding and polishing restores a mirror-like finish to your vehicle's paintwork, revealing its true color and brilliance.
+            </p>
+            <ul className="story-highlights">
+              <li>Removes swirls and light scratches</li>
+              <li>Restores lost clarity and gloss</li>
+              <li>Essential preparation before coatings</li>
+            </ul>
+            <p style={{color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '24px'}}>Starting at $300</p>
+            <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Correction Click'); }} className="btn-primary-hero" style={{alignSelf: 'flex-start'}}>
+              Request A Quote
+            </button>
+          </div>
+          <div className="story-image-col" style={{gridColumn: 2}}>
+            <img src="/img_black_paint.png" alt="Paint correction process on black paint" className="story-image" />
+          </div>
+        </section>
+
+        {/* 5. QUOTE REQUEST FORM */}
+        <section id="quote-section" className="quote-form-section" style={{padding: '100px 0'}}>
           <div className="quote-form-inner site-container quote-two-col">
             
             <div className="quote-contact-info-col">
               <div className="headline-accent-rule"></div>
-              <h2 style={{ fontSize: 'var(--fs-h2)', marginBottom: '1.5rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
+              <h2 style={{ fontSize: 'clamp(36px, 5vw, 54px)', marginBottom: '1.5rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
                 Tell Us What Your Vehicle Needs
               </h2>
               <p style={{ color: 'var(--color-steel)', marginBottom: '2.5rem', fontSize: 'var(--fs-body)', lineHeight: '1.6' }}>
@@ -430,7 +494,7 @@ function App() {
           </div>
         </section>
 
-        {/* 5. BRAND STATEMENT / CLOSING CTA */}
+        {/* 6. BRAND STATEMENT / CLOSING CTA */}
       <section className="closing-cta-section">
         <div className="site-container closing-cta-inner">
           <div className="closing-cta-copy">
@@ -446,7 +510,7 @@ function App() {
       </>
       )}
 
-      {/* 6. SOCIAL & CONTACT FOOTER */}
+      {/* 7. SOCIAL & CONTACT FOOTER */}
       <footer id="footer-section" className="brand-footer-clean">
         <div className="site-container footer-flex-row">
           <a href="/" className="footer-logo-block" style={{display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none'}}>
@@ -478,7 +542,7 @@ function App() {
         </div>
       </footer>
     </div>
-  );
+);
 }
 
 export default App;
