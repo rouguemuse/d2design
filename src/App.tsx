@@ -30,11 +30,7 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -50,22 +46,34 @@ function Header() {
             <span className="header-tagline">Perfection Is in the Details</span>
           </div>
         </Link>
-        <div className="header-actions">
-          <NavLink to="/ddtv" className={({ isActive }) => `btn-secondary-header ${isActive ? 'active' : ''}`} style={{ marginRight: '16px', color: '#FFFFFF', textDecoration: 'none', fontWeight: 'bold' }}>
-            DD TV
-          </NavLink>
-          <NavLink to="/blog" className={({ isActive }) => `btn-secondary-header ${isActive ? 'active' : ''}`} style={{ marginRight: '16px', color: '#FFFFFF', textDecoration: 'none', fontWeight: 'bold' }}>
-            BLOG
-          </NavLink>
+
+        {/* Desktop nav links */}
+        <nav className="header-nav-links" aria-label="Site navigation">
+          <NavLink to="/ddtv" className={({ isActive }) => `btn-secondary-header${isActive ? ' active' : ''}`}>DD TV</NavLink>
+          <NavLink to="/blog" className={({ isActive }) => `btn-secondary-header${isActive ? ' active' : ''}`}>BLOG</NavLink>
+        </nav>
+
+        <div className="header-cta-block">
           {isHome ? (
             <a href="#quote-section" className="btn-primary-header" style={{ textDecoration: 'none' }}>
-              REQUEST A QUOTE
+              <span className="btn-label-desktop">REQUEST A QUOTE</span>
+              <span className="btn-label-mobile">QUOTE</span>
             </a>
           ) : (
             <Link to="/#quote-section" className="btn-primary-header" style={{ textDecoration: 'none' }}>
-              REQUEST A QUOTE
+              <span className="btn-label-desktop">REQUEST A QUOTE</span>
+              <span className="btn-label-mobile">QUOTE</span>
             </Link>
           )}
+        </div>
+      </div>
+
+      {/* Mobile secondary row: DD TV / Blog / Privacy */}
+      <div className="header-mobile-nav">
+        <div className="site-container">
+          <NavLink to="/ddtv" className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}>DD TV</NavLink>
+          <NavLink to="/blog" className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}>Blog</NavLink>
+          <Link to="/privacy" className="mobile-nav-link">Privacy</Link>
         </div>
       </div>
     </header>
@@ -533,142 +541,92 @@ function Home() {
         </div>
       </section>
 
-      {/* 6. QUOTE REQUEST FORM — LIGHT GRAY */}
-      <section id="quote-section" className="quote-form-section quote-section-light editorial-section">
-        <div className="quote-form-inner quote-two-col">
-          
-          <div className="quote-contact-info-col">
-            <div className="headline-accent-rule"></div>
-            <h2 style={{ fontSize: 'clamp(36px, 5vw, 54px)', marginBottom: '1.5rem', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
-              Request a Custom Quote
-            </h2>
-            <p style={{ marginBottom: '2.5rem', fontSize: 'var(--fs-body)', lineHeight: '1.6' }}>
-              Provide details about your vehicle's condition and protection goals. Detail Driven will review your request and contact you to coordinate options and studio availability.
-            </p>
-            
-            <div className="quote-direct-contact">
-              <p><strong>Call or Text: </strong>{businessInfo.phoneDisplay}</p>
-              <p><strong>Email: </strong>{businessInfo.email}</p>
-              <p style={{ fontSize: '0.85rem', color: 'var(--color-steel)', marginTop: '20px', fontStyle: 'italic' }}>
-                Note: Form submissions are retained securely for up to 30 days to facilitate estimates.
+      {/* 6. QUOTE REQUEST FORM */}
+      <section id="quote-section" className="quote-section-light">
+        <div className="site-container">
+          <div className="quote-card">
+
+            {/* Left: intro column */}
+            <div className="quote-intro">
+              <div className="headline-accent-rule" />
+              <h2>Request a Custom Quote</h2>
+              <p>
+                Provide details about your vehicle’s condition and protection goals.
+                Detail Driven will review your request and contact you to coordinate
+                options and studio availability.
               </p>
-            </div>
-          </div>
-
-          <div className="quote-form-col">
-            {submitted ? (
-              <div className="form-success-container" style={{
-                padding: '40px 30px',
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: '4px',
-                textAlign: 'center'
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#CF1C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginBottom: '1rem'}}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <h3 style={{
-                  fontFamily: 'var(--font-headings)',
-                  fontSize: '1.8rem',
-                  color: 'var(--color-white)',
-                  marginBottom: '1rem',
-                  textTransform: 'uppercase'
-                }}>Quote Request Received</h3>
-                <p style={{
-                  color: 'var(--color-steel)',
-                  fontSize: '1.05rem',
-                  lineHeight: '1.6',
-                  marginBottom: '1.5rem'
-                }}>
-                  Your request has been sent. Detail Driven will review your vehicle information and follow up about service options and availability.
+              <div className="quote-contact">
+                <p><strong>Call or Text: </strong>{businessInfo.phoneDisplay}</p>
+                <p><strong>Email: </strong>{businessInfo.email}</p>
+                <p className="quote-retention-note">
+                  Form submissions are retained securely for up to 30 days to facilitate estimates.
                 </p>
-                <button onClick={() => setSubmitted(false)} className="btn-primary-hero" style={{ maxWidth: '200px', margin: '0 auto', textTransform: 'uppercase' }}>Send Another</button>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="quote-inquiry-form" style={{ opacity: submitting ? 0.6 : 1, pointerEvents: submitting ? 'none' : 'auto' }}>
-                {error && <div className="form-feedback-error" style={{
-                  padding: '12px 16px',
-                  backgroundColor: 'rgba(207, 28, 28, 0.1)',
-                  border: '1px solid #CF1C1C',
-                  borderRadius: '4px',
-                  color: '#CF1C1C',
-                  marginBottom: '20px',
-                  fontSize: '0.95rem'
-                }}>{error}</div>}
-                
-                {/* Honeypot Spam Trap */}
-                <input
-                  type="text"
-                  name="_honey"
-                  value={formData._honey}
-                  onChange={handleInputChange}
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                  style={{ display: 'none' }}
-                />
+            </div>
 
-                <div className="form-grid-layout">
-                  <div className="form-group-field">
-                    <label htmlFor="name">Name <span className="required-star">*</span></label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      name="name" 
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Enter your full name" 
-                      required 
-                    />
-                  </div>
+            {/* Right: form column */}
+            <div className="quote-form-col">
+              {submitted ? (
+                <div className="form-success-state">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#CF1C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                  </svg>
+                  <h3>Quote Request Received</h3>
+                  <p>Your request has been sent. Detail Driven will review your vehicle information and follow up about service options and availability.</p>
+                  <button onClick={() => setSubmitted(false)} className="btn-submit-form" style={{ maxWidth: '220px' }}>Send Another</button>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="quote-form"
+                  style={{ opacity: submitting ? 0.6 : 1, pointerEvents: submitting ? 'none' : 'auto' }}
+                >
+                  {error && (
+                    <div className="form-error-banner">{error}</div>
+                  )}
 
-                  <div className="form-group-field">
-                    <label htmlFor="vehicle">Vehicle (Year, Make, Model) <span className="required-star">*</span></label>
-                    <input 
-                      type="text" 
-                      id="vehicle" 
-                      name="vehicle" 
-                      value={formData.vehicle}
-                      onChange={handleInputChange}
-                      placeholder="e.g., 2023 Porsche 911 GT3" 
-                      required 
-                    />
-                  </div>
+                  {/* Honeypot */}
+                  <input
+                    type="text"
+                    name="_honey"
+                    value={formData._honey}
+                    onChange={handleInputChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ display: 'none' }}
+                  />
 
-                  <p className="contact-method-helper">Please provide either an email address or a phone number.</p>
+                  <div className="quote-form-grid">
+                    {/* Row 1 */}
+                    <div className="form-field">
+                      <label htmlFor="name">Name <span className="req">*</span></label>
+                      <input type="text" id="name" name="name" value={formData.name} onChange={handleInputChange} placeholder="Your full name" required />
+                    </div>
 
-                  <div className="form-group-field">
-                    <label htmlFor="email">Email address</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="name@example.com" 
-                    />
-                  </div>
+                    <div className="form-field">
+                      <label htmlFor="vehicle">Vehicle (Year, Make, Model) <span className="req">*</span></label>
+                      <input type="text" id="vehicle" name="vehicle" value={formData.vehicle} onChange={handleInputChange} placeholder="e.g., 2023 Porsche 911 GT3" required />
+                    </div>
 
-                  <div className="form-group-field">
-                    <label htmlFor="phone">Phone number</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      name="phone" 
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="(512) 555-0000" 
-                    />
-                  </div>
+                    {/* Row 2: contact helper + two fields */}
+                    <p className="contact-helper full-field">Please provide either an email address or a phone number.</p>
 
-                  <div className="form-group-field full-width-field">
-                    <label htmlFor="service">Service of Interest <span className="required-star">*</span></label>
-                    <div className="select-wrapper">
-                      <select 
-                        id="service" 
-                        name="service" 
-                        value={formData.service}
-                        onChange={handleInputChange}
-                        required
-                      >
+                    <div className="form-field">
+                      <label htmlFor="email">Email address</label>
+                      <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="name@example.com" />
+                    </div>
+
+                    <div className="form-field">
+                      <label htmlFor="phone">Phone number</label>
+                      <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="(512) 555-0000" />
+                    </div>
+
+                    {/* Row 3: service select */}
+                    <div className="form-field full-field">
+                      <label htmlFor="service">Service of Interest <span className="req">*</span></label>
+                      <select id="service" name="service" value={formData.service} onChange={handleInputChange} required>
                         <option value="" disabled>Select a service</option>
                         <option value="Premium Detail">Premium Detail</option>
                         <option value="Paint Correction">Paint Correction</option>
@@ -677,95 +635,79 @@ function Home() {
                         <option value="Vehicle Restoration">Vehicle Restoration</option>
                       </select>
                     </div>
-                  </div>
 
-                  <div className="form-group-field full-width-field">
-                    <label htmlFor="message">Paint Condition / Protection Goals <span className="required-star">*</span></label>
-                    <textarea 
-                      id="message" 
-                      name="message" 
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Describe paint condition, swirl marks, scratches, or your detailing timelines..." 
-                      rows={4}
-                      required
-                    ></textarea>
-                  </div>
+                    {/* Row 4: goals textarea */}
+                    <div className="form-field full-field">
+                      <label htmlFor="message">Paint Condition / Protection Goals <span className="req">*</span></label>
+                      <textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Describe paint condition, swirl marks, scratches, or your detailing goals..." required />
+                    </div>
 
-                  {/* Photo upload panel */}
-                  <div className="form-group-field full-width-field">
-                    <div className="upload-panel">
-                      <label htmlFor="photo-upload">Upload vehicle photos <span style={{ color: 'rgba(188,192,203,0.65)', fontWeight: 400 }}>· Optional · Up to 3 images · 8 MB total</span></label>
-                      <input 
-                        type="file" 
-                        id="photo-upload"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        accept=".jpg,.jpeg,.png,.webp"
-                        multiple
-                        style={{ display: 'none' }}
-                      />
-                      <button 
-                        type="button" 
-                        onClick={() => fileInputRef.current?.click()}
-                        className="upload-dropzone-btn"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                        Choose vehicle photos
-                        <span style={{ fontSize: '12px', color: 'rgba(188,192,203,0.55)', marginLeft: 'auto' }}>JPG, PNG, WebP</span>
-                      </button>
+                    {/* Row 5: upload */}
+                    <div className="form-field full-field">
+                      <div className="upload-panel">
+                        <div className="upload-panel-copy">
+                          <strong>Upload vehicle photos</strong>
+                          <span>Optional &middot; Up to 3 JPG, PNG or WebP &middot; 8 MB total</span>
+                        </div>
+                        <button type="button" className="upload-choose-btn" onClick={() => fileInputRef.current?.click()}>
+                          Choose Photos
+                        </button>
+                        <input
+                          type="file"
+                          id="photo-upload"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          accept=".jpg,.jpeg,.png,.webp"
+                          multiple
+                          style={{ display: 'none' }}
+                        />
+                      </div>
                       {selectedFiles.length > 0 && (
                         <div className="upload-file-chips">
                           {selectedFiles.map((file, idx) => (
                             <div key={idx} className="upload-file-chip">
-                              <span className="upload-file-chip-name">
-                                {file.name} <span style={{ color: 'rgba(188,192,203,0.55)' }}>({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                              </span>
-                              <button 
-                                type="button" 
-                                onClick={() => removeFile(idx)} 
-                                className="upload-file-chip-remove"
-                                aria-label={`Remove ${file.name}`}
-                              >
-                                &times;
-                              </button>
+                              <span className="upload-file-chip-name">{file.name} <span className="chip-size">({(file.size / 1024 / 1024).toFixed(2)} MB)</span></span>
+                              <button type="button" onClick={() => removeFile(idx)} className="upload-file-chip-remove" aria-label={`Remove ${file.name}`}>&times;</button>
                             </div>
                           ))}
                         </div>
                       )}
                     </div>
-                  </div>
 
-                  {/* Consent row */}
-                  <div className="consent-row">
-                    <input 
-                      className="consent-checkbox"
-                      type="checkbox" 
-                      id="consent" 
-                      name="consent" 
-                      checked={formData.consent}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    <label htmlFor="consent" className="consent-copy">
-                      I agree that Detail Driven may contact me about this quote request. Submitting this form does not confirm an appointment or final price. <Link to="/privacy" target="_blank" style={{ color: '#FFFFFF', fontWeight: 600, textDecorationThickness: '1px', textUnderlineOffset: '3px' }}>View the Privacy Policy.</Link>
-                    </label>
-                  </div>
-                </div>
+                    {/* Row 6: consent */}
+                    <div className="consent-row full-field">
+                      <input
+                        className="consent-checkbox"
+                        type="checkbox"
+                        id="consent"
+                        name="consent"
+                        checked={formData.consent}
+                        onChange={handleInputChange}
+                        required
+                      />
+                      <label htmlFor="consent" className="consent-copy">
+                        I agree that Detail Driven may contact me about this quote request. Submitting this form does not confirm an appointment or final price. <Link to="/privacy" target="_blank" className="privacy-link">View the Privacy Policy.</Link>
+                      </label>
+                    </div>
 
-                <div className="form-submit-block">
-                  <button type="submit" className="btn-submit-form" disabled={submitting} style={{ opacity: submitting ? 0.7 : 1 }}>
-                    {submitting ? 'SENDING REQUEST...' : 'REQUEST A CUSTOM QUOTE'}
-                  </button>
-                </div>
-              </form>
-            )}
+                    {/* Row 7: submit */}
+                    <div className="full-field">
+                      <button type="submit" className="btn-submit-form" disabled={submitting} style={{ opacity: submitting ? 0.7 : 1 }}>
+                        {submitting ? 'SENDING REQUEST...' : 'REQUEST A CUSTOM QUOTE'}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+
           </div>
         </div>
       </section>
     </main>
   );
 }
+
 
 // Router Root Layout Component
 export default function App() {

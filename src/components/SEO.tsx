@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 type SEOProps = {
   title: string;
@@ -18,36 +18,59 @@ export function SEO({
   noindex = false
 }: SEOProps) {
   const domain = "https://www.d2autodetail.com";
-  
-  // Build canonical URL safely if path is supplied
   const canonicalUrl = canonicalPath
     ? new URL(canonicalPath, domain).toString()
     : "";
-
   const imageUrl = image.startsWith("http")
     ? image
     : `${domain}${image}`;
 
-  return (
-    <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      {!noindex && canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  useEffect(() => {
+    document.title = title;
 
-      <meta property="og:type" content={type} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      {!noindex && canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
-      <meta property="og:image" content={imageUrl} />
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const attr = isProperty ? 'property' : 'name';
+      let element = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attr, name);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
 
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={imageUrl} />
+    setMeta('description', description);
+    setMeta('og:type', type, true);
+    setMeta('og:title', title, true);
+    setMeta('og:description', description, true);
+    if (canonicalUrl) {
+      setMeta('og:url', canonicalUrl, true);
+    }
+    setMeta('og:image', imageUrl, true);
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', title);
+    setMeta('twitter:description', description);
+    setMeta('twitter:image', imageUrl);
 
-      {noindex && (
-        <meta name="robots" content="noindex, nofollow" />
-      )}
-    </>
-  );
+    if (noindex) {
+      setMeta('robots', 'noindex, nofollow');
+    } else {
+      const robots = document.querySelector('meta[name="robots"]');
+      if (robots) robots.remove();
+    }
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (canonicalUrl) {
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', canonicalUrl);
+    } else if (canonical) {
+      canonical.remove();
+    }
+  }, [title, description, canonicalUrl, imageUrl, type, noindex]);
+
+  return null;
 }
