@@ -361,190 +361,171 @@ function Home() {
         </div>
       </section>
 
-      {/* 2. CREDIBILITY STRIP */}
-      <div className="credibility-strip" style={{
-        backgroundColor: '#0F1013',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        padding: '16px 0',
-        textAlign: 'center'
-      }}>
-        <div className="site-container" style={{
-          color: 'var(--color-steel)',
-          fontSize: '0.9rem',
-          letterSpacing: '1.5px',
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          fontFamily: 'var(--font-headings)'
-        }}>
-          Austin, Texas &bull; By Appointment &bull; Paint Correction &bull; Ceramic Coatings &bull; Paint Protection Film
+      {/* 2. CREDIBILITY STRIP — LIGHT */}
+      <div className="credibility-strip-light">
+        <div className="site-container">
+          <div className="strip-inner">
+            Austin, Texas
+            <span className="strip-sep" aria-hidden="true" />
+            By Appointment
+            <span className="strip-sep" aria-hidden="true" />
+            Paint Correction
+            <span className="strip-sep" aria-hidden="true" />
+            Ceramic Coatings
+            <span className="strip-sep" aria-hidden="true" />
+            Paint Protection Film
+          </div>
         </div>
       </div>
 
-      {/* 3. CORE SERVICE GATEWAY */}
-      <section className="service-grid-section" style={{padding: '80px 0 90px 0', background: 'var(--bg-dark)'}}>
+      {/* 3. DETAILING SERVICES — LIGHT */}
+      <section className="services-section-light editorial-section">
         <div className="site-container">
-          <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center', textTransform: 'uppercase', marginBottom: '40px' }}>Detailing Services</h2>
-          
-          <div className="gateway-grid">
-            {/* Card 1 */}
-            <div className="gateway-card">
-              <img src="/img_leather.png" alt="Premium Detailing" className="gateway-card-img" />
-              <div className="gateway-card-content">
-                <h3>Premium Detailing</h3>
-                <p className="card-outcome" style={{ color: 'var(--color-steel)', fontSize: '0.9rem', margin: '8px 0', minHeight: '40px' }}>
-                  Restoration of interior cabin surfaces and deep exterior hand wash.
-                </p>
-                <p className="card-audience" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '8px' }}>
-                  For daily drivers seeking cabin and surface decontamination.
-                </p>
-                <p className="card-price" style={{ color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1rem', margin: '4px 0' }}>Starting at $225</p>
-                <a href="#quote-section" className="card-action-link" style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block', marginTop: '12px'}}>Request Quote &rarr;</a>
+          <span className="section-eyebrow">Our Services</span>
+          <h2 className="section-heading">Detailing Services</h2>
+
+          <div className="svc-grid">
+            <article className="svc-card">
+              <div className="svc-card-img-wrap">
+                <img src="/img_leather.png" alt="Premium Detailing — interior cabin restoration" />
+              </div>
+              <div className="svc-card-body">
+                <span className="svc-card-eyebrow">01 — Premium Detail</span>
+                <h3 className="svc-card-heading">Premium Detailing</h3>
+                <p className="svc-card-desc">Restoration of interior cabin surfaces and deep exterior hand wash.</p>
+                <p className="svc-card-price">Starting at $225</p>
+                <a href="#quote-section" className="svc-card-cta">Request Quote &rarr;</a>
+              </div>
+            </article>
+
+            <article className="svc-card">
+              <div className="svc-card-img-wrap">
+                <img src="/img_black_paint.png" alt="Paint Correction — eliminate swirl marks and scratches" />
+              </div>
+              <div className="svc-card-body">
+                <span className="svc-card-eyebrow">02 — Correction</span>
+                <h3 className="svc-card-heading">Paint Correction</h3>
+                <p className="svc-card-desc">Complete machine correction to eliminate paint swirl marks and scratches.</p>
+                <p className="svc-card-price">Starting at $300</p>
+                <a href="#quote-section" className="svc-card-cta">Request Quote &rarr;</a>
+              </div>
+            </article>
+
+            <article className="svc-card">
+              <div className="svc-card-img-wrap">
+                <img src="/new_porsche.png" alt="Ceramic Coating — long-term hydrophobic protection" />
+              </div>
+              <div className="svc-card-body">
+                <span className="svc-card-eyebrow">03 — Ceramic</span>
+                <h3 className="svc-card-heading">Ceramic Coating</h3>
+                <p className="svc-card-desc">Chemically-bonded nano-coating for long-term hydrophobic protection.</p>
+                <p className="svc-card-price">Starting at $575</p>
+                <a href="#quote-section" className="svc-card-cta">Request Quote &rarr;</a>
+              </div>
+            </article>
+
+            <article className="svc-card">
+              <div className="svc-card-img-wrap">
+                <img src="/d2_wrap_mockup.png" alt="Paint Protection Film — physical clear-bra armor" />
+              </div>
+              <div className="svc-card-body">
+                <span className="svc-card-eyebrow">04 — PPF</span>
+                <h3 className="svc-card-heading">Paint Protection Film</h3>
+                <p className="svc-card-desc">Physical clear-bra film shielding against road debris and scratch impacts.</p>
+                <p className="svc-card-price">Starting at $1,500</p>
+                <a href="#quote-section" className="svc-card-cta">Request Quote &rarr;</a>
+              </div>
+            </article>
+
+            <article className="svc-card">
+              <div className="svc-card-img-wrap">
+                <img src="/img_carbon.png" alt="Vehicle Restoration — classic and collector automobiles" />
+              </div>
+              <div className="svc-card-body">
+                <span className="svc-card-eyebrow">05 — Restoration</span>
+                <h3 className="svc-card-heading">Vehicle Restoration</h3>
+                <p className="svc-card-desc">Bespoke cabin rejuvenation, paint leveling, and full vehicle restoration for classic and collector automobiles.</p>
+                <p className="svc-card-price">Custom Assessment</p>
+                <a href="#quote-section" className="svc-card-cta">Request Quote &rarr;</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. FEATURED WORK — DARK */}
+      <section className="featured-work-section editorial-section">
+        <div className="site-container">
+          <span className="section-eyebrow">Studio Portfolio</span>
+          <h2 className="section-heading">Featured Work</h2>
+
+          <div className="featured-work-grid">
+            <div className="fw-hero">
+              <img src="/new_porsche.png" alt="Porsche GT3 Weissach — ceramic protection" />
+              <div className="fw-caption">
+                <span className="fw-caption-tag">Ceramic Protection</span>
+                <h4 className="fw-caption-title">Porsche GT3 Weissach</h4>
               </div>
             </div>
 
-            {/* Card 2 */}
-            <div className="gateway-card">
-              <img src="/img_black_paint.png" alt="Paint Correction" className="gateway-card-img" />
-              <div className="gateway-card-content">
-                <h3>Paint Correction</h3>
-                <p className="card-outcome" style={{ color: 'var(--color-steel)', fontSize: '0.9rem', margin: '8px 0', minHeight: '40px' }}>
-                  Complete machine correction to eliminate paint swirl marks and scratches.
-                </p>
-                <p className="card-audience" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '8px' }}>
-                  For vehicles with weathered clear coats needing high gloss restoration.
-                </p>
-                <p className="card-price" style={{ color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1rem', margin: '4px 0' }}>Starting at $300</p>
-                <a href="#quote-section" className="card-action-link" style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block', marginTop: '12px'}}>Request Quote &rarr;</a>
+            <div className="fw-supp">
+              <img src="/img_black_paint.png" alt="Paint correction — deep reflection restoration" />
+              <div className="fw-caption">
+                <span className="fw-caption-tag">Paint Correction</span>
+                <h4 className="fw-caption-title">Deep Reflection Restoration</h4>
               </div>
             </div>
 
-            {/* Card 3 */}
-            <div className="gateway-card">
-              <img src="/new_porsche.png" alt="Ceramic Coating" className="gateway-card-img" />
-              <div className="gateway-card-content">
-                <h3>Ceramic Coating</h3>
-                <p className="card-outcome" style={{ color: 'var(--color-steel)', fontSize: '0.9rem', margin: '8px 0', minHeight: '40px' }}>
-                  Chemically-bonded nano-coating for long-term hydrophobic protection.
-                </p>
-                <p className="card-audience" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '8px' }}>
-                  For owners looking for chemical resistance and effortless washing.
-                </p>
-                <p className="card-price" style={{ color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1rem', margin: '4px 0' }}>Starting at $575</p>
-                <a href="#quote-section" className="card-action-link" style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block', marginTop: '12px'}}>Request Quote &rarr;</a>
+            <div className="fw-supp">
+              <img src="/img_leather.png" alt="Interior detailing — premium cabin rejuvenation" />
+              <div className="fw-caption">
+                <span className="fw-caption-tag">Cabin Detail</span>
+                <h4 className="fw-caption-title">Premium Interior Rejuvenation</h4>
               </div>
             </div>
 
-            {/* Card 4 */}
-            <div className="gateway-card">
-              <img src="/d2_wrap_mockup.png" alt="Paint Protection Film" className="gateway-card-img" />
-              <div className="gateway-card-content">
-                <h3>Paint Protection Film</h3>
-                <p className="card-outcome" style={{ color: 'var(--color-steel)', fontSize: '0.9rem', margin: '8px 0', minHeight: '40px' }}>
-                  Physical clear-bra protection film shielding against road debris impacts.
-                </p>
-                <p className="card-audience" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '8px' }}>
-                  For high-performance vehicles needing impact and scratch armor.
-                </p>
-                <p className="card-price" style={{ color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1rem', margin: '4px 0' }}>Starting at $1,500</p>
-                <a href="#quote-section" className="card-action-link" style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block', marginTop: '12px'}}>Request Quote &rarr;</a>
-              </div>
-            </div>
-
-            {/* Card 5 */}
-            <div className="gateway-card">
-              <img src="/img_carbon.png" alt="Vehicle Restoration" className="gateway-card-img" />
-              <div className="gateway-card-content">
-                <h3>Vehicle Restoration</h3>
-                <p className="card-outcome" style={{ color: 'var(--color-steel)', fontSize: '0.9rem', margin: '8px 0', minHeight: '40px' }}>
-                  Bespoke cabin rejuvenation, paint leveling, and full vehicle restoration.
-                </p>
-                <p className="card-audience" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontStyle: 'italic', marginBottom: '8px' }}>
-                  For classic, vintage, and high-end collector automobiles.
-                </p>
-                <p className="card-price" style={{ color: 'var(--color-white)', fontWeight: 'bold', fontSize: '1rem', margin: '4px 0' }}>Custom Assessment</p>
-                <a href="#quote-section" className="card-action-link" style={{color: 'var(--color-red)', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-block', marginTop: '12px'}}>Request Quote &rarr;</a>
+            <div className="fw-supp">
+              <img src="/img_carbon.png" alt="Carbon fiber restoration details" />
+              <div className="fw-caption">
+                <span className="fw-caption-tag">Restoration</span>
+                <h4 className="fw-caption-title">Exotic Carbon Accents</h4>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. FEATURED WORK GALLERY */}
-      <section className="featured-gallery-section" style={{ padding: '80px 0', backgroundColor: '#09090A', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+
+      {/* 5. PHILOSOPHY / PROCESS — LIGHT */}
+      <section className="process-section-light editorial-section">
         <div className="site-container">
-          <h2 style={{ fontSize: 'var(--fs-h2)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textAlign: 'center', textTransform: 'uppercase', marginBottom: '16px' }}>Featured Work</h2>
-          <p style={{ color: 'var(--color-steel)', fontSize: '1.05rem', textAlign: 'center', maxWidth: '600px', margin: '0 auto 48px auto', lineHeight: '1.6' }}>
-            A look at the vehicles detailed, corrected, and protected in our Austin studio.
+          <span className="section-eyebrow">The Philosophy</span>
+          <h2 className="section-heading">WE DON&apos;T CHASE SHINE. WE CHASE PERFECTION.</h2>
+          <p className="section-sub">
+            Detailing is not a fast car wash. It is a highly disciplined preparation, correction, and finishing cycle.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            <div style={{ borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', aspectRatio: '16/10' }}>
-              <img src="/new_porsche.png" alt="Porsche GT3 Weissach delivery detailing" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', background: 'linear-gradient(0deg, rgba(0,0,0,0.95) 0%, transparent 100%)', color: '#FFF' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-red)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Ceramic Protection</span>
-                <h4 style={{ margin: '4px 0 0 0', fontSize: '1.05rem', fontFamily: 'var(--font-headings)' }}>Porsche GT3 Weissach</h4>
-              </div>
-            </div>
-
-            <div style={{ borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', aspectRatio: '16/10' }}>
-              <img src="/img_black_paint.png" alt="Black paint correction and polishing" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', background: 'linear-gradient(0deg, rgba(0,0,0,0.95) 0%, transparent 100%)', color: '#FFF' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-red)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Paint Correction</span>
-                <h4 style={{ margin: '4px 0 0 0', fontSize: '1.05rem', fontFamily: 'var(--font-headings)' }}>Deep Reflection Restoration</h4>
-              </div>
-            </div>
-
-            <div style={{ borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', aspectRatio: '16/10' }}>
-              <img src="/img_leather.png" alt="Fine leather and interior decontamination" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', background: 'linear-gradient(0deg, rgba(0,0,0,0.95) 0%, transparent 100%)', color: '#FFF' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-red)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Cabin Detail</span>
-                <h4 style={{ margin: '4px 0 0 0', fontSize: '1.05rem', fontFamily: 'var(--font-headings)' }}>Premium Interior Rejuvenation</h4>
-              </div>
-            </div>
-
-            <div style={{ borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.08)', position: 'relative', aspectRatio: '16/10' }}>
-              <img src="/img_carbon.png" alt="Carbon fiber vehicle restoration details" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', background: 'linear-gradient(0deg, rgba(0,0,0,0.95) 0%, transparent 100%)', color: '#FFF' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--color-red)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Restoration</span>
-                <h4 style={{ margin: '4px 0 0 0', fontSize: '1.05rem', fontFamily: 'var(--font-headings)' }}>Exotic Carbon Accents</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. DETAILING PROCESS */}
-      <section className="detailing-process-section" style={{ padding: '80px 0', backgroundColor: '#050507', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
-        <div className="site-container">
-          <div className="process-intro" style={{ textAlign: 'center', marginBottom: '56px' }}>
-            <span style={{ color: 'var(--color-red)', fontSize: '0.85rem', fontWeight: 'bold', letterSpacing: '2px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>THE PHILOSOPHY</span>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', textTransform: 'uppercase', margin: '0 auto 16px auto', maxWidth: '800px', lineHeight: 1.2 }}>
-              We Don’t Chase Shine. We Chase Perfection.
-            </h2>
-            <p style={{ color: 'var(--color-steel)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto' }}>
-              Detailing is not a fast car wash. It is a highly disciplined preparation, correction, and finishing cycle.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px' }}>
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', padding: '32px', borderRadius: '4px' }}>
-              <span style={{ color: 'var(--color-red)', fontFamily: 'var(--font-headings)', fontSize: '1.5rem', fontWeight: 800, display: 'block', marginBottom: '16px' }}>01 / INSPECT & DECONTAMINATE</span>
-              <p style={{ color: 'var(--color-steel)', lineHeight: '1.6', fontSize: '0.95rem' }}>
-                Every vehicle begins with deep chemical wash fallout removals, clay bar treatments to draw embedded particles out of clear coat pores, and digital paint depth inspection.
+          <div className="process-steps-grid">
+            <div className="process-step">
+              <span className="process-step-num">01</span>
+              <span className="process-step-title">Inspect &amp; Decontaminate</span>
+              <p className="process-step-body">
+                Every vehicle begins with deep chemical wash, fallout removal, clay bar treatments to draw embedded particles from clear coat pores, and digital paint depth inspection.
               </p>
             </div>
 
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', padding: '32px', borderRadius: '4px' }}>
-              <span style={{ color: 'var(--color-red)', fontFamily: 'var(--font-headings)', fontSize: '1.5rem', fontWeight: 800, display: 'block', marginBottom: '16px' }}>02 / CORRECT & REFINE</span>
-              <p style={{ color: 'var(--color-steel)', lineHeight: '1.6', fontSize: '0.95rem' }}>
+            <div className="process-step">
+              <span className="process-step-num">02</span>
+              <span className="process-step-title">Correct &amp; Refine</span>
+              <p className="process-step-body">
                 We execute measured compounding and polishing passes to level the clear coat, completely correcting swirl marks, microscopic weathering scratches, and oxidation haze.
               </p>
             </div>
 
-            <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', padding: '32px', borderRadius: '4px' }}>
-              <span style={{ color: 'var(--color-red)', fontFamily: 'var(--font-headings)', fontSize: '1.5rem', fontWeight: 800, display: 'block', marginBottom: '16px' }}>03 / PROTECT & FINISH</span>
-              <p style={{ color: 'var(--color-steel)', lineHeight: '1.6', fontSize: '0.95rem' }}>
+            <div className="process-step">
+              <span className="process-step-num">03</span>
+              <span className="process-step-title">Protect &amp; Finish</span>
+              <p className="process-step-body">
                 We seal the corrected paintwork under chemically-bonded professional nano-ceramic coatings or physical paint protection film to secure long-term depth and hydrophobics.
               </p>
             </div>
@@ -552,16 +533,16 @@ function Home() {
         </div>
       </section>
 
-      {/* 6. QUOTE REQUEST FORM */}
-      <section id="quote-section" className="quote-form-section">
+      {/* 6. QUOTE REQUEST FORM — LIGHT GRAY */}
+      <section id="quote-section" className="quote-form-section quote-section-light editorial-section">
         <div className="quote-form-inner quote-two-col">
           
           <div className="quote-contact-info-col">
             <div className="headline-accent-rule"></div>
-            <h2 style={{ fontSize: 'clamp(36px, 5vw, 54px)', marginBottom: '1.5rem', color: 'var(--color-white)', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
+            <h2 style={{ fontSize: 'clamp(36px, 5vw, 54px)', marginBottom: '1.5rem', fontFamily: 'var(--font-headings)', lineHeight: 1.1 }}>
               Request a Custom Quote
             </h2>
-            <p style={{ color: 'var(--color-steel)', marginBottom: '2.5rem', fontSize: 'var(--fs-body)', lineHeight: '1.6' }}>
+            <p style={{ marginBottom: '2.5rem', fontSize: 'var(--fs-body)', lineHeight: '1.6' }}>
               Provide details about your vehicle's condition and protection goals. Detail Driven will review your request and contact you to coordinate options and studio availability.
             </p>
             
