@@ -1629,65 +1629,171 @@ a, button, select, input, textarea {
 
 /* --- CHICAGO AUTO PROS INSPIRED LAYOUT --- */
 
-/* 1. Full-Screen Hero */
-.hero-fullscreen {
+
+/* --- SEMANTIC VIDEO HERO STYLES --- */
+.video-hero {
   position: relative;
   width: 100%;
-  height: 90svh;
-  min-height: 600px;
+  height: clamp(680px, 82vh, 900px); /* Desktop constraints */
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: var(--bg-dark);
+  background-color: #050507;
 }
 
-.hero-fullscreen-bg {
+.video-hero-media {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   z-index: 1;
+  animation: heroFadeIn 1.2s ease-out;
 }
 
-.hero-fullscreen-overlay {
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.video-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(9, 9, 10, 1) 0%, rgba(9, 9, 10, 0.55) 55%, rgba(9, 9, 10, 0.75) 100%);
+  /* Layered gradient overlay */
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5,5,7,0.88) 0%,
+      rgba(5,5,7,0.68) 38%,
+      rgba(5,5,7,0.20) 68%,
+      rgba(5,5,7,0.08) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5,5,7,0.35) 0%,
+      transparent 35%,
+      rgba(5,5,7,0.55) 100%
+    );
   z-index: 2;
 }
 
-.hero-fullscreen-content {
+.video-hero-content {
   position: relative;
   z-index: 3;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Left-aligned content */
 }
 
-.hero-headline-wrapper {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto 1.5rem auto;
-}
-
-.hero-headline {
+.video-hero-eyebrow {
   font-family: var(--font-headings);
-  font-size: clamp(32px, 5vw, 58px);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--color-red);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.video-hero-content .hero-headline-wrapper {
+  width: 100%;
+  max-width: 610px;
+  margin: 0 0 1.5rem 0;
+}
+
+.video-hero-content .hero-headline {
+  font-family: var(--font-headings);
+  font-size: clamp(34px, 4.5vw, 56px);
   line-height: 1.15;
-  color: var(--color-white);
+  color: #FFFFFF !important;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0;
 }
 
+.video-hero-content .hero-supporting-text {
+  font-size: 1.15rem !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+  line-height: 1.6;
+  margin-bottom: 2.2rem;
+  max-width: 610px;
+}
+
+.video-hero-trust-line {
+  font-family: var(--font-supporting);
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.5) !important;
+  text-transform: uppercase;
+  margin-top: 1.8rem;
+  font-weight: 600;
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .video-hero-media {
+    display: none;
+  }
+  .video-hero {
+    background-image: url('/media/d2-hero-poster.webp');
+    background-size: cover;
+    background-position: center center;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .video-hero {
+    height: 74svh; /* 70-78svh */
+    min-height: 600px;
+    align-items: flex-end; /* Lower third positioning */
+    padding-bottom: 48px;
+  }
+
+  .video-hero-media {
+    object-position: 55% center; /* Focus detailing work */
+  }
+
+  .video-hero-content {
+    padding: 0 20px;
+  }
+
+  .video-hero-content .hero-headline {
+    font-size: clamp(32px, 7vw, 42px) !important;
+    line-height: 1.25 !important;
+  }
+
+  .video-hero-content .hero-supporting-text {
+    font-size: 1.05rem !important;
+    max-width: 100%;
+    margin-bottom: 1.8rem;
+  }
+
+  .video-hero-content .hero-cta-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column !important; /* Stack CTAs full width */
+    gap: 12px;
+  }
+
+  .video-hero-content .hero-cta-row button,
+  .video-hero-content .hero-cta-row a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .video-hero-trust-line {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+  }
+}
 /* Header states */
 .header-absolute {
   position: absolute !important;

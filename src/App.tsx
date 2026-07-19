@@ -13,6 +13,7 @@ function App() {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
 
@@ -229,45 +230,52 @@ function App() {
         <DDTV />
       ) : (
         <>
-        {/* 2. HERO SECTION */}
-        <section className="hero-fullscreen">
-          {videoUrl ? (
-            <video 
-              ref={videoRef}
-              className="hero-fullscreen-bg"
-              autoPlay 
-              muted 
-              loop 
-              playsInline 
-              preload="auto"
-              poster="/premium_detailing.png"
-            >
-              <source src={videoUrl} type="video/mp4" />
-            </video>
-          ) : (
-            <img src="/premium_detailing.png" alt="Detailer" className="hero-fullscreen-bg" />
-          )}
-          <div className="hero-fullscreen-overlay"></div>
-          
-          <div className="hero-fullscreen-content">
+        {/* 2. SEMANTIC VIDEO HERO SECTION */}
+        <section className="video-hero">
+          <video
+            className="video-hero-media"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/media/d2-hero-poster.webp"
+            aria-hidden="true"
+          >
+            <source
+              src="/media/d2-hero-optimized.webm"
+              type="video/webm"
+            />
+            <source
+              src="/media/d2-hero-optimized.mp4"
+              type="video/mp4"
+            />
+          </video>
+
+          <div className="video-hero-overlay"></div>
+
+          <div className="video-hero-content site-container">
+            <span className="video-hero-eyebrow">AUSTIN’S PRECISION AUTO DETAILING STUDIO</span>
             <div className="hero-headline-wrapper">
-              <div className="headline-accent-rule"></div>
+              <div className="headline-accent-rule" style={{ marginLeft: 0 }}></div>
               <h1 className="hero-headline">
                 PRECISION YOU CAN SEE.<br />PROTECTION YOU CAN TRUST.
               </h1>
             </div>
-            <p className="hero-supporting-text" style={{maxWidth: '800px', margin: '0 auto 2rem auto'}}>
-              Detail Driven provides premium detailing, paint correction, ceramic coatings, PPF, and vehicle restoration in Austin, Texas. We approach every surface with intention, precision, and respect for the vehicle.
+            <p className="hero-supporting-text">
+              Paint correction, ceramic coatings, paint protection film, premium detailing, and vehicle restoration—performed with disciplined preparation and obsessive attention to finish.
             </p>
             
-            <div className="hero-cta-row" style={{flexDirection: 'row', gap: '16px'}}>
+            <div className="hero-cta-row" style={{display: 'flex', flexDirection: 'row', gap: '16px'}}>
               <button onClick={(e) => { handleScrollToForm(e); trackEvent('Request a Quote Hero Click'); }} className="btn-primary-hero">
-                Request A Quote
+                REQUEST A QUOTE
               </button>
-              <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="link-quiet-hero" onClick={() => trackEvent('View Our Work Hero Click')}>
-                View Our Work
+              <a href="https://www.instagram.com/d2_detaildriven/" target="_blank" rel="noopener noreferrer" className="link-quiet-hero" onClick={() => trackEvent('View Our Work Hero Click')} style={{ textDecoration: 'none', color: '#FFFFFF', display: 'flex', alignItems: 'center', fontWeight: 'bold' }}>
+                VIEW OUR WORK
               </a>
             </div>
+            
+            <span className="video-hero-trust-line">AUSTIN, TEXAS &bull; BY APPOINTMENT &bull; CALL OR TEXT</span>
           </div>
         </section>
 
@@ -390,8 +398,42 @@ function App() {
             </div>
 
             <div className="quote-form-col">
-              <form onSubmit={(e) => { handleSubmit(e); trackEvent('Form Inquiry Submit'); }} className="quote-inquiry-form">
-              {error && <div className="form-feedback-error">{error}</div>}
+              {submitted ? (
+                <div className="form-success-container" style={{
+                  padding: '40px 30px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '4px',
+                  textAlign: 'center'
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#CF1C1C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginBottom: '1rem'}}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  <h3 style={{
+                    fontFamily: 'var(--font-headings)',
+                    fontSize: '1.8rem',
+                    color: 'var(--color-white)',
+                    marginBottom: '1rem',
+                    textTransform: 'uppercase'
+                  }}>Quote Request Received</h3>
+                  <p style={{
+                    color: 'var(--color-steel)',
+                    fontSize: '1.05rem',
+                    lineHeight: '1.6',
+                    marginBottom: '1.5rem'
+                  }}>Thank you for reaching out. Detail Driven has received your vehicle details. We will review your request and contact you shortly with service options and availability.</p>
+                  <button onClick={() => setSubmitted(false)} className="btn-submit-form" style={{ maxWidth: '200px', margin: '0 auto' }}>Send Another</button>
+                </div>
+              ) : (
+                <form onSubmit={(e) => { handleSubmit(e); trackEvent('Form Inquiry Submit'); }} className="quote-inquiry-form" style={{ opacity: submitting ? 0.6 : 1, pointerEvents: submitting ? 'none' : 'auto' }}>
+                {error && <div className="form-feedback-error" style={{
+                  padding: '12px 16px',
+                  backgroundColor: 'rgba(207, 28, 28, 0.1)',
+                  border: '1px solid #CF1C1C',
+                  borderRadius: '4px',
+                  color: '#CF1C1C',
+                  marginBottom: '20px',
+                  fontSize: '0.95rem'
+                }}>{error}</div>}
+                {submitting && <div style={{ color: 'var(--color-steel)', marginBottom: '15px', fontSize: '0.9rem' }}>Sending request, please wait...</div>}
               
               <div className="form-grid-layout">
                 <div className="form-group-field">
@@ -490,6 +532,7 @@ function App() {
                 </button>
               </div>
             </form>
+            )}
             </div>
           </div>
         </section>
