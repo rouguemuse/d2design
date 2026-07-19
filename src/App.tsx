@@ -41,7 +41,7 @@ function Header() {
   }, []);
 
   return (
-    <header className={`compact-header ${isHome ? 'header-absolute' : 'header-solid'} ${scrolled ? 'scrolled' : ''}`}>
+    <header className={`compact-header ${isHome ? 'header-absolute' : 'header-solid'}${scrolled ? ' scrolled' : ''}`}>
       <div className="header-inner site-container">
         <Link to="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
           <img src="/logo-light.svg" alt="D2 Logo" className="header-logo-img" />
@@ -104,9 +104,9 @@ function Footer() {
         </div>
         
         <div className="footer-contact-block">
-          <a href={`mailto:\${businessInfo.email}`} style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-white)', textDecoration: 'none' }}>{businessInfo.email}</a>
-          <span className="footer-service-area" style={{ fontSize: '0.9rem', marginTop: '6px' }}>Serving {businessInfo.city} and surrounding areas</span>
-          <span className="copyright-text" style={{ fontSize: '0.85rem', marginTop: '4px' }}>&copy; 2026 {businessInfo.name}. All rights reserved.</span>
+          <a href={`mailto:${businessInfo.email}`} style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-white)', textDecoration: 'none' }}>{businessInfo.email}</a>
+          <span className="footer-service-area" style={{ fontSize: '0.9rem', marginTop: '6px' }}>{`Serving ${businessInfo.city} and surrounding areas`}</span>
+          <span className="copyright-text" style={{ fontSize: '0.85rem', marginTop: '4px' }}>{`© 2026 ${businessInfo.name}. All rights reserved.`}</span>
         </div>
       </div>
     </footer>
@@ -130,6 +130,17 @@ function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Imperatively start video playback on mount
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch((err) => {
+      console.error('Hero video failed to autoplay:', err);
+    });
+  }, []);
 
   // Check hash on load for deep section scrolling
   useEffect(() => {
@@ -260,22 +271,66 @@ function Home() {
   };
 
   return (
-    <>
+    <main>
       <SEO 
         title="Paint Correction, Ceramic Coating & PPF in Austin | Detail Driven"
         description="Detail Driven provides premium auto detailing, paint correction, ceramic coatings, paint protection film and vehicle restoration in Austin, Texas. Request a custom quote."
-        path="/"
+        canonicalPath="/"
       />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AutomotiveBusiness",
+          "name": businessInfo.name,
+          "url": `${businessInfo.domain}/`,
+          "logo": `${businessInfo.domain}/logo-light.svg`,
+          "image": `${businessInfo.domain}/media/d2-hero-poster.webp`,
+          "telephone": `+1-${businessInfo.phoneDisplay.replace(/\D/g, '')}`,
+          "email": businessInfo.email,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": businessInfo.streetAddress,
+            "addressLocality": businessInfo.city,
+            "addressRegion": businessInfo.region,
+            "postalCode": businessInfo.postalCode,
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 30.370425,
+            "longitude": -97.914285
+          },
+          "areaServed": {
+            "@type": "City",
+            "name": businessInfo.city
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "07:00",
+              "closes": "18:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": "Saturday",
+              "opens": "09:00",
+              "closes": "16:30"
+            }
+          ]
+        })}
+      </script>
 
       {/* 1. CINEMATIC VIDEO HERO SECTION */}
       <section className="video-hero">
         <video
+          ref={heroVideoRef}
           className="video-hero-media"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster="/media/d2-hero-poster.webp"
           aria-hidden="true"
         >
@@ -498,8 +553,8 @@ function Home() {
       </section>
 
       {/* 6. QUOTE REQUEST FORM */}
-      <section id="quote-section" className="quote-form-section" style={{padding: '100px 0', borderTop: '1px solid rgba(255, 255, 255, 0.05)'}}>
-        <div className="quote-form-inner site-container quote-two-col">
+      <section id="quote-section" className="quote-form-section">
+        <div className="quote-form-inner quote-two-col">
           
           <div className="quote-contact-info-col">
             <div className="headline-accent-rule"></div>
@@ -511,8 +566,8 @@ function Home() {
             </p>
             
             <div className="quote-direct-contact">
-              <p><strong>Call or Text:</strong> {businessInfo.phoneDisplay}</p>
-              <p><strong>Email:</strong> {businessInfo.email}</p>
+              <p><strong>Call or Text: </strong>{businessInfo.phoneDisplay}</p>
+              <p><strong>Email: </strong>{businessInfo.email}</p>
               <p style={{ fontSize: '0.85rem', color: 'var(--color-steel)', marginTop: '20px', fontStyle: 'italic' }}>
                 Note: Form submissions are retained securely for up to 30 days to facilitate estimates.
               </p>
@@ -585,7 +640,22 @@ function Home() {
                   </div>
 
                   <div className="form-group-field">
-                    <label htmlFor="email">Email Address <span style={{ color: 'var(--color-steel)', fontSize: '0.8rem' }}>(Either email or phone is required)</span></label>
+                    <label htmlFor="vehicle">Vehicle (Year, Make, Model) <span className="required-star">*</span></label>
+                    <input 
+                      type="text" 
+                      id="vehicle" 
+                      name="vehicle" 
+                      value={formData.vehicle}
+                      onChange={handleInputChange}
+                      placeholder="e.g., 2023 Porsche 911 GT3" 
+                      required 
+                    />
+                  </div>
+
+                  <p className="contact-method-helper">Please provide either an email address or a phone number.</p>
+
+                  <div className="form-group-field">
+                    <label htmlFor="email">Email address</label>
                     <input 
                       type="email" 
                       id="email" 
@@ -597,27 +667,14 @@ function Home() {
                   </div>
 
                   <div className="form-group-field">
-                    <label htmlFor="phone">Phone Number <span style={{ color: 'var(--color-steel)', fontSize: '0.8rem' }}>(Either email or phone is required)</span></label>
+                    <label htmlFor="phone">Phone number</label>
                     <input 
                       type="tel" 
                       id="phone" 
                       name="phone" 
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="(555) 000-0000" 
-                    />
-                  </div>
-
-                  <div className="form-group-field">
-                    <label htmlFor="vehicle">Vehicle (Year, Make, Model) <span className="required-star">*</span></label>
-                    <input 
-                      type="text" 
-                      id="vehicle" 
-                      name="vehicle" 
-                      value={formData.vehicle}
-                      onChange={handleInputChange}
-                      placeholder="e.g., 2023 Porsche 911 GT3" 
-                      required 
+                      placeholder="(512) 555-0000" 
                     />
                   </div>
 
@@ -654,70 +711,69 @@ function Home() {
                     ></textarea>
                   </div>
 
-                  {/* Photo Attachments (max 3 files, combined size under 8MB) */}
-                  <div className="form-group-field full-width-field" style={{ marginTop: '8px' }}>
-                    <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span>Upload Vehicle Photos <span style={{ color: 'var(--color-steel)', fontSize: '0.8rem' }}>(Optional, max 3 files)</span></span>
-                      <span style={{ fontSize: '0.8rem', color: 'var(--color-steel)' }}>Max total size: 8 MB</span>
-                    </label>
-                    <input 
-                      type="file" 
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept=".jpg,.jpeg,.png,.webp"
-                      multiple
-                      style={{ display: 'none' }}
-                    />
-                    <button 
-                      type="button" 
-                      onClick={() => fileInputRef.current?.click()}
-                      className="btn-secondary-header"
-                      style={{ padding: '10px 16px', display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.02)' }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                      Select Files
-                    </button>
-
-                    {selectedFiles.length > 0 && (
-                      <div className="selected-files-list" style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        {selectedFiles.map((file, idx) => (
-                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.02)', padding: '6px 12px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.05)', fontSize: '0.9rem' }}>
-                            <span style={{ color: 'var(--color-white)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>
-                              {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                            </span>
-                            <button 
-                              type="button" 
-                              onClick={() => removeFile(idx)} 
-                              style={{ background: 'none', border: 'none', color: 'var(--color-red)', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', padding: '0 4px' }}
-                              aria-label={`Remove ${file.name}`}
-                            >
-                              &times;
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                  {/* Photo upload panel */}
+                  <div className="form-group-field full-width-field">
+                    <div className="upload-panel">
+                      <label htmlFor="photo-upload">Upload vehicle photos <span style={{ color: 'rgba(188,192,203,0.65)', fontWeight: 400 }}>· Optional · Up to 3 images · 8 MB total</span></label>
+                      <input 
+                        type="file" 
+                        id="photo-upload"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept=".jpg,.jpeg,.png,.webp"
+                        multiple
+                        style={{ display: 'none' }}
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="upload-dropzone-btn"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                        Choose vehicle photos
+                        <span style={{ fontSize: '12px', color: 'rgba(188,192,203,0.55)', marginLeft: 'auto' }}>JPG, PNG, WebP</span>
+                      </button>
+                      {selectedFiles.length > 0 && (
+                        <div className="upload-file-chips">
+                          {selectedFiles.map((file, idx) => (
+                            <div key={idx} className="upload-file-chip">
+                              <span className="upload-file-chip-name">
+                                {file.name} <span style={{ color: 'rgba(188,192,203,0.55)' }}>({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                              </span>
+                              <button 
+                                type="button" 
+                                onClick={() => removeFile(idx)} 
+                                className="upload-file-chip-remove"
+                                aria-label={`Remove ${file.name}`}
+                              >
+                                &times;
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Consent checkbox */}
-                  <div className="form-group-field full-width-field" style={{ marginTop: '16px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                  {/* Consent row */}
+                  <div className="consent-row">
                     <input 
+                      className="consent-checkbox"
                       type="checkbox" 
                       id="consent" 
                       name="consent" 
                       checked={formData.consent}
                       onChange={handleInputChange}
-                      style={{ marginTop: '4px', cursor: 'pointer' }}
                       required
                     />
-                    <label htmlFor="consent" style={{ fontSize: '0.9rem', color: 'var(--color-steel)', cursor: 'pointer', userSelect: 'none', lineHeight: '1.4' }}>
-                      I agree that Detail Driven may contact me about this quote request. I understand that submitting this form does not confirm an appointment or final price. Understood in accordance with the <Link to="/privacy" target="_blank" style={{ color: 'var(--color-white)', textDecoration: 'underline' }}>Privacy Policy</Link>.
+                    <label htmlFor="consent" className="consent-copy">
+                      I agree that Detail Driven may contact me about this quote request. Submitting this form does not confirm an appointment or final price. <Link to="/privacy" target="_blank" style={{ color: '#FFFFFF', fontWeight: 600, textDecorationThickness: '1px', textUnderlineOffset: '3px' }}>View the Privacy Policy.</Link>
                     </label>
                   </div>
                 </div>
 
-                <div className="form-submit-block" style={{ marginTop: '24px' }}>
-                  <button type="submit" className="btn-submit-form" disabled={submitting} style={{ opacity: submitting ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <div className="form-submit-block">
+                  <button type="submit" className="btn-submit-form" disabled={submitting} style={{ opacity: submitting ? 0.7 : 1 }}>
                     {submitting ? 'SENDING REQUEST...' : 'REQUEST A CUSTOM QUOTE'}
                   </button>
                 </div>
@@ -726,12 +782,19 @@ function Home() {
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }
 
 // Router Root Layout Component
 export default function App() {
+  useEffect(() => {
+    document.documentElement.dataset.prerenderReady = "true";
+    return () => {
+      delete document.documentElement.dataset.prerenderReady;
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="coming-soon-container" data-theme="dark">

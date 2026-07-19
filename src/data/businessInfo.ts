@@ -3,7 +3,7 @@ export const businessInfo = {
   phoneDisplay: "(512) 699-9085",
   phoneHref: "tel:5126999085",
   email: "contact@d2detaildriven.com",
-  streetAddress: "4229 N FM 620, Unit 126",
+  streetAddress: "4229 N FM 620 Rd, Unit 126",
   city: "Austin",
   region: "TX",
   postalCode: "78734",

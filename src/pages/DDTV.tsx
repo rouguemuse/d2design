@@ -50,7 +50,7 @@ export default function DDTV() {
       <SEO 
         title="Detail Driven TV | Precision Detailing & Correction Videos"
         description="Watch behind-the-scenes paint correction, ceramic coating applications, and exotic car details from our Austin studio."
-        path="/ddtv"
+        canonicalPath="/ddtv"
       />
 
       {/* Intro */}

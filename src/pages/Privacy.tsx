@@ -8,7 +8,7 @@ export default function Privacy() {
       <SEO 
         title="Privacy Policy | Detail Driven Austin"
         description="Detail Driven's Privacy Policy. Learn how we handle your contact information, vehicle details, and uploaded photographs securely."
-        path="/privacy"
+        canonicalPath="/privacy"
       />
       
       <section className="site-container" style={{ paddingTop: '120px', paddingBottom: '80px', maxWidth: '800px', margin: '0 auto' }}>

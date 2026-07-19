@@ -1,32 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
 export default function NotFound() {
-  useEffect(() => {
-    // Add noindex tag to head
-    let metaRobots = document.querySelector('meta[name="robots"]');
-    if (!metaRobots) {
-      metaRobots = document.createElement('meta');
-      metaRobots.setAttribute('name', 'robots');
-      document.head.appendChild(metaRobots);
-    }
-    metaRobots.setAttribute('content', 'noindex, nofollow');
-
-    return () => {
-      // Remove it when leaving 404
-      if (metaRobots) {
-        metaRobots.setAttribute('content', 'index, follow');
-      }
-    };
-  }, []);
-
   return (
     <main className="page-main-container" style={{ background: '#050507', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <SEO 
         title="Page Not Found | Detail Driven"
         description="The page you are looking for does not exist."
-        path="/404"
+        noindex={true}
       />
       
       <section className="site-container" style={{ textAlign: 'center', padding: '100px 20px', maxWidth: '600px' }}>

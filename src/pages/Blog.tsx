@@ -12,7 +12,7 @@ export default function Blog() {
       <SEO 
         title="Detail Driven Blog | Auto Detailing & Paint Care Insights"
         description="Read professional advice on paint correction, ceramic coatings, vehicle decontamination, and automotive detailing from Detail Driven Austin."
-        path="/blog"
+        canonicalPath="/blog"
       />
 
       <section className="site-container" style={{ paddingTop: '120px', paddingBottom: '40px' }}>
@@ -40,7 +40,7 @@ export default function Blog() {
             </div>
             <div>
               <span style={{ color: 'var(--color-red)', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', display: 'block', marginBottom: '12px', fontFamily: 'var(--font-headings)' }}>
-                FEATURED &bull; {featuredPost.category}
+                {`FEATURED • ${featuredPost.category}`}
               </span>
               <h2 style={{ fontFamily: 'var(--font-headings)', fontSize: 'clamp(28px, 4vw, 36px)', color: 'var(--color-white)', lineHeight: 1.2, marginBottom: '16px', textTransform: 'uppercase' }}>
                 {featuredPost.title}

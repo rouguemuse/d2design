@@ -352,6 +352,86 @@ a, button, select, input, textarea {
   background-color: #b31017;
 }
 
+.hero-image-label {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: var(--color-red);
+  color: var(--color-white);
+  font-family: var(--font-headings);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 4px 8px; /* Less padded label */
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Hero Right: Copywriting */
+.hero-copy-col {
+  width: 100%;
+}
+
+.hero-copy-content {
+  max-width: 680px;
+}
+
+.hero-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px; /* Slightly reduced letter spacing */
+  color: var(--color-red);
+  margin-bottom: 0.5rem; /* Reduced gap */
+}
+
+.hero-headline {
+  font-size: clamp(28px, 3.2vw, 44px); /* Scaled down headline */
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--color-white);
+  margin-bottom: 1.25rem;
+  max-width: 680px;
+}
+
+.hero-headline span {
+  display: block;
+}
+
+.hero-supporting-text {
+  font-size: 17px; /* Between 16px and 18px */
+  color: var(--color-steel); /* Clear contrast */
+  line-height: 1.65;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  max-width: 610px;
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.btn-primary-hero {
+  background-color: var(--color-red);
+  color: #F7F7F7;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 0 30px; /* Precise padding */
+  height: 50px; /* Precise height */
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary-hero:hover {
+  background-color: #b31017;
+}
 
 .link-quiet-hero {
   color: var(--color-steel);
@@ -490,183 +570,6 @@ a, button, select, input, textarea {
   text-transform: uppercase;
   color: var(--color-white);
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-supporting);
-}
-
-.red-bullet {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-red);
-}
-
-/* 4. QUOTE REQUEST FORM */
-.quote-form-section {
-  padding: 80px 0;
-  width: 100%;
-}
-
-.quote-form-inner {
-  max-width: 800px;
-  margin: 0 auto;
-  background: var(--form-card-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--form-card-border);
-  border-radius: 4px;
-  padding: 3rem 2.5rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.quote-form-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.quote-form-header h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-white);
-  letter-spacing: 0.5px;
-}
-
-.quote-form-header p {
-  font-size: 0.9rem;
-  color: var(--color-steel);
-  line-height: 1.5;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.quote-inquiry-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.form-grid-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-}
-
-.form-group-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.form-group-field.full-width-field {
-  grid-column: 1 / -1;
-}
-
-.form-group-field label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-steel);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.required-star {
-  color: var(--color-red);
-}
-
-.form-group-field input,
-.form-group-field select,
-.form-group-field textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: rgba(11, 11, 11, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 2px;
-  color: var(--color-white);
-  font-size: 0.9rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  outline: none;
-}
-
-.form-group-field input::placeholder,
-.form-group-field textarea::placeholder {
-  color: rgba(255, 255, 255, 0.2);
-}
-
-.form-group-field input:focus,
-.form-group-field select:focus,
-.form-group-field textarea:focus {
-  border-color: var(--color-red);
-  box-shadow: 0 0 15px rgba(215, 25, 32, 0.15);
-  background-color: rgba(11, 11, 11, 0.85);
-}
-
-.select-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.select-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 4px solid var(--color-steel);
-  pointer-events: none;
-}
-
-.form-group-field select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  padding-right: 32px;
-}
-
-.form-group-field select option {
-  background-color: var(--surface-elevated);
-  color: var(--color-white);
-}
-
-.form-submit-block {
-  margin-top: 0.5rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-submit-form {
-  background-color: var(--color-red);
-  color: #F7F7F7;
-  border: none;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 0 2rem;
-  height: 48px;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-submit-form:hover {
-  background-color: #b31017;
-}
-
-/* Success State */
-.form-feedback-success {
-  padding: 1.5rem;
-  background-color: rgba(46, 204, 113, 0.03);
   border: 1px solid rgba(46, 204, 113, 0.15);
   border-radius: 4px;
   display: flex;
@@ -1647,9 +1550,10 @@ a, button, select, input, textarea {
   inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
-  object-position: center center;
-  z-index: 1;
+  object-position: center;
+  z-index: 0;
   animation: heroFadeIn 1.2s ease-out;
 }
 
@@ -1676,12 +1580,13 @@ a, button, select, input, textarea {
       transparent 35%,
       rgba(5,5,7,0.55) 100%
     );
-  z-index: 2;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .video-hero-content {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
