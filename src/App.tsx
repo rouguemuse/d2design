@@ -9,6 +9,24 @@ import NotFound from './pages/NotFound';
 import { SEO } from './components/SEO';
 import { businessInfo } from './data/businessInfo';
 
+const serviceImages = [
+  { name: 'Premium Detailing', image: '/media/services/img_leather.png' },
+  { name: 'Paint Correction', image: '/media/services/img_black_paint.png' },
+  { name: 'Ceramic Coating', image: '/media/services/new_porsche.png' },
+  { name: 'Paint Protection Film', image: '/media/services/d2_wrap_mockup.png' },
+  { name: 'Vehicle Restoration', image: '/media/services/img_carbon.png' }
+];
+
+const portfolioImages: Array<{ title: string; category: string; image: string }> = [];
+
+const duplicates = serviceImages.filter(service =>
+  portfolioImages.some(project => project.image === service.image)
+);
+
+if (duplicates.length > 0) {
+  throw new Error("Service and portfolio images must be unique.");
+}
+
 // Central FormSubmit receiving endpoint
 // Note: Jacobi must replace this address with the FormSubmit random token once activated
 const FORM_ENDPOINT = "https://formsubmit.co/ajax/driven2inc@gmail.com";
@@ -395,7 +413,7 @@ function Home() {
           <div className="svc-grid">
             <article className="svc-card">
               <div className="svc-card-img-wrap">
-                <img src="/img_leather.png" alt="Premium Detailing — interior cabin restoration" />
+                <img src="/media/services/img_leather.png" alt="Premium Detailing — interior cabin restoration" />
               </div>
               <div className="svc-card-body">
                 <span className="svc-card-eyebrow">01 — Premium Detail</span>
@@ -408,7 +426,7 @@ function Home() {
 
             <article className="svc-card">
               <div className="svc-card-img-wrap">
-                <img src="/img_black_paint.png" alt="Paint Correction — eliminate swirl marks and scratches" />
+                <img src="/media/services/img_black_paint.png" alt="Paint Correction — eliminate swirl marks and scratches" />
               </div>
               <div className="svc-card-body">
                 <span className="svc-card-eyebrow">02 — Correction</span>
@@ -421,7 +439,7 @@ function Home() {
 
             <article className="svc-card">
               <div className="svc-card-img-wrap">
-                <img src="/new_porsche.png" alt="Ceramic Coating — long-term hydrophobic protection" />
+                <img src="/media/services/new_porsche.png" alt="Ceramic Coating — long-term hydrophobic protection" />
               </div>
               <div className="svc-card-body">
                 <span className="svc-card-eyebrow">03 — Ceramic</span>
@@ -434,7 +452,7 @@ function Home() {
 
             <article className="svc-card">
               <div className="svc-card-img-wrap">
-                <img src="/d2_wrap_mockup.png" alt="Paint Protection Film — physical clear-bra armor" />
+                <img src="/media/services/d2_wrap_mockup.png" alt="Paint Protection Film — physical clear-bra armor" />
               </div>
               <div className="svc-card-body">
                 <span className="svc-card-eyebrow">04 — PPF</span>
@@ -447,7 +465,7 @@ function Home() {
 
             <article className="svc-card">
               <div className="svc-card-img-wrap">
-                <img src="/img_carbon.png" alt="Vehicle Restoration — classic and collector automobiles" />
+                <img src="/media/services/img_carbon.png" alt="Vehicle Restoration — classic and collector automobiles" />
               </div>
               <div className="svc-card-body">
                 <span className="svc-card-eyebrow">05 — Restoration</span>
@@ -461,44 +479,18 @@ function Home() {
         </div>
       </section>
 
-      {/* 4. FEATURED WORK — DARK */}
+      {/* 4. STUDIO PORTFOLIO — DARK */}
       <section className="featured-work-section editorial-section">
-        <div className="site-container">
-          <span className="section-eyebrow">Studio Portfolio</span>
-          <h2 className="section-heading">Featured Work</h2>
-
-          <div className="featured-work-grid">
-            <div className="fw-hero">
-              <img src="/new_porsche.png" alt="Porsche GT3 Weissach — ceramic protection" />
-              <div className="fw-caption">
-                <span className="fw-caption-tag">Ceramic Protection</span>
-                <h4 className="fw-caption-title">Porsche GT3 Weissach</h4>
-              </div>
-            </div>
-
-            <div className="fw-supp">
-              <img src="/img_black_paint.png" alt="Paint correction — deep reflection restoration" />
-              <div className="fw-caption">
-                <span className="fw-caption-tag">Paint Correction</span>
-                <h4 className="fw-caption-title">Deep Reflection Restoration</h4>
-              </div>
-            </div>
-
-            <div className="fw-supp">
-              <img src="/img_leather.png" alt="Interior detailing — premium cabin rejuvenation" />
-              <div className="fw-caption">
-                <span className="fw-caption-tag">Cabin Detail</span>
-                <h4 className="fw-caption-title">Premium Interior Rejuvenation</h4>
-              </div>
-            </div>
-
-            <div className="fw-supp">
-              <img src="/img_carbon.png" alt="Carbon fiber restoration details" />
-              <div className="fw-caption">
-                <span className="fw-caption-tag">Restoration</span>
-                <h4 className="fw-caption-title">Exotic Carbon Accents</h4>
-              </div>
-            </div>
+        <div className="site-container" style={{ textAlign: 'center' }}>
+          <span className="section-eyebrow" style={{ color: 'var(--brand-red)' }}>Studio Portfolio</span>
+          <h2 className="section-heading" style={{ color: '#FFFFFF' }}>STUDIO PORTFOLIO</h2>
+          <p style={{ fontFamily: 'var(--font-supporting)', color: 'var(--color-steel)', fontSize: '1.05rem', lineHeight: '1.6', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+            More completed Detail Driven projects will be added soon.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <a href={businessInfo.instagram} target="_blank" rel="noopener noreferrer" className="btn-primary-hero" style={{ textDecoration: 'none' }}>
+              VIEW OUR WORK ON INSTAGRAM
+            </a>
           </div>
         </div>
       </section>
