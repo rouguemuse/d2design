@@ -8,14 +8,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        themes: resolve(__dirname, 'themes.html'),
-        dark: resolve(__dirname, 'dark.html'),
-        light: resolve(__dirname, 'light.html'),
-        mixed: resolve(__dirname, 'mixed.html'),
-        ddtv: resolve(__dirname, 'ddtv.html'),
-        blog: resolve(__dirname, 'blog.html'),
-        admin: resolve(__dirname, 'admin.html'),
+        main: resolve(__dirname, 'index.html')
       }
     }
   }

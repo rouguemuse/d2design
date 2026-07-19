@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.d2autodetail.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.d2autodetail.com/blog</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.d2autodetail.com/blog/why-paint-correction-must-come-before-every-ceramic-coating</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.d2autodetail.com/blog/how-long-do-ceramic-coatings-actually-last</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.d2autodetail.com/ddtv</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.d2autodetail.com/privacy</loc>
+    <priority>0.5</priority>
+  </url>
+</urlset>
