@@ -185,14 +185,39 @@ function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Imperatively start video playback on mount
+  // Imperatively start video playback on mount with interaction fallback
   useEffect(() => {
     const video = heroVideoRef.current;
     if (!video) return;
+
     video.muted = true;
-    video.play().catch((err) => {
-      console.error('Hero video failed to autoplay:', err);
-    });
+
+    const playVideo = () => {
+      video.play()
+        .then(() => {
+          // Playback started successfully, clean up listeners
+          cleanup();
+        })
+        .catch((err) => {
+          console.warn('Hero video play attempt rejected, waiting for user gesture:', err);
+        });
+    };
+
+    const cleanup = () => {
+      window.removeEventListener('touchstart', playVideo);
+      window.removeEventListener('scroll', playVideo);
+      window.removeEventListener('click', playVideo);
+    };
+
+    // Bind listeners for early user interactions
+    window.addEventListener('touchstart', playVideo, { passive: true });
+    window.addEventListener('scroll', playVideo, { passive: true });
+    window.addEventListener('click', playVideo, { passive: true });
+
+    // Initial attempt on mount
+    playVideo();
+
+    return cleanup;
   }, []);
 
   // Check hash on load for deep section scrolling
