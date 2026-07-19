@@ -74,6 +74,34 @@ const server = http.createServer((req, res) => {
 
 // Run prerender generation sequence
 async function run() {
+  // If in Vercel or CI build container environment, generate sitemap.xml and skip Puppeteer crawls
+  if (process.env.VERCEL === '1' || process.env.CI === 'true') {
+    console.log('\nCI/Vercel environment detected. Generating sitemap.xml and skipping Puppeteer prerendering.');
+    const allPaths = [
+      '/',
+      '/blog',
+      ...blogPosts.map((p) => `/blog/${p.slug}`),
+      '/ddtv',
+      '/privacy'
+    ];
+    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${allPaths
+  .map(
+    (p) => `  <url>
+      <loc>https://www.d2autodetail.com${p}</loc>
+      <priority>${p === '/' ? '1.0' : p.startsWith('/blog/') ? '0.7' : '0.8'}</priority>
+    </url>`
+  )
+  .join('\n')}
+</urlset>`;
+
+    fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf8');
+    console.log('Successfully wrote dist/sitemap.xml');
+    console.log('Static prerendering skipped successfully.');
+    process.exit(0);
+  }
+
   // 1. Verify Puppeteer browser installation path
   const executablePath = await puppeteer.executablePath();
   if (!executablePath) {
