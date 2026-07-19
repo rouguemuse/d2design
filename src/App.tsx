@@ -42,22 +42,42 @@ function ScrollToTop() {
 
 // Scrolled state header wrapper
 function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const headerRef = useRef<HTMLDivElement>(null);
 
+  // Close menu when route changes
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Close menu when Escape key is pressed
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
-    <header className={`compact-header ${isHome ? 'header-absolute' : 'header-solid'}${scrolled ? ' scrolled' : ''}`}>
+    <header ref={headerRef} className={`site-header ${isHome ? 'site-header-home' : ''}`}>
       <div className="header-inner site-container">
-        <Link to="/" className="header-logo-block" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to="/" className="header-logo-block">
           <img src="/logo-light.svg" alt="D2 Logo" className="header-logo-img" />
           <div className="header-brand-info">
             <span className="header-brand-name">DETAIL DRIVEN</span>
@@ -65,35 +85,42 @@ function Header() {
           </div>
         </Link>
 
-        {/* Desktop nav links */}
-        <nav className="header-nav-links" aria-label="Site navigation">
-          <NavLink to="/ddtv" className={({ isActive }) => `btn-secondary-header${isActive ? ' active' : ''}`}>DD TV</NavLink>
-          <NavLink to="/blog" className={({ isActive }) => `btn-secondary-header${isActive ? ' active' : ''}`}>BLOG</NavLink>
+        {/* Desktop navigation */}
+        <nav className="desktop-header-nav" aria-label="Site navigation">
+          <NavLink to="/ddtv">DD TV</NavLink>
+          <NavLink to="/blog">Blog</NavLink>
+          <a href="/#quote-section" className="header-quote-button">
+            Request a Quote
+          </a>
         </nav>
 
-        <div className="header-cta-block">
-          {isHome ? (
-            <a href="#quote-section" className="btn-primary-header" style={{ textDecoration: 'none' }}>
-              <span className="btn-label-desktop">REQUEST A QUOTE</span>
-              <span className="btn-label-mobile">QUOTE</span>
-            </a>
-          ) : (
-            <Link to="/#quote-section" className="btn-primary-header" style={{ textDecoration: 'none' }}>
-              <span className="btn-label-desktop">REQUEST A QUOTE</span>
-              <span className="btn-label-mobile">QUOTE</span>
-            </Link>
-          )}
+        {/* Mobile action block */}
+        <div className="mobile-header-actions">
+          <a href="/#quote-section" className="mobile-quote-button">
+            Quote
+          </a>
+
+          <button
+            type="button"
+            className="mobile-menu-toggle"
+            aria-label="Open navigation"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen(open => !open)}
+          >
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
 
-      {/* Mobile secondary row: DD TV / Blog / Privacy */}
-      <div className="header-mobile-nav">
-        <div className="site-container">
-          <NavLink to="/ddtv" className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}>DD TV</NavLink>
-          <NavLink to="/blog" className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}>Blog</NavLink>
-          <Link to="/privacy" className="mobile-nav-link">Privacy</Link>
-        </div>
-      </div>
+      {mobileMenuOpen && (
+        <nav className="mobile-menu-panel" aria-label="Mobile navigation">
+          <NavLink to="/ddtv" onClick={() => setMobileMenuOpen(false)}>DD TV</NavLink>
+          <NavLink to="/blog" onClick={() => setMobileMenuOpen(false)}>Blog</NavLink>
+          <Link to="/privacy" onClick={() => setMobileMenuOpen(false)}>Privacy</Link>
+          <a href={businessInfo.instagram} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>Instagram</a>
+        </nav>
+      )}
     </header>
   );
 }
@@ -101,13 +128,13 @@ function Header() {
 // Shared Footer Layout
 function Footer() {
   return (
-    <footer id="footer-section" className="brand-footer-clean">
+    <footer id="footer-section" className="site-footer">
       <div className="site-container footer-flex-row">
-        <Link to="/" className="footer-logo-block" style={{display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none'}}>
-          <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" style={{height: '52px'}} />
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-            <span style={{color: '#F7F7F7', fontFamily: 'var(--font-headings)', fontWeight: '800', letterSpacing: '1.5px', fontSize: '1.5rem', lineHeight: '1.1'}}>DETAIL DRIVEN</span>
-            <span style={{color: '#BCC0CB', fontSize: '0.85rem', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: '500'}}>Auto Detail</span>
+        <Link to="/" className="footer-logo-block">
+          <img src="/logo-light.svg" alt="D2 Logo" className="footer-logo-img" />
+          <div className="footer-brand-info">
+            <span className="footer-brand-name">DETAIL DRIVEN</span>
+            <span className="footer-tagline">Auto Detail</span>
           </div>
         </Link>
         
@@ -118,21 +145,21 @@ function Footer() {
           <a href={businessInfo.facebook} target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="Facebook">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
-          <Link to="/ddtv" className="footer-social-btn" aria-label="DD TV" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>DD TV</span>
-          </Link>
-          <Link to="/blog" className="footer-social-btn" aria-label="Blog" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>BLOG</span>
-          </Link>
-          <Link to="/privacy" className="footer-social-btn" aria-label="Privacy" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>PRIVACY</span>
-          </Link>
+          <Link to="/ddtv" className="footer-social-btn">DD TV</Link>
+          <Link to="/blog" className="footer-social-btn">Blog</Link>
+          <Link to="/privacy" className="footer-social-btn">Privacy</Link>
         </div>
         
         <div className="footer-contact-block">
-          <a href={`mailto:${businessInfo.email}`} style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-white)', textDecoration: 'none' }}>{businessInfo.email}</a>
-          <span className="footer-service-area" style={{ fontSize: '0.9rem', marginTop: '6px' }}>{`Serving ${businessInfo.city} and surrounding areas`}</span>
-          <span className="copyright-text" style={{ fontSize: '0.85rem', marginTop: '4px' }}>{`© 2026 ${businessInfo.name}. All rights reserved.`}</span>
+          <a className="footer-email" href={`mailto:${businessInfo.email}`}>
+            {businessInfo.email}
+          </a>
+          <p className="footer-location">
+            {`Serving ${businessInfo.city} and surrounding areas`}
+          </p>
+          <p className="footer-copyright">
+            {`© 2026 ${businessInfo.name}. All rights reserved.`}
+          </p>
         </div>
       </div>
     </footer>
