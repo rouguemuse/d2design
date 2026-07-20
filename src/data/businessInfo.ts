@@ -9,6 +9,6 @@ export const businessInfo = {
   postalCode: "78734",
   domain: "https://www.d2autodetail.com",
   instagram: "https://www.instagram.com/d2_detaildriven/",
-  facebook: "https://www.facebook.com/people/D2-Auto-Detail/100063942352825/",
+  facebook: "https://www.facebook.com/detaildrivenautodetail",
   youtube: "https://www.youtube.com/@d2_detaildriven"
 };
