@@ -148,10 +148,9 @@
     /* Content Area */
     .admin-content {
       flex: 1;
+      min-width: 0; /* prevent flex blowout — keeps content beside sidebar */
       padding: 24px;
-      max-width: 1200px;
-      width: 100%;
-      margin: 0 auto;
+      overflow-y: auto;
     }
 
     @media (min-width: 900px) {
@@ -305,6 +304,12 @@
       background-position: right 14px center;
       padding-right: 36px;
       appearance: none;
+    }
+
+    /* Fix: dropdown option text is white-on-white in system popup */
+    select.form-control option {
+      background-color: var(--surface);
+      color: var(--text);
     }
 
     /* List items */
@@ -1224,9 +1229,15 @@
     function switchPanel(panelId, btn) {
       document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      
+
       document.getElementById('panel-' + panelId).classList.add('active');
       btn.classList.add('active');
+
+      // Re-render ad preview whenever the Ad Builder panel becomes visible
+      // (the canvas may have been updated while hidden, so force a refresh)
+      if (panelId === 'ads') {
+        updateAdPreview();
+      }
     }
 
     // --- CMS STUDIO ACTIONS ---
