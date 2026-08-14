@@ -326,6 +326,32 @@ function Home() {
       if (resJson.success || response.status === 200) {
         setSubmitted(true);
         setSubmitting(false);
+
+        // ── Save inquiry to admin portal Order Center (localStorage d2_orders) ──
+        try {
+          const existing = JSON.parse(localStorage.getItem('d2_orders') || '[]');
+          const nextNum = existing.length > 0
+            ? Math.max(...existing.map((o: { id: string }) => parseInt(o.id.replace('D2-', '')) || 1000)) + 1
+            : 1004;
+          const newOrder = {
+            id: `D2-${nextNum}`,
+            date: new Date().toISOString().split('T')[0],
+            client: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            vehicle: formData.vehicle,
+            service: formData.service,
+            status: 'Pending Assessment',
+            amount: 0,
+            message: formData.message,
+            items: [{ desc: formData.service, cost: 0 }]
+          };
+          localStorage.setItem('d2_orders', JSON.stringify([newOrder, ...existing]));
+        } catch (_) {
+          // localStorage unavailable — email already sent, not critical
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
         // Clear form fields
         setFormData({
           name: '',
