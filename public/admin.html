@@ -386,12 +386,13 @@
       max-width: 320px;
       aspect-ratio: 1/1; /* default square */
       background: #000;
+      color: #ffffff; /* base: all themes inherit white text */
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 24px;
+      padding: 20px;
       box-shadow: 0 16px 40px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.05);
       transition: all 0.3s ease;
@@ -532,13 +533,15 @@
     }
 
     .ad-content-overlay {
-      position: relative;
+      position: absolute;
+      inset: 0;
       z-index: 2;
-      height: 100%;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: 100%;
+      height: 100%;
     }
 
     .ad-header {
@@ -570,11 +573,12 @@
 
     .ad-title {
       font-family: var(--font-display);
-      font-size: clamp(24px, 3.5vw, 36px);
-      line-height: 0.95;
+      font-size: 28px; /* canvas-relative — no vw overflow */
+      line-height: 1;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      color: #ffffff; /* explicit so it's always visible */
     }
 
     .ad-canvas.ad-dark .ad-title { color: #fff; }
@@ -584,9 +588,10 @@
     .ad-canvas.ad-light .ad-title .accent { color: #CF1C1C; }
 
     .ad-desc {
-      font-size: 11px;
+      font-size: 10px;
       line-height: 1.5;
-      opacity: 0.7;
+      opacity: 0.85;
+      color: inherit; /* ensure it inherits canvas colour */
     }
 
     .ad-footer {
