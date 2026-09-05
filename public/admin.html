@@ -1647,7 +1647,7 @@
           <div class="bill-meta-col" style="text-align: right;">
             <h3>D2 Auto Detail</h3>
             <p>Austin, TX</p>
-            <p>info@d2detaildriven.com</p>
+            <p>jacobi@d2autodetail.com</p>
             <p>+1 949 444 2885</p>
             <p style="margin-top:8px; color:#555;">Date: <strong>${date}</strong></p>
           </div>
@@ -1697,24 +1697,26 @@
     let adBgSource = 'preset'; // 'preset', 'custom', or 'upload'
     let adUploadedDataUrl = '';
     let adCustomUrl = '';
+    let adCurrentOpacity = 0.25; // stored state so it persists across updateAdPreview calls
+    let adCurrentBlur = 5;       // stored state for blur
 
     function updateAdPreview() {
       const theme = document.getElementById('ad-theme').value;
       const layout = document.getElementById('ad-layout').value;
-      
+
       const txtEyebrow = document.getElementById('ad-txt-eyebrow').value.trim();
-      const txtTitle = document.getElementById('ad-txt-title').value.trim();
-      const txtAccent = document.getElementById('ad-txt-accent').value.trim();
-      const txtDesc = document.getElementById('ad-txt-desc').value.trim();
-      const txtCta = document.getElementById('ad-txt-cta').value.trim();
+      const txtTitle   = document.getElementById('ad-txt-title').value.trim();
+      const txtAccent  = document.getElementById('ad-txt-accent').value.trim();
+      const txtDesc    = document.getElementById('ad-txt-desc').value.trim();
+      const txtCta     = document.getElementById('ad-txt-cta').value.trim();
 
       const canvas = document.getElementById('ad-canvas');
-      const bgImg = document.getElementById('ad-bg-img');
+      const bgImg  = document.getElementById('ad-bg-img');
 
-      // Update layout & theme classes
-      canvas.className = 'ad-canvas ' + theme + ' ' + layout;
-      
-      // Update background source
+      // Theme + layout classes
+      canvas.className = 'ad-canvas ' + theme + (layout === 'story' ? ' story' : '');
+
+      // Background image source (upload > custom URL > preset dropdown)
       if (adBgSource === 'upload' && adUploadedDataUrl) {
         bgImg.src = adUploadedDataUrl;
       } else if (adBgSource === 'custom' && adCustomUrl) {
@@ -1723,26 +1725,35 @@
         bgImg.src = document.getElementById('ad-bg').value;
       }
 
-      // Update texts
-      document.getElementById('ad-preview-eyebrow').textContent = txtEyebrow;
-      document.getElementById('ad-preview-desc').textContent = txtDesc;
-      document.getElementById('ad-preview-cta').textContent = txtCta;
+      // Re-apply slider state so it never gets lost on re-renders
+      bgImg.style.opacity = adCurrentOpacity;
+      bgImg.style.filter  = `grayscale(40%) blur(${adCurrentBlur}px)`;
 
-      // Title assembly
+      // Text content
+      document.getElementById('ad-preview-eyebrow').textContent = txtEyebrow;
+      document.getElementById('ad-preview-desc').textContent    = txtDesc;
+      document.getElementById('ad-preview-cta').textContent     = txtCta;
+
+      // Title + accent line
       const titleEl = document.getElementById('ad-preview-title');
       if (txtAccent) {
-        titleEl.innerHTML = `${txtTitle} <br><span class="accent">${txtAccent}</span>`;
+        titleEl.innerHTML = `${txtTitle}<br><span class="accent">${txtAccent}</span>`;
       } else {
-        titleEl.innerHTML = txtTitle;
+        titleEl.textContent = txtTitle;
       }
     }
 
+    // -- Image source helpers --
     function setAdCustomBg(url) {
       if (url.trim()) {
-        adCustomUrl = url.trim();
-        adBgSource = 'custom';
+        adCustomUrl  = url.trim();
+        adBgSource   = 'custom';
+        // Clear the file upload so sources don't conflict
+        document.getElementById('ad-upload-bg').value = '';
+        adUploadedDataUrl = '';
       } else {
         adBgSource = 'preset';
+        adCustomUrl = '';
       }
       updateAdPreview();
     }
@@ -1753,40 +1764,87 @@
         reader.onload = function(e) {
           adUploadedDataUrl = e.target.result;
           adBgSource = 'upload';
+          // Clear the URL field so sources don't conflict
+          document.getElementById('ad-custom-bg').value = '';
+          adCustomUrl = '';
           updateAdPreview();
         };
         reader.readAsDataURL(input.files[0]);
       }
     }
 
+    // -- Slider helpers — store state AND apply immediately --
     function updateAdOpacity(val) {
+      adCurrentOpacity = val / 100;
       document.getElementById('opacity-val').textContent = val;
-      const bgImg = document.getElementById('ad-bg-img');
-      bgImg.style.opacity = val / 100;
+      document.getElementById('ad-bg-img').style.opacity = adCurrentOpacity;
     }
 
     function updateAdBlur(val) {
+      adCurrentBlur = parseInt(val, 10);
       document.getElementById('blur-val').textContent = val;
-      const bgImg = document.getElementById('ad-bg-img');
-      bgImg.style.filter = `grayscale(40%) blur(${val}px)`;
+      document.getElementById('ad-bg-img').style.filter = `grayscale(40%) blur(${adCurrentBlur}px)`;
     }
 
+    // -- Copy bank: 30 entries across all services, tones, and seasons --
     const AD_SLOGANS = [
-      { title: "Driven by Precision.", accent: "Trusted for Details.", desc: "Elite paint correction, ceramic coatings, and premium detailing. Secure your booking today." },
-      { title: "Preserve the Gloss.", accent: "Lock in Protection.", desc: "Showroom results that last years, not days. Certified ceramic coating specialists." },
-      { title: "Say Goodbye to Swirls.", accent: "Hello to Reflections.", desc: "Multi-stage paint correction that restores deep color and high-gloss depth." },
-      { title: "Showroom Shine.", accent: "Every Single Day.", desc: "Hydrophobic coatings that repel dust, dirt, and water. Detailing at the absolute highest level." },
-      { title: "The Detail Is In", accent: "The Discipline.", desc: "Professional automotive restoration, paint preservation, and ceramic shield protection." }
+      // ── Paint Correction ───────────────────────────────────────────
+      { eyebrow: "Paint Correction Specialists", title: "Say Goodbye to Swirls.", accent: "Hello to Reflections.", desc: "Multi-stage paint correction that erases years of swirl marks and restores mirror-like depth.", cta: "Book Correction" },
+      { eyebrow: "Swirl-Free Guaranteed", title: "Every Mark.", accent: "Gone.", desc: "Our dual-action and rotary paint correction process removes scratches, haze, and oxidation down to bare perfection.", cta: "Get a Quote" },
+      { eyebrow: "Before → After", title: "Your Paint.", accent: "Transformed.", desc: "See the difference a professional correction makes. We restore what years of neglect took away.", cta: "See Our Work" },
+      { eyebrow: "Paint Restoration", title: "Dull Is Dead.", accent: "Gloss Lives Here.", desc: "One-step, two-step, or full multi-stage correction. We match the process to the damage.", cta: "Request Pricing" },
+      { eyebrow: "Austin's #1 Correction Studio", title: "The Depth You", accent: "Forgot Was There.", desc: "Swirl marks and water spots don't stand a chance. Stage 2 correction restores the original factory depth.", cta: "Schedule Now" },
+      // ── Ceramic Coating ────────────────────────────────────────────
+      { eyebrow: "Ceramic Coating — Austin TX", title: "Preserve the Gloss.", accent: "Lock In Protection.", desc: "Certified ceramic coatings that repel water, UV, and contaminants. Results that last years.", cta: "Book a Coating" },
+      { eyebrow: "5-Year Protection Available", title: "One Coat.", accent: "Years of Defense.", desc: "Hydrophobic nano-ceramic technology bonded directly to your clear coat. Self-cleaning. Scratch resistant.", cta: "Get a Quote" },
+      { eyebrow: "Stop Washing. Start Coating.", title: "Showroom Shine.", accent: "Every Single Day.", desc: "Properly coated cars stay cleaner longer. Water beads, dirt slides off, and your paint stays protected.", cta: "Schedule Now" },
+      { eyebrow: "Ceramic Coating Specialists", title: "Protect What", accent: "Matters Most.", desc: "Your car is an investment. We protect it with industry-leading ceramic coating packages from Stage 1 to lifetime warranty options.", cta: "Request Pricing" },
+      { eyebrow: "Permanent Gloss. Real Protection.", title: "The Last Wax", accent: "You'll Ever Need.", desc: "Ceramic coating outperforms wax in every category — hardness, longevity, hydrophobic performance, and UV protection.", cta: "Book a Detail" },
+      // ── PPF / Paint Protection Film ────────────────────────────────
+      { eyebrow: "Paint Protection Film", title: "Invisible Shield.", accent: "Maximum Protection.", desc: "Self-healing PPF guards your front end, rocker panels, and hood against rocks, chips, and road debris.", cta: "Get a Quote" },
+      { eyebrow: "No More Rock Chips", title: "Drive Hard.", accent: "Stay Protected.", desc: "TPU paint protection film absorbs impacts and self-heals minor scratches with heat. Your clear coat stays perfect.", cta: "Schedule Now" },
+      { eyebrow: "PPF + Ceramic Bundle Available", title: "Full Armor.", accent: "Full Gloss.", desc: "Stack PPF with ceramic coating for the ultimate protection package. The standard for new luxury vehicles.", cta: "Get Bundle Pricing" },
+      // ── Interior Detailing ─────────────────────────────────────────
+      { eyebrow: "Interior Deep Clean", title: "Clean Inside.", accent: "Proud Outside.", desc: "Steam cleaning, leather conditioning, odor elimination, and fabric protection. Your interior restored to factory fresh.", cta: "Book an Interior" },
+      { eyebrow: "Leather Restoration Available", title: "Your Interior.", accent: "Reborn.", desc: "Cracked, faded, or stained leather doesn't have to stay that way. We restore and protect every surface.", cta: "Get a Quote" },
+      { eyebrow: "Steam + Extraction Deep Clean", title: "The Detail Others", accent: "Skip.", desc: "We clean what you can't see — vents, seams, carpets, under seats. The kind of clean that lasts.", cta: "Schedule Now" },
+      // ── Brand / General ────────────────────────────────────────────
+      { eyebrow: "Now Booking // Limited Spots", title: "Driven by Precision.", accent: "Trusted for Details.", desc: "Elite paint correction, certified ceramic coatings, and uncompromising craftsmanship. Austin's premium detail studio.", cta: "Get a Quote" },
+      { eyebrow: "By Appointment Only", title: "The Detail Is In", accent: "The Discipline.", desc: "We don't rush. Every panel, every surface, every pass. Professional detailing done the right way.", cta: "Book Now" },
+      { eyebrow: "Austin's Premier Detail Studio", title: "Your Car Deserves", accent: "Better.", desc: "Most cars never get the treatment they deserve. We change that — one detail at a time.", cta: "Request Pricing" },
+      { eyebrow: "Detail Driven Studio", title: "Not a Wash.", accent: "A Restoration.", desc: "We don't run cars through machines. Every detail is hand-crafted, decontaminated, and perfected by professionals.", cta: "See Services" },
+      { eyebrow: "Precision Over Speed", title: "Real Craft.", accent: "Real Results.", desc: "We take the time your vehicle deserves. No shortcuts. No cutting corners. Just exceptional work, every time.", cta: "Get a Quote" },
+      // ── Luxury / High-End Positioning ─────────────────────────────
+      { eyebrow: "Exotic & Luxury Vehicles Welcome", title: "Trusted With", accent: "The Best.", desc: "Porsche. Ferrari. BMW M. Lamborghini. We detail vehicles that demand the highest standard of care.", cta: "Book a Detail" },
+      { eyebrow: "White Glove Service", title: "For Cars That", accent: "Command Respect.", desc: "Your vehicle is more than transportation. We treat it like the investment it is.", cta: "Request a Quote" },
+      { eyebrow: "Concours-Level Detailing", title: "Show-Ready.", accent: "Every Time.", desc: "Preparation for car shows, deliveries, and special events. We deliver concours-level results, on deadline.", cta: "Schedule Now" },
+      // ── Promotional / Seasonal ─────────────────────────────────────
+      { eyebrow: "Limited Spots This Week", title: "Book Now.", accent: "Thank Yourself Later.", desc: "Appointment slots are filling fast. Secure your detail before we're fully booked.", cta: "Book Today" },
+      { eyebrow: "Spring Protection Sale", title: "Spring Clean.", accent: "Spring Protect.", desc: "Prep your paint for the season. Full decontamination + protection packages available now.", cta: "View Packages" },
+      { eyebrow: "Summer UV Protection", title: "Sun Destroys Paint.", accent: "We Don't Let It.", desc: "UV rays are the #1 cause of faded clear coat. Ceramic coating blocks UV at the molecular level.", cta: "Protect Now" },
+      { eyebrow: "Holiday Gift Cards Available", title: "Give the Gift of", accent: "A Perfect Car.", desc: "Detail Driven gift cards — the perfect gift for any car enthusiast. Available in any amount.", cta: "Get Gift Cards" },
+      { eyebrow: "New Delivery Special", title: "New Car.", accent: "Keep It New.", desc: "Protect your brand-new vehicle before the first scratch happens. Ceramic + PPF packages for new deliveries.", cta: "Book Delivery Detail" },
+      { eyebrow: "Referral Program Active", title: "You Refer.", accent: "You Save.", desc: "Send a friend to Detail Driven and earn $50 off your next service. No limit on referrals.", cta: "Learn More" },
+      // ── Social Proof ───────────────────────────────────────────────
+      { eyebrow: "5-Star Rated in Austin", title: "Don't Take", accent: "Our Word for It.", desc: "Hundreds of Austin drivers trust Detail Driven for paint correction, ceramic coatings, and concours detailing.", cta: "See Reviews" },
+      { eyebrow: "Austin's Most Trusted Detailer", title: "Results Speak", accent: "For Themselves.", desc: "Before and afters that prove the difference. Paint correction and ceramic coating that transforms any vehicle.", cta: "View Our Work" },
     ];
-    let sloganIndex = 0;
+
+    let lastSloganIndex = -1;
 
     function generateDetailSlogan() {
-      const slogan = AD_SLOGANS[sloganIndex];
-      sloganIndex = (sloganIndex + 1) % AD_SLOGANS.length;
+      // Pick randomly but never repeat the same one twice in a row
+      let idx;
+      do { idx = Math.floor(Math.random() * AD_SLOGANS.length); }
+      while (idx === lastSloganIndex && AD_SLOGANS.length > 1);
+      lastSloganIndex = idx;
 
-      document.getElementById('ad-txt-title').value = slogan.title;
-      document.getElementById('ad-txt-accent').value = slogan.accent;
-      document.getElementById('ad-txt-desc').value = slogan.desc;
+      const slogan = AD_SLOGANS[idx];
+      document.getElementById('ad-txt-eyebrow').value = slogan.eyebrow || '';
+      document.getElementById('ad-txt-title').value   = slogan.title   || '';
+      document.getElementById('ad-txt-accent').value  = slogan.accent  || '';
+      document.getElementById('ad-txt-desc').value    = slogan.desc    || '';
+      document.getElementById('ad-txt-cta').value     = slogan.cta     || 'Get a Quote';
       updateAdPreview();
     }
 
@@ -1819,6 +1877,9 @@
     // --- INITIAL RUN ---
     renderCMSLists();
     renderOrders();
+    // Sync slider state from HTML default values before first render
+    adCurrentOpacity = parseInt(document.getElementById('ad-opacity').value, 10) / 100;
+    adCurrentBlur    = parseInt(document.getElementById('ad-blur').value, 10);
     updateAdPreview();
   </script>
 </body>
