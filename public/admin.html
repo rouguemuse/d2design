@@ -359,11 +359,17 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 32px;
+      align-items: start;
     }
 
     @media (min-width: 1024px) {
       .ad-sandbox {
         grid-template-columns: 380px 1fr;
+      }
+      .ad-sandbox-right {
+        position: sticky;
+        top: 24px;
+        align-self: start;
       }
     }
 
@@ -521,27 +527,37 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.25;
+      opacity: 0.85;
       z-index: 1;
       pointer-events: none;
-      filter: grayscale(40%);
+      filter: grayscale(35%);
     }
 
     .ad-canvas.ad-light .ad-bg-image {
-      opacity: 0.15;
-      filter: grayscale(100%) contrast(1.1);
+      opacity: 0.85;
+      filter: grayscale(100%) contrast(1.08);
     }
 
-    .ad-content-overlay {
+    /* Dedicated Scrim Layer so Overlay Opacity darkens/lightens the backdrop without washing out copy */
+    .ad-scrim-layer {
       position: absolute;
       inset: 0;
       z-index: 2;
-      padding: 20px;
+      pointer-events: none;
+      background: rgba(10, 10, 10, 0.72);
+      transition: background 0.15s ease;
+    }
+
+    .ad-content-overlay {
+      position: relative;
+      z-index: 3;
+      padding: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: 100%;
       height: 100%;
+      flex: 1;
     }
 
     .ad-header {
@@ -998,17 +1014,6 @@
             <!-- Rendered via JS -->
           </div>
         </div>
-
-        <div class="card" style="border-left: 4px solid var(--red);">
-          <div class="card-title">How to Use the Ad Creator</div>
-          <p style="font-size: 0.9rem; color: #a1a1aa; line-height: 1.5; margin-bottom: 12px;">This tool allows you to create ready-to-post graphics for Instagram and Facebook directly from your browser. No Photoshop required.</p>
-          <ol style="font-size: 0.85rem; color: #a1a1aa; padding-left: 16px; line-height: 1.6; margin-bottom: 0;">
-            <li><strong>Select a Theme:</strong> Pick a color scheme that matches your branding (Dark or Light).</li>
-            <li><strong>Choose a Layout:</strong> 'Square' for standard feed posts, 'Story' for Instagram/Facebook Stories.</li>
-            <li><strong>Update the Text:</strong> Edit the headline and description fields below. The preview will update instantly.</li>
-            <li><strong>Download:</strong> Click the red 'Download High-Res Ad PNG' button to save the graphic to your computer.</li>
-          </ol>
-        </div>
       </section>
 
       <!-- BILLING PANEL -->
@@ -1147,12 +1152,12 @@
 
             <div class="grid-2" style="gap:10px;">
               <div class="form-group">
-                <label>Overlay Opacity (<span id="opacity-val">75</span>%)</label>
-                <input type="range" id="ad-opacity" min="0" max="100" value="75" style="accent-color:var(--red);" oninput="updateAdOpacity(this.value)" />
+                <label>Overlay Opacity (<span id="opacity-val">72</span>%)</label>
+                <input type="range" id="ad-opacity" min="25" max="95" step="1" value="72" style="accent-color:var(--red);" oninput="updateAdOpacity(this.value)" onchange="updateAdOpacity(this.value)" />
               </div>
               <div class="form-group">
-                <label>Image Blur (<span id="blur-val">5</span>px)</label>
-                <input type="range" id="ad-blur" min="0" max="20" value="5" style="accent-color:var(--red);" oninput="updateAdBlur(this.value)" />
+                <label>Image Blur (<span id="blur-val">1</span>px)</label>
+                <input type="range" id="ad-blur" min="0" max="10" step="0.5" value="1" style="accent-color:var(--red);" oninput="updateAdBlur(this.value)" onchange="updateAdBlur(this.value)" />
               </div>
             </div>
 
@@ -1162,58 +1167,75 @@
 
             <div class="form-group">
               <label>Ad Eyebrow</label>
-              <input type="text" id="ad-txt-eyebrow" class="form-control" value="Now Booking // Limited Spots" oninput="updateAdPreview()" />
+              <input type="text" id="ad-txt-eyebrow" class="form-control" value="Now Booking // Limited Spots" oninput="updateAdPreview()" onkeyup="updateAdPreview()" onchange="updateAdPreview()" />
             </div>
 
             <div class="form-group">
               <label>Ad Headline</label>
-              <input type="text" id="ad-txt-title" class="form-control" value="Driven by Precision." oninput="updateAdPreview()" />
+              <input type="text" id="ad-txt-title" class="form-control" value="Driven by Precision." oninput="updateAdPreview()" onkeyup="updateAdPreview()" onchange="updateAdPreview()" />
             </div>
 
             <div class="form-group">
               <label>Colored Accent Text (Headline)</label>
-              <input type="text" id="ad-txt-accent" class="form-control" value="Trusted for Details." oninput="updateAdPreview()" />
+              <input type="text" id="ad-txt-accent" class="form-control" value="Trusted for Details." oninput="updateAdPreview()" onkeyup="updateAdPreview()" onchange="updateAdPreview()" />
             </div>
 
             <div class="form-group">
               <label>Ad Subtitle / Body Copy</label>
-              <textarea id="ad-txt-desc" class="form-control" style="min-height:70px;" oninput="updateAdPreview()">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</textarea>
+              <textarea id="ad-txt-desc" class="form-control" style="min-height:70px;" oninput="updateAdPreview()" onkeyup="updateAdPreview()" onchange="updateAdPreview()">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</textarea>
             </div>
 
             <div class="form-group">
               <label>CTA Button Label</label>
-              <input type="text" id="ad-txt-cta" class="form-control" value="Get a Quote" oninput="updateAdPreview()" />
+              <input type="text" id="ad-txt-cta" class="form-control" value="Get a Quote" oninput="updateAdPreview()" onkeyup="updateAdPreview()" onchange="updateAdPreview()" />
             </div>
             
             <button class="btn btn-red" onclick="downloadAdConcept()" style="width:100%; margin-top:8px;">⬇️ Download High-Res Ad PNG</button>
           </div>
           </div> <!-- End of ad-sandbox-left -->
 
-          <div class="ad-sandbox-right" style="display:flex; flex-direction:column; gap:32px;">
+          <div class="ad-sandbox-right" style="display:flex; flex-direction:column; gap:24px;">
             <!-- Ad Preview Panel -->
             <div class="ad-preview-wrapper">
-            <div class="ad-canvas ad-dark" id="ad-canvas">
-              <img src="premium_detailing.png" alt="Ad background" class="ad-bg-image" id="ad-bg-img" />
-              
-              <div class="ad-content-overlay">
-                <!-- Ad Header -->
-                <div class="ad-header">
-                  <div class="ad-brand">D<span class="accent">2</span></div>
-                  <div class="ad-watermark" id="ad-preview-eyebrow">Now Booking // Limited Spots</div>
-                </div>
+              <div class="ad-canvas ad-dark" id="ad-canvas">
+                <img src="premium_detailing.png" alt="Ad background" class="ad-bg-image" id="ad-bg-img" />
+                <div class="ad-scrim-layer" id="ad-scrim-layer"></div>
+                
+                <div class="ad-content-overlay" id="ad-content-overlay">
+                  <!-- Ad Header -->
+                  <div class="ad-header">
+                    <div class="ad-brand">D<span class="accent">2</span></div>
+                    <div class="ad-watermark" id="ad-preview-eyebrow">Now Booking // Limited Spots</div>
+                  </div>
 
-                <!-- Ad Body -->
-                <div class="ad-body">
-                  <h3 class="ad-title" id="ad-preview-title">Driven by Precision. <br><span class="accent" id="ad-preview-accent">Trusted for Details.</span></h3>
-                  <p class="ad-desc" id="ad-preview-desc">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</p>
-                </div>
+                  <!-- Ad Body -->
+                  <div class="ad-body">
+                    <h3 class="ad-title" id="ad-preview-title">
+                      <span id="ad-preview-title-main">Driven by Precision.</span>
+                      <br id="ad-preview-title-br" />
+                      <span class="accent" id="ad-preview-accent">Trusted for Details.</span>
+                    </h3>
+                    <p class="ad-desc" id="ad-preview-desc">Elite structural paint correction, certified ceramic coatings, and uncompromising detailing. Get a quote today.</p>
+                  </div>
 
-                <!-- Ad Footer -->
-                <div class="ad-footer">
-                  <span class="ad-info-text">DETAIL DRIVEN STUDIO</span>
-                  <button class="ad-cta-btn" id="ad-preview-cta">Get a Quote</button>
+                  <!-- Ad Footer -->
+                  <div class="ad-footer">
+                    <span class="ad-info-text">DETAIL DRIVEN STUDIO</span>
+                    <button class="ad-cta-btn" id="ad-preview-cta" type="button">Get a Quote</button>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--red);">
+              <div class="card-title">How to Use the Ad Creator</div>
+              <p style="font-size: 0.9rem; color: #a1a1aa; line-height: 1.5; margin-bottom: 12px;">Create ready-to-post graphics for Instagram and Facebook directly from your browser. No Photoshop required.</p>
+              <ol style="font-size: 0.85rem; color: #a1a1aa; padding-left: 16px; line-height: 1.6; margin-bottom: 0;">
+                <li><strong>Select a Theme:</strong> Pick a color scheme that matches your branding (Dark, Light, Gold, Neon, or Minimal).</li>
+                <li><strong>Choose a Layout:</strong> 'Square' for feed posts, 'Story' for Instagram/Facebook Stories.</li>
+                <li><strong>Update the Text:</strong> Edit the eyebrow, headline, accent, and body copy fields on the left — the preview pane updates on every keystroke.</li>
+                <li><strong>Download:</strong> Click 'Download High-Res Ad PNG' to export the finished graphic.</li>
+              </ol>
             </div>
           </div>
         </div>
@@ -1697,18 +1719,54 @@
     let adBgSource = 'preset'; // 'preset', 'custom', or 'upload'
     let adUploadedDataUrl = '';
     let adCustomUrl = '';
-    let adCurrentOpacity = 0.25; // stored state so it persists across updateAdPreview calls
-    let adCurrentBlur = 5;       // stored state for blur
+    let adCurrentOpacity = 0.72; // scrim overlay opacity (0.25 .. 0.95)
+    let adCurrentBlur = 1;       // gentle blur scale (0 .. 10 -> 0px .. 3.5px CSS blur on 320px canvas)
+
+    function getThemeBaseFilter(theme) {
+      if (theme === 'ad-gold') return 'sepia(40%) contrast(1.1) brightness(0.85)';
+      if (theme === 'ad-neon') return 'grayscale(100%) contrast(1.25) brightness(0.8) hue-rotate(180deg)';
+      if (theme === 'ad-minimal') return 'grayscale(100%) contrast(1.35) brightness(1.05)';
+      if (theme === 'ad-light') return 'grayscale(100%) contrast(1.08)';
+      return 'grayscale(35%)';
+    }
+
+    function getThemeScrimColor(theme, opacity) {
+      if (theme === 'ad-light' || theme === 'ad-minimal') {
+        return `rgba(250, 250, 250, ${opacity})`;
+      }
+      if (theme === 'ad-gold') {
+        return `rgba(22, 20, 16, ${opacity})`;
+      }
+      if (theme === 'ad-neon') {
+        return `rgba(3, 5, 14, ${opacity})`;
+      }
+      return `rgba(10, 10, 10, ${opacity})`;
+    }
+
+    function applyAdBackdropStyles(theme) {
+      const bgImg = document.getElementById('ad-bg-img');
+      const scrim = document.getElementById('ad-scrim-layer');
+      const activeTheme = theme || document.getElementById('ad-theme').value;
+      const cssBlurPx = +(parseFloat(adCurrentBlur || 0) * 0.35).toFixed(2);
+      const baseFilter = getThemeBaseFilter(activeTheme);
+      if (bgImg) {
+        bgImg.style.opacity = '0.9';
+        bgImg.style.filter = cssBlurPx > 0 ? `${baseFilter} blur(${cssBlurPx}px)` : baseFilter;
+      }
+      if (scrim) {
+        scrim.style.background = getThemeScrimColor(activeTheme, adCurrentOpacity);
+      }
+    }
 
     function updateAdPreview() {
       const theme = document.getElementById('ad-theme').value;
       const layout = document.getElementById('ad-layout').value;
 
-      const txtEyebrow = document.getElementById('ad-txt-eyebrow').value.trim();
-      const txtTitle   = document.getElementById('ad-txt-title').value.trim();
-      const txtAccent  = document.getElementById('ad-txt-accent').value.trim();
-      const txtDesc    = document.getElementById('ad-txt-desc').value.trim();
-      const txtCta     = document.getElementById('ad-txt-cta').value.trim();
+      const txtEyebrow = document.getElementById('ad-txt-eyebrow').value;
+      const txtTitle   = document.getElementById('ad-txt-title').value;
+      const txtAccent  = document.getElementById('ad-txt-accent').value;
+      const txtDesc    = document.getElementById('ad-txt-desc').value;
+      const txtCta     = document.getElementById('ad-txt-cta').value;
 
       const canvas = document.getElementById('ad-canvas');
       const bgImg  = document.getElementById('ad-bg-img');
@@ -1717,29 +1775,45 @@
       canvas.className = 'ad-canvas ' + theme + (layout === 'story' ? ' story' : '');
 
       // Background image source (upload > custom URL > preset dropdown)
+      let desiredSrc = document.getElementById('ad-bg').value;
       if (adBgSource === 'upload' && adUploadedDataUrl) {
-        bgImg.src = adUploadedDataUrl;
+        desiredSrc = adUploadedDataUrl;
       } else if (adBgSource === 'custom' && adCustomUrl) {
-        bgImg.src = adCustomUrl;
-      } else {
-        bgImg.src = document.getElementById('ad-bg').value;
+        desiredSrc = adCustomUrl;
+      }
+      if (bgImg.getAttribute('src') !== desiredSrc) {
+        bgImg.setAttribute('src', desiredSrc);
       }
 
-      // Re-apply slider state so it never gets lost on re-renders
-      bgImg.style.opacity = adCurrentOpacity;
-      bgImg.style.filter  = `grayscale(40%) blur(${adCurrentBlur}px)`;
+      // Apply proportional blur and scrim overlay opacity
+      applyAdBackdropStyles(theme);
 
-      // Text content
-      document.getElementById('ad-preview-eyebrow').textContent = txtEyebrow;
-      document.getElementById('ad-preview-desc').textContent    = txtDesc;
-      document.getElementById('ad-preview-cta').textContent     = txtCta;
+      // Update live copy nodes directly without destroying child spans
+      const eyebrowEl = document.getElementById('ad-preview-eyebrow');
+      const titleMainEl = document.getElementById('ad-preview-title-main');
+      const titleBrEl = document.getElementById('ad-preview-title-br');
+      const accentEl = document.getElementById('ad-preview-accent');
+      const descEl = document.getElementById('ad-preview-desc');
+      const ctaEl = document.getElementById('ad-preview-cta');
 
-      // Title + accent line
-      const titleEl = document.getElementById('ad-preview-title');
-      if (txtAccent) {
-        titleEl.innerHTML = `${txtTitle}<br><span class="accent">${txtAccent}</span>`;
+      if (eyebrowEl) eyebrowEl.textContent = txtEyebrow;
+      if (descEl) descEl.textContent = txtDesc;
+      if (ctaEl) ctaEl.textContent = txtCta || 'Get a Quote';
+
+      if (titleMainEl && accentEl) {
+        titleMainEl.textContent = txtTitle;
+        accentEl.textContent = txtAccent;
+        if (titleBrEl) {
+          titleBrEl.style.display = txtTitle.trim() && txtAccent.trim() ? '' : 'none';
+        }
+        accentEl.style.display = txtAccent.trim() ? '' : 'none';
       } else {
-        titleEl.textContent = txtTitle;
+        const titleEl = document.getElementById('ad-preview-title');
+        if (titleEl) {
+          titleEl.innerHTML = txtAccent.trim()
+            ? `${txtTitle}<br><span class="accent" id="ad-preview-accent">${txtAccent}</span>`
+            : txtTitle;
+        }
       }
     }
 
@@ -1748,7 +1822,6 @@
       if (url.trim()) {
         adCustomUrl  = url.trim();
         adBgSource   = 'custom';
-        // Clear the file upload so sources don't conflict
         document.getElementById('ad-upload-bg').value = '';
         adUploadedDataUrl = '';
       } else {
@@ -1764,7 +1837,6 @@
         reader.onload = function(e) {
           adUploadedDataUrl = e.target.result;
           adBgSource = 'upload';
-          // Clear the URL field so sources don't conflict
           document.getElementById('ad-custom-bg').value = '';
           adCustomUrl = '';
           updateAdPreview();
@@ -1775,15 +1847,17 @@
 
     // -- Slider helpers — store state AND apply immediately --
     function updateAdOpacity(val) {
-      adCurrentOpacity = val / 100;
-      document.getElementById('opacity-val').textContent = val;
-      document.getElementById('ad-bg-img').style.opacity = adCurrentOpacity;
+      const numeric = parseFloat(val);
+      adCurrentOpacity = isNaN(numeric) ? 0.72 : numeric / 100;
+      document.getElementById('opacity-val').textContent = Math.round(adCurrentOpacity * 100);
+      applyAdBackdropStyles();
     }
 
     function updateAdBlur(val) {
-      adCurrentBlur = parseInt(val, 10);
-      document.getElementById('blur-val').textContent = val;
-      document.getElementById('ad-bg-img').style.filter = `grayscale(40%) blur(${adCurrentBlur}px)`;
+      const numeric = parseFloat(val);
+      adCurrentBlur = isNaN(numeric) ? 1 : numeric;
+      document.getElementById('blur-val').textContent = adCurrentBlur;
+      applyAdBackdropStyles();
     }
 
     // -- Copy bank: 30 entries across all services, tones, and seasons --
@@ -1878,8 +1952,16 @@
     renderCMSLists();
     renderOrders();
     // Sync slider state from HTML default values before first render
-    adCurrentOpacity = parseInt(document.getElementById('ad-opacity').value, 10) / 100;
-    adCurrentBlur    = parseInt(document.getElementById('ad-blur').value, 10);
+    adCurrentOpacity = parseFloat(document.getElementById('ad-opacity').value || '72') / 100;
+    adCurrentBlur    = parseFloat(document.getElementById('ad-blur').value || '1');
+    ['ad-txt-eyebrow', 'ad-txt-title', 'ad-txt-accent', 'ad-txt-desc', 'ad-txt-cta'].forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateAdPreview);
+        el.addEventListener('change', updateAdPreview);
+        el.addEventListener('keyup', updateAdPreview);
+      }
+    });
     updateAdPreview();
   </script>
 </body>
