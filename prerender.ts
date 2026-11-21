@@ -24,8 +24,7 @@ const shellHtml = fs.readFileSync(shellPath, 'utf8');
 const staticRoutes = [
   { path: '/blog', output: 'blog/index.html' },
   { path: '/ddtv', output: 'ddtv/index.html' },
-  { path: '/privacy', output: 'privacy/index.html' },
-  { path: '/admin', output: 'admin/index.html' }
+  { path: '/privacy', output: 'privacy/index.html' }
 ];
 
 const dynamicRoutes = blogPosts.map((post) => ({
@@ -281,8 +280,7 @@ ${allPaths
       '/blog',
       ...blogPosts.map((p) => `/blog/${p.slug}`),
       '/ddtv',
-      '/privacy',
-      '/admin'
+      '/privacy'
     ];
 
     for (const routePath of hydrationRoutes) {
