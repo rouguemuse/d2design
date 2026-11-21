@@ -327,31 +327,6 @@ function Home() {
         setSubmitted(true);
         setSubmitting(false);
 
-        // ── Save inquiry to admin portal Order Center (localStorage d2_orders) ──
-        try {
-          const existing = JSON.parse(localStorage.getItem('d2_orders') || '[]');
-          const nextNum = existing.length > 0
-            ? Math.max(...existing.map((o: { id: string }) => parseInt(o.id.replace('D2-', '')) || 1000)) + 1
-            : 1004;
-          const newOrder = {
-            id: `D2-${nextNum}`,
-            date: new Date().toISOString().split('T')[0],
-            client: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            vehicle: formData.vehicle,
-            service: formData.service,
-            status: 'Pending Assessment',
-            amount: 0,
-            message: formData.message,
-            items: [{ desc: formData.service, cost: 0 }]
-          };
-          localStorage.setItem('d2_orders', JSON.stringify([newOrder, ...existing]));
-        } catch (_) {
-          // localStorage unavailable — email already sent, not critical
-        }
-        // ─────────────────────────────────────────────────────────────────────
-
         // Clear form fields
         setFormData({
           name: '',
@@ -779,48 +754,6 @@ function Home() {
 }
 
 
-// Admin Redirect Component
-function AdminRedirect() {
-  useEffect(() => {
-    // Avoid triggering page navigation during static compilation
-    if (navigator.userAgent.includes('HeadlessChrome')) return;
-    window.location.href = '/admin.html';
-  }, []);
-
-  return (
-    <main style={{ padding: '120px 20px', textAlign: 'center', color: '#ffffff', minHeight: '60vh' }}>
-      <SEO
-        title="Administrative Portal | Detail Driven"
-        description="Detail Driven Administrative Portal."
-        canonicalPath="/admin"
-      />
-      <div className="site-container">
-        <h1 style={{ fontSize: '2.2rem', marginBottom: '16px', fontFamily: 'Montserrat, sans-serif' }}>ADMINISTRATIVE PORTAL</h1>
-        <p style={{ marginBottom: '28px', color: '#aaaaaa', fontSize: '1.1rem' }}>
-          Access the ad generator, invoice management system, video publisher, and service manager.
-        </p>
-        <p>
-          <a
-            href="/admin.html"
-            style={{
-              display: 'inline-block',
-              padding: '16px 36px',
-              background: '#CF1C1C',
-              color: '#ffffff',
-              fontWeight: 800,
-              letterSpacing: '1px',
-              borderRadius: '4px',
-              textDecoration: 'none'
-            }}
-          >
-            ENTER ADMIN PORTAL
-          </a>
-        </p>
-      </div>
-    </main>
-  );
-}
-
 // Router Root Layout Component
 export default function App() {
   useEffect(() => {
@@ -842,7 +775,6 @@ export default function App() {
           <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/ddtv" element={<DDTV />} />
           <Route path="/privacy" element={<Privacy />} />
-          <Route path="/admin" element={<AdminRedirect />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         
